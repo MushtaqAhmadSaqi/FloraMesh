@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found (404) | FloraMesh Pakistan</title>
+  <meta name="description" content="The page you are looking for does not exist. Browse FloraMesh's smart planting packages, IoT soil sensors, and artisan pottery.">
+  <meta name="color-scheme" content="light dark">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+
+  <!-- Theme pre-paint script (Zero FOUT) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('floramesh_theme_v1');
+        if (!t) {
+          t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'midnight' : 'heritage';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Variable Fonts -->
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="site-header-mount"></div>
+
+  <!-- WordPress conversion: 404.php -->
+  <main id="main-content">
+    <div class="container section">
+      <div class="empty-state" style="max-width:680px;margin:0 auto;">
+        <div class="section__eyebrow">404 &bull; Page Not Found</div>
+        <h1 class="section__title" style="margin:var(--space-2) 0 var(--space-4);">This Garden Path Has Overgrown</h1>
+        <p class="empty-state__desc">
+          We couldn’t find the page or plant specimen you were looking for. The link may be out of date or moved. Return home or explore our curated shop catalog.
+        </p>
+
+        <div style="display:flex;justify-content:center;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-8);">
+          <a href="index.html" class="btn btn--primary">Return to Home Page</a>
+          <button type="button" class="btn btn--outline" onclick="if(window.FloraMeshSearch)window.FloraMeshSearch.open()">Search Storefront (/)</button>
+          <a href="sitemap.html" class="btn btn--ghost">View Site Directory</a>
+        </div>
+
+        <div style="border-top:1px solid var(--color-border-subtle);padding-top:var(--space-6);">
+          <span style="font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);display:block;margin-bottom:var(--space-3);font-weight:var(--weight-bold);">Popular Categories</span>
+          <div style="display:flex;justify-content:center;gap:var(--space-2);flex-wrap:wrap;">
+            <a href="shop.html?category=services" class="chip">Balcony Packages</a>
+            <a href="shop.html?category=sensors" class="chip">IoT Soil Sensors</a>
+            <a href="shop.html?category=planters" class="chip">Artisan Planters</a>
+            <a href="shop.html?category=substrates" class="chip">Potting Substrates</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="data/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

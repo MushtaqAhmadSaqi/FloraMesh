@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout &amp; Slot Scheduling | FloraMesh Pakistan</title>
+  <meta name="description" content="Coordinate Islamabad &amp; Rawalpindi delivery, schedule morning mali crew planting slots, and finalize your order.">
+  <link rel="canonical" href="https://floramesh.pk/checkout.html">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Checkout | FloraMesh Pakistan">
+  <meta property="og:description" content="Finalize your smart planting order and schedule on-site installation.">
+  <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+
+  <!-- Theme pre-paint script (Zero FOUT) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('floramesh_theme_v1');
+        if (!t) {
+          t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'midnight' : 'heritage';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Variable Fonts -->
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="site-header-mount"></div>
+
+  <!-- WooCommerce conversion: woocommerce/checkout/form-checkout.php -->
+  <main id="main-content">
+    <div class="container section">
+      <div class="demo-notice" data-demo-notice>
+        <strong>Store Demonstration:</strong> Orders and delivery scheduling are simulated locally. No real charges or payment transmissions occur.
+      </div>
+
+      <div class="checkout-steps" aria-label="Checkout Progress">
+        <div class="checkout-step is-active">
+          <span class="checkout-step__badge">1</span>
+          <span>Contact &amp; Address</span>
+        </div>
+        <div class="checkout-step__divider"></div>
+        <div class="checkout-step is-active">
+          <span class="checkout-step__badge">2</span>
+          <span>Delivery &amp; Crew Slot</span>
+        </div>
+        <div class="checkout-step__divider"></div>
+        <div class="checkout-step is-active">
+          <span class="checkout-step__badge">3</span>
+          <span>Payment &amp; Confirmation</span>
+        </div>
+      </div>
+
+      <div class="section__eyebrow">Complete Your Order</div>
+      <h1 class="section__title" style="margin-bottom:var(--space-6);">Checkout &amp; Planting Slot Scheduling</h1>
+
+      <div id="checkout-demo-result" class="alert alert--success" style="display:none;" role="status"></div>
+
+      <form id="demo-checkout-form" novalidate class="checkout-grid">
+        <div class="panel">
+          <h2 class="h3" style="margin-bottom:var(--space-4);">1. Contact &amp; Twin-City Delivery Address</h2>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="chk-name">Full Name *</label>
+              <input type="text" id="chk-name" required placeholder="e.g., Ayesha Khan" autocomplete="name">
+              <span class="form-field__error" id="chk-name-error">Please enter your full name for delivery coordination.</span>
+            </div>
+            <div class="form-field">
+              <label for="chk-phone">Mobile / WhatsApp Number *</label>
+              <input type="tel" id="chk-phone" required placeholder="e.g., 0300-1234567" autocomplete="tel">
+              <span class="form-field__error" id="chk-phone-error">Please provide a valid Pakistani mobile number (e.g. 0300-1234567).</span>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="chk-email">Email Address *</label>
+              <input type="email" id="chk-email" required placeholder="you@example.com" autocomplete="email">
+              <span class="form-field__error" id="chk-email-error">Please enter a valid email address.</span>
+            </div>
+            <div class="form-field">
+              <label for="chk-city">City / Service Zone *</label>
+              <select id="chk-city" required autocomplete="address-level2">
+                <option value="Islamabad">Islamabad (On-Site Planting + Courier)</option>
+                <option value="Rawalpindi">Rawalpindi (On-Site Planting + Courier)</option>
+                <option value="Other Pakistan">Other City in Pakistan (Dry Goods &amp; Sensors Courier Only)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- City Service Warning -->
+          <div id="checkout-city-warning" class="alert alert--warning" style="display:none;" role="alert"></div>
+
+          <div class="form-field">
+            <label for="chk-address">Sector / Street / Apartment &amp; Balcony Floor *</label>
+            <input type="text" id="chk-address" required placeholder="e.g., House 14, Street 8, Sector F-10/2, Islamabad" autocomplete="street-address">
+            <span class="form-field__error" id="chk-address-error">Please enter your street and sector address.</span>
+          </div>
+
+          <h2 class="h3" style="margin:var(--space-6) 0 var(--space-4);">2. Delivery Method &amp; Crew Schedule</h2>
+          <div class="form-field">
+            <label for="chk-shipping-method">Installation Slot (Mon–Sat)</label>
+            <select id="chk-shipping-method">
+              <option value="standard">Twin-City Field Van Dispatch (Standard 24–48h Delivery)</option>
+              <option value="morning-crew">Morning Mali Crew Slot (Mon–Sat 9:00 AM – 12:00 PM)</option>
+              <option value="afternoon-crew">Afternoon Mali Crew Slot (Mon–Sat 2:00 PM – 5:00 PM)</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="chk-gift-note">Optional Gate Pass or Gift Instructions</label>
+            <textarea id="chk-gift-note" rows="2" placeholder="Society gate instructions, apartment lift details, or gift note..."></textarea>
+          </div>
+
+          <h2 class="h3" style="margin:var(--space-6) 0 var(--space-4);">3. Preferred Payment Method</h2>
+          <div style="display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-4);">
+            <label class="card" style="display:flex;align-items:flex-start;gap:var(--space-3);cursor:pointer;padding:var(--space-3) var(--space-4);">
+              <input type="radio" name="payment-method" value="Cash on Delivery" checked style="accent-color:var(--color-primary);margin-top:4px;">
+              <div>
+                <strong>Cash on Delivery (COD) / Pay On-Site Crew</strong>
+                <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Inspect your pots, plants, and soil sensors with our crew before paying in cash or online transfer.</p>
+              </div>
+            </label>
+            <label class="card" style="display:flex;align-items:flex-start;gap:var(--space-3);cursor:pointer;padding:var(--space-3) var(--space-4);">
+              <input type="radio" name="payment-method" value="Direct Bank Transfer" style="accent-color:var(--color-primary);margin-top:4px;">
+              <div>
+                <strong>Direct Bank Transfer (1Link / Raast)</strong>
+                <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Standard Chartered Islamabad Branch • IBAN: <code>PK64SCBL0000001123456701</code> (FloraMesh Pvt Ltd)</p>
+              </div>
+            </label>
+            <label class="card" style="display:flex;align-items:flex-start;gap:var(--space-3);cursor:pointer;padding:var(--space-3) var(--space-4);">
+              <input type="radio" name="payment-method" value="JazzCash / EasyPaisa" style="accent-color:var(--color-primary);margin-top:4px;">
+              <div>
+                <strong>JazzCash / EasyPaisa Mobile Wallet</strong>
+                <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Scan our merchant QR or send directly to twin-city field finance: <code>0300-5551234</code></p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="order-summary-box">
+          <h2 class="h3" style="margin-bottom:var(--space-4);">Order Summary</h2>
+          <div id="checkout-summary-box"></div>
+
+          <div class="alert alert--info" style="margin:var(--space-4) 0;font-size:var(--text-xs);">
+            <strong>Service Guarantee:</strong>
+            <p style="margin-top:var(--space-1);color:var(--color-text-muted);line-height:1.4;">Zero hidden fees. We bring extra seedlings and potting soil on the van to ensure perfect fitment.</p>
+          </div>
+
+          <button type="submit" class="btn btn--primary" style="width:100%;">Confirm &amp; Place Order</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="data/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Sitemap &amp; Botanical Directory | FloraMesh Pakistan</title>
+  <meta name="description" content="Complete directory of FloraMesh pages, product categories, smart IoT soil sensors, and artisan planter collections in Islamabad &amp; Rawalpindi.">
+  <link rel="canonical" href="https://floramesh.pk/sitemap.html">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HTML Sitemap | FloraMesh Pakistan">
+  <meta property="og:description" content="Complete navigation directory of all FloraMesh pages and botanical collections.">
+  <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+
+  <!-- Theme pre-paint script (Zero FOUT) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('floramesh_theme_v1');
+        if (!t) {
+          t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'midnight' : 'heritage';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Variable Fonts -->
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="site-header-mount"></div>
+
+  <!-- WordPress conversion: page-sitemap.php -->
+  <main id="main-content">
+    <div class="container section">
+      <div class="section__eyebrow">Index &amp; Navigation</div>
+      <h1 class="section__title" style="margin-bottom:var(--space-2);">FloraMesh Site Directory</h1>
+      <p style="color:var(--color-text-muted);margin-bottom:var(--space-8);max-width:62ch;font-size:var(--text-base);">
+        An accessible, comprehensive listing of all pages, categories, and products across the FloraMesh ecosystem.
+      </p>
+
+      <div class="grid-3" style="margin-bottom:var(--space-8);">
+        <!-- Core Commerce Pages -->
+        <div class="panel">
+          <h2 class="h4" style="margin-bottom:var(--space-3);color:var(--color-primary);">Storefront &amp; Shopping</h2>
+          <ul style="padding-left:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);font-size:var(--text-sm);">
+            <li><a href="index.html">Homepage &bull; Urban Landscaping &amp; Telemetry</a></li>
+            <li><a href="shop.html">Botanical Shop &bull; All 25 Products</a></li>
+            <li><a href="cart.html">Garden Basket &bull; Order Review</a></li>
+            <li><a href="checkout.html">Checkout &bull; Twin-City Delivery Booking</a></li>
+            <li><a href="wishlist.html">Wishlist &bull; Saved Items &amp; Sharing</a></li>
+            <li><a href="compare.html">Product Compare &bull; Side-by-Side Specs</a></li>
+            <li><a href="my-account.html">Customer Account &bull; Local Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Botanical Categories -->
+        <div class="panel">
+          <h2 class="h4" style="margin-bottom:var(--space-3);color:var(--color-primary);">Shop by Category</h2>
+          <ul style="padding-left:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);font-size:var(--text-sm);">
+            <li><a href="shop.html?category=services">Turnkey Planting Packages (5)</a></li>
+            <li><a href="shop.html?category=sensors">Smart Monitoring &amp; IoT Hardware (5)</a></li>
+            <li><a href="shop.html?category=planters">Artisan Terracotta &amp; Pottery (5)</a></li>
+            <li><a href="shop.html?category=seeds">Native Flora &amp; Heirloom Seeds (5)</a></li>
+            <li><a href="shop.html?category=substrates">Living Soils, Composts &amp; Care (5)</a></li>
+          </ul>
+        </div>
+
+        <!-- Institutional & Legal -->
+        <div class="panel">
+          <h2 class="h4" style="margin-bottom:var(--space-3);color:var(--color-primary);">Company &amp; Governance</h2>
+          <ul style="padding-left:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);font-size:var(--text-sm);">
+            <li><a href="about.html">About FloraMesh &bull; Potohar Mission &amp; Team</a></li>
+            <li><a href="contact.html">Contact Us &bull; Book On-Site Consultation</a></li>
+            <li><a href="faq.html">Knowledgebase &bull; Frequently Asked Questions</a></li>
+            <li><a href="shipping-returns.html">Shipping, Van Rates &amp; Returns</a></li>
+            <li><a href="accessibility.html">Accessibility Statement &bull; WCAG 2.2 AA</a></li>
+            <li><a href="privacy.html">Privacy Policy &bull; Telemetry Ethics</a></li>
+            <li><a href="terms.html">Terms of Service &bull; Hardware Warranty</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Dynamic Complete Product Catalog Listing -->
+      <div class="panel">
+        <h2 class="h3" style="margin-bottom:var(--space-4);">Complete Catalog Directory (25 Products)</h2>
+        <div id="sitemap-products-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:var(--space-4);"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="data/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Hydrate All Products -->
+  <script>
+    (function () {
+      var grid = document.getElementById('sitemap-products-grid');
+      var products = window.FLORAMESH_PRODUCTS || [];
+      var utils = window.FloraMeshUtils || {};
+      var escape = utils.escapeHTML || function (s) { return s; };
+      var escapeA = utils.escapeAttr || function (s) { return s; };
+      var formatPKR = utils.formatPKR || function (v) { return 'Rs ' + v; };
+
+      if (grid && products.length > 0) {
+        grid.innerHTML = products.map(function (p) {
+          return '<div style="padding:var(--space-3);background:var(--color-surface-sunken);border-radius:var(--radius-base);">' +
+            '<span style="font-size:var(--text-xs);text-transform:uppercase;color:var(--color-text-muted);letter-spacing:0.05em;">' + escape(p.category) + '</span>' +
+            '<h3 style="font-size:var(--text-sm);margin:4px 0 2px;font-family:var(--font-sans);font-weight:var(--weight-semibold);"><a href="product.html?slug=' + escapeA(p.slug) + '" style="color:var(--color-text);">' + escape(p.shortName || p.name) + '</a></h3>' +
+            '<span style="font-size:var(--text-xs);font-weight:var(--weight-bold);color:var(--color-primary);">' + formatPKR(p.price) + '</span>' +
+            '</div>';
+        }).join('');
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+/* ==========================================================================
+   FloraMesh Responsive Breakpoints (css/responsive.css)
+   Breakpoints: 360px, 768px, 960px, 1024px, 1280px, 1536px
+   Touch targets >= 44px, mobile sheets, and viewport optimizations
+   ========================================================================== */
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-sticky-bar {
+  display: none;
+}
+
+.mobile-filter-trigger {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Desktop & Tablet Landscape (1024px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .hero__grid,
+  .pdp__layout,
+  .shop-layout,
+  .cart-page-grid,
+  .checkout-grid,
+  .campaign-card {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-4,
+  .grid-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trust-strip__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .filter-panel {
+    position: static;
+  }
+
+  .pdp__gallery {
+    position: static;
+  }
+
+  .order-summary-box {
+    position: static;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tablet Portrait & Large Mobile (768px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  /* Mobile Filter Bottom Sheet */
+  .mobile-filter-trigger {
+    display: inline-flex;
+  }
+
+  .shop-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-modal);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: var(--space-6);
+    transform: translateY(100%);
+    transition: transform var(--motion-base);
+    display: block;
+  }
+
+  .shop-sidebar.is-open {
+    transform: translateY(0);
+  }
+
+  .grid-2,
+  .grid-3,
+  .form-grid,
+  .trust-strip__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__trust-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .product-grid--list .product-card {
+    flex-direction: column;
+  }
+
+  .product-grid--list .product-card__media {
+    width: 100%;
+  }
+
+  /* Mobile Sticky Add Bar on PDP */
+  .mobile-sticky-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-4);
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    z-index: var(--z-sticky);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  body.has-sticky-bar {
+    padding-bottom: 78px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small Mobile Devices (360px – 400px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 400px) {
+  .container {
+    padding-inline: var(--space-4);
+  }
+
+  .hero__title {
+    font-size: 1.75rem;
+  }
+
+  .grid-4,
+  .grid-5 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__telemetry-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-2);
+  }
+
+  .pdp__buybox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .qty-stepper {
+    justify-content: center;
+  }
+}

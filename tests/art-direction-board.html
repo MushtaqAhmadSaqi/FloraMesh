@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloraMesh — Art Direction & Component Staging Board (Phase 1)</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <style>
+    /* ==========================================================================
+       Art Direction Board Preview Stylesheet
+       Pure CSS + Tokens, 100% file:// compatible
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Ambient Botanical Grain Overlay */
+    .ambient-grain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: var(--grain-opacity, 0.035);
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Container */
+    .board-container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* Sticky Inspector Toolbar */
+    .inspector-bar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-header);
+      background-color: var(--color-header-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-3) 0;
+      transition: background-color var(--motion-base), border-color var(--motion-base);
+    }
+
+    .inspector-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .inspector-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .inspector-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+    }
+
+    .inspector-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-pill);
+      background-color: var(--color-success-bg);
+      color: var(--color-success);
+      border: 1px solid var(--color-success-border);
+    }
+
+    .inspector-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    /* Theme Switcher Segmented Control */
+    .theme-segmented {
+      display: inline-flex;
+      background-color: var(--color-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .theme-btn {
+      border: none;
+      background: transparent;
+      padding: var(--space-1) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      font-family: var(--font-sans);
+      color: var(--color-text-muted);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      transition: background-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast);
+    }
+
+    .theme-btn.active {
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .inspector-link {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      color: var(--color-link);
+      text-decoration: none;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
+    }
+
+    .inspector-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Section Wrapper */
+    .staging-section {
+      padding: var(--space-16) 0;
+      border-bottom: 1px solid var(--color-border);
+      position: relative;
+    }
+
+    .section-eyebrow {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-accent);
+    }
+
+    .section-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--display-title);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .section-desc {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      max-width: 680px;
+    }
+
+    /* --------------------------------------------------------------------------
+       FOUNDATION 1: Swatches & Typographic Hierarchy
+       -------------------------------------------------------------------------- */
+    .swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-12);
+    }
+
+    .swatch-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .swatch-color {
+      height: 72px;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-2);
+    }
+
+    .swatch-contrast-pill {
+      font-size: 0.65rem;
+      font-weight: var(--weight-bold);
+      padding: 2px 6px;
+      border-radius: var(--radius-pill);
+      background-color: rgba(0,0,0,0.65);
+      color: #FFFFFF;
+      backdrop-filter: blur(4px);
+    }
+
+    .swatch-info {
+      padding: var(--space-3);
+    }
+
+    .swatch-name {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+      display: block;
+    }
+
+    .swatch-val {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Typography Showcase Box */
+    .type-specimen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 768px) {
+      .type-specimen-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .type-specimen h1 {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-3);
+    }
+
+    .type-specimen p {
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .urdu-specimen {
+      font-family: var(--font-urdu);
+      font-size: var(--text-2xl);
+      line-height: 1.8;
+      color: var(--color-accent);
+      direction: rtl;
+      text-align: right;
+      padding: var(--space-4);
+      background-color: var(--color-surface-alt);
+      border-radius: var(--radius-md);
+      border-right: 4px solid var(--color-accent);
+    }
+
+    /* --------------------------------------------------------------------------
+       FOUNDATION 2: Interactive Button & State Machine Test Bench
+       -------------------------------------------------------------------------- */
+    .btn-bench-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+      margin-top: var(--space-6);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      line-height: 1;
+      padding: var(--space-3) var(--space-6);
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--motion-micro);
+      position: relative;
+      user-select: none;
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-accent {
+      background-color: var(--color-accent);
+      color: var(--color-on-accent);
+      border-color: var(--color-accent);
+    }
+
+    .btn-accent:hover {
+      background-color: var(--color-accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--color-text);
+      border-color: var(--color-border);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-surface-alt);
+      border-color: var(--color-text);
+    }
+
+    /* Interactive state test button */
+    .btn-interactive-demo {
+      min-width: 170px;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* --------------------------------------------------------------------------
+       PROTOTYPE 1: The Editorial Hero (55/45 Split)
+       -------------------------------------------------------------------------- */
+    .hero-stage {
+      background-image: var(--gradient-hero);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-12) var(--space-8);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: background-image var(--motion-base), border-color var(--motion-base);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-content {
+      padding-right: var(--space-4);
+    }
+
+    .hero-eyebrow {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-eyebrow);
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: var(--display-hero);
+      font-weight: var(--weight-bold);
+      line-height: 1.08;
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    .hero-lead {
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-6);
+    }
+
+    /* Space Selector Chips */
+    .space-selector {
+      margin-bottom: var(--space-6);
+    }
+
+    .space-label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+      display: block;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .chip {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-pill);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      cursor: pointer;
+      transition: all var(--motion-micro);
+    }
+
+    .chip:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-surface-alt);
+    }
+
+    .chip.active {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .hero-link {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-link);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .hero-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Hero Visual & Telemetry Card */
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-image-frame {
+      width: 100%;
+      height: 440px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      position: relative;
+      background-color: var(--color-media-bg);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--motion-slow), opacity var(--motion-base);
+    }
+
+    .hero-image-frame:hover img {
+      transform: scale(1.02);
+    }
+
+    /* Floating Telemetry Glassmorphic Card */
+    .telemetry-card {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      box-shadow: var(--elevation-hover);
+      min-width: 250px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2;
+      transition: all var(--motion-micro);
+    }
+
+    @media (max-width: 600px) {
+      .telemetry-card {
+        position: static;
+        margin-top: var(--space-4);
+      }
+    }
+
+    .telemetry-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .telemetry-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-2);
+    }
+
+    .telemetry-title {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .telemetry-node {
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      color: var(--color-text-muted);
+    }
+
+    .telemetry-metric {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .telemetry-value {
+      font-family: var(--font-sans);
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .telemetry-status {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      color: var(--color-success);
+    }
+
+    .telemetry-sparkline {
+      width: 100%;
+      height: 32px;
+    }
+
+    .sparkline-svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--color-link);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       PROTOTYPE 2: Product Card Staging (Quiet-Luxury Catalog)
+       -------------------------------------------------------------------------- */
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    @media (max-width: 960px) {
+      .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-card-staged {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform var(--motion-micro), box-shadow var(--motion-micro), border-color var(--motion-micro);
+    }
+
+    .product-card-staged:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--elevation-hover);
+      border-color: var(--color-accent);
+    }
+
+    /* 4:5 Aspect Ratio Image Wrapper */
+    .card-media-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background-color: var(--color-media-bg);
+      overflow: hidden;
+    }
+
+    .card-media-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--motion-slow);
+    }
+
+    .product-card-staged:hover .card-media-wrap img {
+      transform: scale(1.03);
+    }
+
+    /* Factual Badge */
+    .card-badge {
+      position: absolute;
+      top: var(--space-3);
+      left: var(--space-3);
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      padding: 3px var(--space-3);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-xs);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+
+    /* Wishlist Heart Icon */
+    .card-wishlist {
+      position: absolute;
+      top: var(--space-3);
+      right: var(--space-3);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: all var(--motion-fast);
+      box-shadow: var(--shadow-xs);
+      z-index: 2;
+    }
+
+    .card-wishlist:hover {
+      color: var(--color-danger);
+      transform: scale(1.1);
+    }
+
+    /* Card Details Body */
+    .card-body {
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-taxo {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-1);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      line-height: var(--leading-snug);
+      color: var(--color-text);
+      margin-bottom: var(--space-3);
+      text-decoration: none;
+    }
+
+    .card-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      margin-top: auto;
+      margin-bottom: var(--space-4);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-price-current {
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+    }
+
+    .card-price-compare {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: line-through;
+    }
+
+    .card-quick-btn {
+      width: 100%;
+      background-color: var(--color-surface-alt);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      font-family: var(--font-sans);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      transition: all var(--motion-fast);
+    }
+
+    .card-quick-btn:hover {
+      background-color: var(--color-primary);
+      color: var(--color-on-primary);
+      border-color: var(--color-primary);
+    }
+
+    /* --------------------------------------------------------------------------
+       PROTOTYPE 3: Site Footer (Editorial Grounding)
+       -------------------------------------------------------------------------- */
+    .footer-stage {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-top: var(--space-8);
+    }
+
+    /* Newsletter dispatch banner inside footer */
+    .footer-dispatch-card {
+      background-color: var(--color-surface-alt);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-10) var(--space-8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .dispatch-info h3 {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+      margin-bottom: var(--space-1);
+    }
+
+    .dispatch-info p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .dispatch-form {
+      display: flex;
+      gap: var(--space-2);
+      min-width: 320px;
+    }
+
+    .dispatch-input {
+      flex: 1;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+    }
+
+    .dispatch-input:focus {
+      outline: none;
+      box-shadow: var(--focus-ring);
+      border-color: var(--color-focus);
+    }
+
+    /* Footer Main 4-Column Grid */
+    .footer-main-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.4fr;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-8);
+    }
+
+    @media (max-width: 960px) {
+      .footer-main-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-col-brand h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text);
+      margin-bottom: var(--space-2);
+    }
+
+    .footer-brand-bio {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--space-4);
+      max-width: 320px;
+    }
+
+    .footer-urdu-tagline {
+      font-family: var(--font-urdu);
+      font-size: var(--text-lg);
+      color: var(--color-accent);
+      direction: rtl;
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+
+    .footer-col-title {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-links-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .footer-links-list a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--motion-fast);
+    }
+
+    .footer-links-list a:hover {
+      color: var(--color-text);
+    }
+
+    .footer-contact-item {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-snug);
+      margin-bottom: var(--space-3);
+    }
+
+    .footer-contact-item strong {
+      color: var(--color-text);
+      display: block;
+    }
+
+    /* Oversized Low-Contrast Wordmark Base */
+    .footer-wordmark-bar {
+      padding: var(--space-6) var(--space-8);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .footer-legal {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    .footer-giant-wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 7.5rem);
+      font-weight: var(--weight-bold);
+      letter-spacing: -0.04em;
+      line-height: 0.85;
+      color: var(--color-border);
+      user-select: none;
+      width: 100%;
+      text-align: center;
+      margin-top: var(--space-4);
+      margin-bottom: var(--space-2);
+      transition: color var(--motion-base);
+    }
+
+    /* Helper SVGs */
+    .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Grain Texture -->
+  <div class="ambient-grain" aria-hidden="true"></div>
+
+  <!-- Sticky Inspector Bar with Theme Switcher -->
+  <header class="inspector-bar">
+    <div class="board-container">
+      <div class="inspector-inner">
+        <div class="inspector-brand">
+          <span class="inspector-title">FloraMesh Art Direction Board</span>
+          <span class="inspector-badge">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            WCAG 2.2 AA Verified (26/26)
+          </span>
+        </div>
+
+        <div class="inspector-actions">
+          <div class="theme-segmented" role="radiogroup" aria-label="Theme Switcher">
+            <button type="button" class="theme-btn active" id="btn-theme-heritage" aria-checked="true" role="radio" onclick="setTheme('heritage')">
+              <span>🌾 Heritage Cream</span>
+            </button>
+            <button type="button" class="theme-btn" id="btn-theme-midnight" aria-checked="false" role="radio" onclick="setTheme('midnight')">
+              <span>🌙 Midnight Grove</span>
+            </button>
+          </div>
+          <a href="../docs/ART-DIRECTION.md" class="inspector-link" title="View Specification Markdown">Docs: Art Direction ↗</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="board-container">
+
+    <!-- ======================================================================
+         SECTION 1: Foundations (Swatches, Typographic Scale, Interactive Buttons)
+         ====================================================================== -->
+    <section class="staging-section" id="foundations">
+      <div class="section-eyebrow">Design Tokens & Calibration</div>
+      <div class="section-header">
+        <h2 class="section-title">Color Roles & Typographic Hierarchy</h2>
+        <p class="section-desc">Curated organic palette calibrated for high daylight nursery readability and dark room telemetry immersion. Certified zero-friction file:// execution.</p>
+      </div>
+
+      <!-- Color Swatches -->
+      <div class="swatches-grid">
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-bg); border-bottom: 1px solid var(--color-border);">
+            <span class="swatch-contrast-pill">Canvas</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Background</span>
+            <span class="swatch-val">--color-bg</span>
+          </div>
+        </div>
+
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-surface); border-bottom: 1px solid var(--color-border);">
+            <span class="swatch-contrast-pill">Elevated</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Surface</span>
+            <span class="swatch-val">--color-surface</span>
+          </div>
+        </div>
+
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-primary); color: var(--color-on-primary);">
+            <span class="swatch-contrast-pill">> 15.0:1</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Primary Accent</span>
+            <span class="swatch-val">--color-primary</span>
+          </div>
+        </div>
+
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-accent); color: var(--color-on-accent);">
+            <span class="swatch-contrast-pill">> 4.5:1</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Terracotta / Brass</span>
+            <span class="swatch-val">--color-accent</span>
+          </div>
+        </div>
+
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-link); color: #FFF;">
+            <span class="swatch-contrast-pill">> 5.1:1</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Teal Link</span>
+            <span class="swatch-val">--color-link</span>
+          </div>
+        </div>
+
+        <div class="swatch-card">
+          <div class="swatch-color" style="background-color: var(--color-text); color: var(--color-bg);">
+            <span class="swatch-contrast-pill">Core Ink</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Primary Text</span>
+            <span class="swatch-val">--color-text</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typography & Urdu Specimen -->
+      <div class="type-specimen-grid">
+        <div class="type-specimen">
+          <h1>Fraunces Display & Plus Jakarta Sans</h1>
+          <p>Rooted in the Margalla foothills. We craft precision IoT soil sensors and bespoke architectural planters calibrated for Islamabad and Rawalpindi microclimates.</p>
+          <div class="btn-bench-grid">
+            <button class="btn btn-primary">Primary Pill</button>
+            <button class="btn btn-accent">Accent Action</button>
+            <button class="btn btn-outline">Outline Link</button>
+            <!-- Interactive State Machine Demo Button -->
+            <button class="btn btn-primary btn-interactive-demo" id="btn-state-tester" onclick="triggerStateDemo()">
+              <span id="state-btn-text">Test Add to Cart</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="urdu-specimen" lang="ur">
+            آپ کا خیال، ہمارا پودا، سرسبز جہاں۔<br>
+            <span style="font-size: var(--text-sm); font-family: var(--font-sans); color: var(--color-text-muted); direction: ltr; display: block; margin-top: var(--space-2);">
+              Authentic regional heritage poetry paired with botanical science.
+            </span>
+          </div>
+          <div style="margin-top: var(--space-6);">
+            <p style="font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--color-text-muted); margin-bottom: var(--space-1);">Hardware Packet Monospace</p>
+            <code style="font-family: var(--font-mono); font-size: var(--text-sm); background: var(--color-surface-alt); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); display: block; border: 1px solid var(--color-border);">
+              [NODE: ISB-F7-01] VWC: 64.2% | EC: 1.4 mS/cm | TEMP: 24.8°C | BAT: 98%
+            </code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 2: Prototype Hero (55/45 Editorial Split)
+         ====================================================================== -->
+    <section class="staging-section" id="hero-prototype">
+      <div class="section-eyebrow">Component Prototype 01</div>
+      <div class="section-header">
+        <h2 class="section-title">The Editorial Hero Experience</h2>
+        <p class="section-desc">55/45 asymmetric layout combining editorial botanical storytelling with live telemetry instrumentation. Space chips dynamically re-target the stage.</p>
+      </div>
+
+      <div class="hero-stage">
+        <div class="hero-grid">
+          <!-- 55% Editorial Narrative -->
+          <div class="hero-content">
+            <div class="hero-eyebrow">
+              <span>Islamabad & Rawalpindi • Satellite to Soil</span>
+            </div>
+            <h1 class="hero-headline">
+              We will plant<br>for <em>you.</em>
+            </h1>
+            <p class="hero-lead">
+              Turn balconies, rooftops, and interior living spaces into thriving sanctuaries. Equipped with cellular soil telemetry and Potohar-native botanical arrangements.
+            </p>
+
+            <!-- Space Selector Chips -->
+            <div class="space-selector">
+              <span class="space-label">Select Your Space Configuration:</span>
+              <div class="chip-group" role="tablist" aria-label="Space Selector">
+                <button type="button" class="chip active" role="tab" aria-selected="true" onclick="selectSpace('balcony', this)">Balcony Oasis</button>
+                <button type="button" class="chip" role="tab" aria-selected="false" onclick="selectSpace('rooftop', this)">Rooftop Terrace</button>
+                <button type="button" class="chip" role="tab" aria-selected="false" onclick="selectSpace('living', this)">Living Room Biophilic</button>
+                <button type="button" class="chip" role="tab" aria-selected="false" onclick="selectSpace('office', this)">Office Sanctuary</button>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <a href="#catalog-prototype" class="btn btn-primary">Explore Landscaping Kits</a>
+              <a href="#telemetry-demo" class="hero-link" onclick="simulateTelemetryPing(event)">
+                <span>Simulate Sensor Telemetry</span>
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 45% Visual Showcase with Floating Telemetry Card -->
+          <div class="hero-visual">
+            <div class="hero-image-frame">
+              <img id="hero-img-stage" src="../assets/images/banners/hero-islamabad-balcony.webp" alt="Islamabad balcony garden styled with lush foliage and smart terracotta planter pots">
+            </div>
+
+            <!-- Floating Live Telemetry Widget -->
+            <div class="telemetry-card" id="hero-telemetry-card">
+              <div class="telemetry-header">
+                <span class="telemetry-title">
+                  <span class="pulse-dot"></span>
+                  <span id="telemetry-node-title">Sector F-7 Node</span>
+                </span>
+                <span class="telemetry-node">LIVE 2.4 GHz</span>
+              </div>
+              <div class="telemetry-metric">
+                <span class="telemetry-value" id="telemetry-val">64%</span>
+                <span class="telemetry-status" id="telemetry-status">Moisture Optimal</span>
+              </div>
+              <div class="telemetry-sparkline" aria-hidden="true">
+                <svg class="sparkline-svg" viewBox="0 0 100 24">
+                  <path id="sparkline-path" d="M 0 16 Q 15 8 30 14 T 60 10 T 85 15 T 100 8" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 3: Prototype Product Cards (Quiet-Luxury Catalog)
+         ====================================================================== -->
+    <section class="staging-section" id="catalog-prototype">
+      <div class="section-eyebrow">Component Prototype 02</div>
+      <div class="section-header">
+        <h2 class="section-title">The Product Catalog Grid</h2>
+        <p class="section-desc">Precision 4:5 aspect ratio cards with factual heritage badges, tabular PKR pricing, instant wishlist interaction, and 1-tap quick add.</p>
+      </div>
+
+      <div class="catalog-grid">
+        <!-- Card 1: Taxila Terracotta Pot Set -->
+        <article class="product-card-staged">
+          <div class="card-media-wrap">
+            <span class="card-badge">Potohar Clay</span>
+            <button type="button" class="card-wishlist" aria-label="Add Taxila Terracotta Breathable Pot Set to wishlist" onclick="toggleWishlist(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <img src="../assets/images/products/taxila-terracotta-breathable-pot-set-main.webp" alt="Set of three porous Taxila terracotta planter pots crafted by regional potters" loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="card-taxo">Artisan Pottery • Taxila</span>
+            <h3 class="card-title">Taxila Terracotta Breathable Pot Set</h3>
+            <div class="card-price-row">
+              <span class="card-price-current">Rs 4,800</span>
+              <span class="card-price-compare">Rs 5,500</span>
+            </div>
+            <button type="button" class="card-quick-btn" onclick="quickAddDemo(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 2: FloraMesh Smart Soil Sensor -->
+        <article class="product-card-staged">
+          <div class="card-media-wrap">
+            <span class="card-badge">Zigbee 3.0 Telemetry</span>
+            <button type="button" class="card-wishlist" aria-label="Add FloraMesh Smart Soil Sensor to wishlist" onclick="toggleWishlist(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <img src="../assets/images/products/floramesh-smart-soil-sensor-single-main.webp" alt="Wireless soil probe with matte dark housing and gold-plated sensor prongs" loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="card-taxo">Hardware • IoT Telemetry</span>
+            <h3 class="card-title">FloraMesh Smart Soil Sensor</h3>
+            <div class="card-price-row">
+              <span class="card-price-current">Rs 5,999</span>
+            </div>
+            <button type="button" class="card-quick-btn" onclick="quickAddDemo(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card 3: Multani Blue Pottery Planter Duo -->
+        <article class="product-card-staged">
+          <div class="card-media-wrap">
+            <span class="card-badge">Hand-Painted Kashigari</span>
+            <button type="button" class="card-wishlist" aria-label="Add Multani Blue Pottery Planter Duo to wishlist" onclick="toggleWishlist(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+            <img src="../assets/images/products/multani-blue-pottery-planter-duo-main.webp" alt="Pair of handcrafted Multani blue pottery ceramic planters with floral cobalt motifs" loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="card-taxo">Artisan Pottery • Multan</span>
+            <h3 class="card-title">Multani Blue Pottery Planter Duo</h3>
+            <div class="card-price-row">
+              <span class="card-price-current">Rs 7,200</span>
+              <span class="card-price-compare">Rs 8,000</span>
+            </div>
+            <button type="button" class="card-quick-btn" onclick="quickAddDemo(this)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 4: Prototype Footer (Editorial Grounding)
+         ====================================================================== -->
+    <section class="staging-section" id="footer-prototype">
+      <div class="section-eyebrow">Component Prototype 03</div>
+      <div class="section-header">
+        <h2 class="section-title">The Editorial Footer Architecture</h2>
+        <p class="section-desc">Card-based seasonal dispatch, 4-column structured directory, regional contact coordinates, and low-contrast oversized botanical typography.</p>
+      </div>
+
+      <footer class="footer-stage">
+        <!-- Seasonal Dispatch Card -->
+        <div class="footer-dispatch-card">
+          <div class="dispatch-info">
+            <h3>Join our Seasonal Garden Dispatch</h3>
+            <p>Monsoon preparations, winter pruning schedules, and Margalla planting advisories.</p>
+          </div>
+          <form class="dispatch-form" onsubmit="event.preventDefault(); alert('Subscribed to seasonal dispatch!');">
+            <input type="email" class="dispatch-input" placeholder="Enter your email address" required aria-label="Email address for newsletter">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+
+        <!-- 4-Column Directory -->
+        <div class="footer-main-grid">
+          <div class="footer-col-brand">
+            <h4>FloraMesh</h4>
+            <span class="footer-urdu-tagline" lang="ur">آپ کا خیال، ہمارا پودا، سرسبز جہاں</span>
+            <p class="footer-brand-bio">
+              Intelligent botanical landscaping and soil IoT telemetry engineered for Islamabad and Rawalpindi microclimates.
+            </p>
+          </div>
+
+          <div>
+            <h5 class="footer-col-title">Collections</h5>
+            <ul class="footer-links-list">
+              <li><a href="#balcony">Balcony Oasis Kits</a></li>
+              <li><a href="#rooftop">Rooftop Terraces</a></li>
+              <li><a href="#pottery">Taxila & Multani Pottery</a></li>
+              <li><a href="#care">Organic Soil & Mixes</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="footer-col-title">Hardware</h5>
+            <ul class="footer-links-list">
+              <li><a href="#sensors">Soil Moisture Probes</a></li>
+              <li><a href="#gateway">FloraMesh Gateway Hub</a></li>
+              <li><a href="#irrigation">Smart Drip Controllers</a></li>
+              <li><a href="#api">Telemetry Dashboard API</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="footer-col-title">Studio & Nursery</h5>
+            <div class="footer-contact-item">
+              <strong>Islamabad Studio:</strong>
+              Sector F-7/3, Street 14, Islamabad
+            </div>
+            <div class="footer-contact-item">
+              <strong>Workshop & Nursery:</strong>
+              Chaklala Scheme III, Rawalpindi
+            </div>
+            <div class="footer-contact-item">
+              <strong>Direct Support:</strong>
+              +92 300 555-FLORA (Mon–Sat, 9am–6pm)
+            </div>
+          </div>
+        </div>
+
+        <!-- Giant Low-Contrast Fraunces Wordmark -->
+        <div class="footer-giant-wordmark" aria-hidden="true">
+          FLORAMESH
+        </div>
+
+        <!-- Legal & Zero-Tracking Strip -->
+        <div class="footer-wordmark-bar">
+          <span class="footer-legal">© 2026 FloraMesh Private Limited. All rights reserved.</span>
+          <span class="footer-legal">Zero tracking cookies • Self-hosted local telemetry • Islamabad, PK</span>
+        </div>
+      </footer>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================================================
+       Art Direction Interactive Controller (100% Native, file:// Compatible)
+       ========================================================================== */
+
+    // 1. Theme Switcher with Persistent Storage
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      try {
+        localStorage.setItem('floramesh_theme_v1', theme);
+      } catch (e) {}
+
+      const btnHeritage = document.getElementById('btn-theme-heritage');
+      const btnMidnight = document.getElementById('btn-theme-midnight');
+
+      if (theme === 'heritage') {
+        btnHeritage.classList.add('active');
+        btnHeritage.setAttribute('aria-checked', 'true');
+        btnMidnight.classList.remove('active');
+        btnMidnight.setAttribute('aria-checked', 'false');
+      } else {
+        btnMidnight.classList.add('active');
+        btnMidnight.setAttribute('aria-checked', 'true');
+        btnHeritage.classList.remove('active');
+        btnHeritage.setAttribute('aria-checked', 'false');
+      }
+    }
+
+    // Initialize saved theme
+    try {
+      const savedTheme = localStorage.getItem('floramesh_theme_v1');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      }
+    } catch (e) {}
+
+    // 2. Space Selector Staging Demo
+    const spaceData = {
+      balcony: {
+        img: '../assets/images/banners/hero-islamabad-balcony.webp',
+        alt: 'Islamabad balcony garden styled with lush foliage and smart terracotta planter pots',
+        node: 'Sector F-7 Node',
+        val: '64%',
+        status: 'Moisture Optimal',
+        path: 'M 0 16 Q 15 8 30 14 T 60 10 T 85 15 T 100 8'
+      },
+      rooftop: {
+        img: '../assets/images/products/rooftop-terrace-pergola-garden-setup-main.webp',
+        alt: 'Rooftop terrace garden pergola with climbing native jasmine and terracotta planters',
+        node: 'Rawalpindi Rooftop Node',
+        val: '58%',
+        status: 'Solar Gain High',
+        path: 'M 0 12 Q 25 18 45 10 T 75 16 T 100 12'
+      },
+      living: {
+        img: '../assets/images/products/indoor-biophilic-living-room-styling-main.webp',
+        alt: 'Indoor biophilic living room arrangement featuring air-purifying fiddle leaf fig and brass mister',
+        node: 'Living Room Hub',
+        val: '71%',
+        status: 'Microclimate Stable',
+        path: 'M 0 14 Q 20 12 40 16 T 80 12 T 100 15'
+      },
+      office: {
+        img: '../assets/images/products/corporate-office-greenery-maintenance-plan-main.webp',
+        alt: 'Corporate office floor landscaped with modular plant partition screens',
+        node: 'Blue Area Office Node',
+        val: '62%',
+        status: 'Telemetry Linked',
+        path: 'M 0 18 Q 30 8 50 14 T 90 9 T 100 14'
+      }
+    };
+
+    function selectSpace(key, el) {
+      document.querySelectorAll('.chip-group .chip').forEach(c => {
+        c.classList.remove('active');
+        c.setAttribute('aria-selected', 'false');
+      });
+      el.classList.add('active');
+      el.setAttribute('aria-selected', 'true');
+
+      const data = spaceData[key];
+      if (!data) return;
+
+      const heroImg = document.getElementById('hero-img-stage');
+      heroImg.style.opacity = '0.3';
+      setTimeout(() => {
+        heroImg.src = data.img;
+        heroImg.alt = data.alt;
+        heroImg.style.opacity = '1';
+      }, 150);
+
+      document.getElementById('telemetry-node-title').textContent = data.node;
+      document.getElementById('telemetry-val').textContent = data.val;
+      document.getElementById('telemetry-status').textContent = data.status;
+      document.getElementById('sparkline-path').setAttribute('d', data.path);
+    }
+
+    // 3. Interactive Button State Machine Demo
+    let stateTesting = false;
+    function triggerStateDemo() {
+      if (stateTesting) return;
+      stateTesting = true;
+      const btn = document.getElementById('btn-state-tester');
+      const text = document.getElementById('state-btn-text');
+
+      // State 1: Loading Spinner
+      btn.setAttribute('aria-busy', 'true');
+      text.innerHTML = '<span class="spinner" aria-hidden="true"></span> Adding...';
+
+      setTimeout(() => {
+        // State 2: Success Check
+        btn.setAttribute('aria-busy', 'false');
+        btn.style.backgroundColor = 'var(--color-success)';
+        btn.style.borderColor = 'var(--color-success)';
+        text.innerHTML = '<svg class="icon" viewBox="0 0 24 24" style="stroke:#FFF;"><polyline points="20 6 9 17 4 12"/></svg> Added to Cart!';
+
+        setTimeout(() => {
+          // State 3: Reset Smoothly to Idle
+          btn.style.backgroundColor = '';
+          btn.style.borderColor = '';
+          text.textContent = 'Test Add to Cart';
+          stateTesting = false;
+        }, 1200);
+      }, 600);
+    }
+
+    // 4. Quick Add Demo for Product Cards
+    function quickAddDemo(btn) {
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Adding...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Added!';
+        btn.style.backgroundColor = 'var(--color-success-bg)';
+        btn.style.color = 'var(--color-success)';
+        btn.style.borderColor = 'var(--color-success-border)';
+
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+          btn.disabled = false;
+        }, 1200);
+      }, 500);
+    }
+
+    // 5. Wishlist Heart Toggle
+    function toggleWishlist(btn) {
+      const isFavorited = btn.classList.toggle('favorited');
+      const svg = btn.querySelector('svg');
+      if (isFavorited) {
+        btn.style.color = 'var(--color-danger)';
+        svg.style.fill = 'currentColor';
+      } else {
+        btn.style.color = '';
+        svg.style.fill = 'none';
+      }
+    }
+
+    // 6. Simulate Telemetry Live Jitter
+    function simulateTelemetryPing(e) {
+      e.preventDefault();
+      const valEl = document.getElementById('telemetry-val');
+      const randomMoisture = Math.floor(Math.random() * 8) + 60; // 60-67%
+      valEl.textContent = randomMoisture + '%';
+
+      const card = document.getElementById('hero-telemetry-card');
+      card.style.transform = 'translateY(-6px) scale(1.02)';
+      card.style.borderColor = 'var(--color-accent)';
+      setTimeout(() => {
+        card.style.transform = '';
+        card.style.borderColor = '';
+      }, 350);
+    }
+  </script>
+</body>
+</html>

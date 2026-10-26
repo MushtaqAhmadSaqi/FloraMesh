@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compare Botanical Packages &amp; Telemetry | FloraMesh Pakistan</title>
+  <meta name="description" content="Side-by-side comparison of FloraMesh turnkey planting packages, IoT soil telemetry sensors, and artisan pottery for Islamabad and Rawalpindi gardens.">
+  <link rel="canonical" href="https://floramesh.pk/compare.html">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Compare Botanical Packages &amp; Telemetry | FloraMesh Pakistan">
+  <meta property="og:description" content="Compare pricing, Potohar climate tolerance, materials, and telemetry compatibility side by side.">
+  <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+
+  <!-- Theme pre-paint script (Zero FOUT) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('floramesh_theme_v1');
+        if (!t) {
+          t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'midnight' : 'heritage';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Variable Fonts -->
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    .compare-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: var(--space-8);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .compare-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      vertical-align: top;
+      font-size: var(--text-sm);
+    }
+    .compare-table th:last-child,
+    .compare-table td:last-child {
+      border-right: none;
+    }
+    .compare-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .compare-table .row-header {
+      width: 220px;
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+      background: var(--color-surface-sunken);
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+    .compare-col-header {
+      text-align: left;
+      background: var(--color-surface);
+      padding: var(--space-4);
+    }
+    .compare-product-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .compare-product-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: var(--radius-base);
+      background: var(--color-surface-sunken);
+    }
+    .compare-product-title {
+      font-family: var(--font-serif);
+      font-size: var(--text-base);
+      line-height: var(--leading-tight);
+      margin: 0;
+    }
+    .compare-product-price {
+      font-weight: var(--weight-bold);
+      color: var(--color-primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .compare-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="site-header-mount"></div>
+
+  <!-- WordPress conversion: page-compare.php -->
+  <main id="main-content">
+    <div class="container section">
+      <div class="section__eyebrow">Interactive Spec Sheet</div>
+      <h1 class="section__title" style="margin-bottom:var(--space-2);">Product &amp; Package Comparison</h1>
+      <p style="color:var(--color-text-muted);margin-bottom:var(--space-8);max-width:62ch;font-size:var(--text-base);">
+        Examine specifications, Potohar micro-climate resilience, artisan origins, and IoT telemetry side by side. Choose items to inspect or swap below.
+      </p>
+
+      <div class="compare-container">
+        <table class="compare-table" id="compare-matrix">
+          <thead>
+            <tr>
+              <th class="row-header">Item &amp; Selector</th>
+              <th class="compare-col-header" id="th-product-0">
+                <label for="select-prod-0" class="sr-only">Select item 1</label>
+                <select id="select-prod-0" class="form-select" data-compare-slot="0" style="width:100%;font-size:var(--text-xs);margin-bottom:var(--space-3);"></select>
+                <div id="card-prod-0" class="compare-product-card"></div>
+              </th>
+              <th class="compare-col-header" id="th-product-1">
+                <label for="select-prod-1" class="sr-only">Select item 2</label>
+                <select id="select-prod-1" class="form-select" data-compare-slot="1" style="width:100%;font-size:var(--text-xs);margin-bottom:var(--space-3);"></select>
+                <div id="card-prod-1" class="compare-product-card"></div>
+              </th>
+              <th class="compare-col-header" id="th-product-2">
+                <label for="select-prod-2" class="sr-only">Select item 3</label>
+                <select id="select-prod-2" class="form-select" data-compare-slot="2" style="width:100%;font-size:var(--text-xs);margin-bottom:var(--space-3);"></select>
+                <div id="card-prod-2" class="compare-product-card"></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-header">Category &amp; Type</td>
+              <td id="cell-category-0"></td>
+              <td id="cell-category-1"></td>
+              <td id="cell-category-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Effective Pricing</td>
+              <td id="cell-price-0"></td>
+              <td id="cell-price-1"></td>
+              <td id="cell-price-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Fulfilment &amp; Installation</td>
+              <td id="cell-fulfilment-0"></td>
+              <td id="cell-fulfilment-1"></td>
+              <td id="cell-fulfilment-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Target Spaces</td>
+              <td id="cell-spaces-0"></td>
+              <td id="cell-spaces-1"></td>
+              <td id="cell-spaces-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Potohar Climate Resilience</td>
+              <td id="cell-climate-0"></td>
+              <td id="cell-climate-1"></td>
+              <td id="cell-climate-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Artisan Material / Hardware</td>
+              <td id="cell-material-0"></td>
+              <td id="cell-material-1"></td>
+              <td id="cell-material-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Coverage / Sizing</td>
+              <td id="cell-coverage-0"></td>
+              <td id="cell-coverage-1"></td>
+              <td id="cell-coverage-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Sensor / Telemetry Support</td>
+              <td id="cell-telemetry-0"></td>
+              <td id="cell-telemetry-1"></td>
+              <td id="cell-telemetry-2"></td>
+            </tr>
+            <tr>
+              <td class="row-header">Direct Action</td>
+              <td id="cell-action-0"></td>
+              <td id="cell-action-1"></td>
+              <td id="cell-action-2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-3);">
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin:0;">
+          Tip: You can change any item in the comparison above using its dropdown selector.
+        </p>
+        <a href="shop.html" class="btn btn--outline btn--sm">Browse Full Catalog</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="data/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Interactive Comparison Logic -->
+  <script>
+    (function () {
+      'use strict';
+
+      var products = window.FLORAMESH_PRODUCTS || [];
+      var utils = window.FloraMeshUtils || {};
+      var escape = utils.escapeHTML || function (s) { return s; };
+      var escapeA = utils.escapeAttr || function (s) { return s; };
+      var formatPKR = utils.formatPKR || function (v) { return 'Rs ' + v; };
+
+      // Default items: top 3 smart telemetry sensors
+      var defaultSlugs = [
+        'soil-moisture-ph-probe-sensor',
+        'smart-garden-hub-cellular-lora',
+        'potohar-solar-weather-station-soil-hub'
+      ];
+
+      // Parse URL parameters ?items=slug1,slug2,slug3
+      var params = new URLSearchParams(window.location.search);
+      var urlItems = params.get('items');
+      if (urlItems) {
+        var parsed = urlItems.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+        if (parsed.length > 0) defaultSlugs = parsed.slice(0, 3);
+      }
+
+      // Ensure 3 slots
+      while (defaultSlugs.length < 3) {
+        var extra = products.find(function (p) { return defaultSlugs.indexOf(p.slug) === -1; });
+        if (extra) defaultSlugs.push(extra.slug);
+        else break;
+      }
+
+      var selectedSlugs = defaultSlugs.slice();
+
+      function populateDropdowns() {
+        for (var slot = 0; slot < 3; slot++) {
+          var select = document.getElementById('select-prod-' + slot);
+          if (!select) continue;
+
+          select.innerHTML = products.map(function (p) {
+            var isSel = (p.slug === selectedSlugs[slot]);
+            return '<option value="' + escapeA(p.slug) + '"' + (isSel ? ' selected' : '') + '>' + escape(p.shortName || p.name) + '</option>';
+          }).join('');
+
+          (function (currentSlot) {
+            select.addEventListener('change', function () {
+              selectedSlugs[currentSlot] = this.value;
+              renderSlot(currentSlot, this.value);
+              updateUrl();
+            });
+          })(slot);
+        }
+      }
+
+      function updateUrl() {
+        if (window.history && window.history.replaceState) {
+          var newUrl = window.location.pathname + '?items=' + encodeURIComponent(selectedSlugs.join(','));
+          window.history.replaceState(null, '', newUrl);
+        }
+      }
+
+      function renderSlot(slot, slug) {
+        var p = products.find(function (item) { return item.slug === slug; });
+        if (!p) return;
+
+        var priceInfo = (utils.getEffectivePrice) ? utils.getEffectivePrice(p) : { price: p.price };
+        var hasMulti = p.variants && p.variants.length > 1;
+        var minPrice = p.price;
+        var maxPrice = p.price;
+        if (hasMulti) {
+          var prices = p.variants.map(function (v) { return v.price; });
+          minPrice = Math.min.apply(null, prices);
+          maxPrice = Math.max.apply(null, prices);
+        }
+
+        // Header Card
+        var card = document.getElementById('card-prod-' + slot);
+        if (card) {
+          card.innerHTML =
+            '<a href="product.html?slug=' + escapeA(p.slug) + '">' +
+            '  <img src="' + escapeA(p.images[0].src) + '" alt="' + escapeA(p.images[0].alt) + '" class="compare-product-img" width="300" height="160" loading="lazy">' +
+            '</a>' +
+            '<h2 class="compare-product-title"><a href="product.html?slug=' + escapeA(p.slug) + '">' + escape(p.shortName || p.name) + '</a></h2>' +
+            '<div class="compare-product-price">' + (hasMulti && minPrice !== maxPrice ? 'From ' + formatPKR(minPrice) : formatPKR(minPrice)) + '</div>';
+        }
+
+        // Category & Type
+        var cellCat = document.getElementById('cell-category-' + slot);
+        if (cellCat) {
+          cellCat.innerHTML = '<strong>' + escape(p.category) + '</strong><br><span style="font-size:var(--text-xs);text-transform:capitalize;color:var(--color-text-muted);">' + escape(p.type || 'Standard') + '</span>';
+        }
+
+        // Price Breakdown
+        var cellPrice = document.getElementById('cell-price-' + slot);
+        if (cellPrice) {
+          if (hasMulti && minPrice !== maxPrice) {
+            cellPrice.innerHTML = '<strong style="font-variant-numeric:tabular-nums;">' + formatPKR(minPrice) + ' – ' + formatPKR(maxPrice) + '</strong><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);">' + p.variants.length + ' configurable tiers</span>';
+          } else {
+            cellPrice.innerHTML = '<strong style="font-variant-numeric:tabular-nums;">' + formatPKR(minPrice) + '</strong>';
+          }
+        }
+
+        // Fulfilment
+        var cellFulfilment = document.getElementById('cell-fulfilment-' + slot);
+        if (cellFulfilment) {
+          if (p.fulfilment === 'onsite') {
+            cellFulfilment.innerHTML = '<span class="chip chip--success" style="font-size:var(--text-xs);">Twin-City Field Van</span><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;display:block;">Includes on-site crew planting</span>';
+          } else if (p.fulfilment === 'digital') {
+            cellFulfilment.innerHTML = '<span class="chip" style="font-size:var(--text-xs);">Digital / Certified</span><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;display:block;">Instant access &amp; GPS records</span>';
+          } else {
+            cellFulfilment.innerHTML = '<span class="chip" style="font-size:var(--text-xs);">Nationwide Courier</span><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;display:block;">Safe bubble &amp; crate dispatch</span>';
+          }
+        }
+
+        // Spaces
+        var cellSpaces = document.getElementById('cell-spaces-' + slot);
+        if (cellSpaces) {
+          var spaces = p.spaces || [];
+          if (spaces.length === 0) {
+            cellSpaces.innerHTML = '<span style="color:var(--color-text-muted);">All garden spaces</span>';
+          } else {
+            cellSpaces.innerHTML = '<div class="compare-pill-list">' + spaces.map(function (s) {
+              return '<span class="chip" style="font-size:var(--text-xs);text-transform:capitalize;">' + escape(s) + '</span>';
+            }).join('') + '</div>';
+          }
+        }
+
+        // Potohar Climate
+        var cellClimate = document.getElementById('cell-climate-' + slot);
+        if (cellClimate) {
+          if (p.category === 'Smart Monitoring') {
+            cellClimate.innerHTML = 'IP65 waterproof probe, rated for 45°C direct sun exposure and heavy monsoon humidity.';
+          } else if (p.category === 'Planting Packages') {
+            cellClimate.innerHTML = 'Acclimated for 5-season Potohar fluctuations (frost tolerant, heat-resilient with deep mulch).';
+          } else if (p.category === 'Artisan Planters') {
+            cellClimate.innerHTML = 'Fired Taxila clay dissipates summer heat; natural porosity prevents monsoon root rot.';
+          } else {
+            cellClimate.innerHTML = 'Optimized for high-yield indoor and outdoor garden cultivation in the northern plateau.';
+          }
+        }
+
+        // Materials & Origin
+        var cellMaterial = document.getElementById('cell-material-' + slot);
+        if (cellMaterial) {
+          if (p.category === 'Artisan Planters') {
+            cellMaterial.innerHTML = 'Authentic Taxila Terracotta &amp; Multani Blue Pottery glaze.';
+          } else if (p.category === 'Smart Monitoring') {
+            cellMaterial.innerHTML = 'Corrosion-resistant gold-immersion PCB probes &amp; UV-stabilized ABS enclosure.';
+          } else if (p.category === 'Care & Accessories') {
+            cellMaterial.innerHTML = 'Forged carbon steel, Sheesham wood grips, and heavy cotton duck canvas.';
+          } else {
+            cellMaterial.innerHTML = 'Organic neem-treated compost, perlite, and nursery-acclimated root balls.';
+          }
+        }
+
+        // Coverage / Sizing
+        var cellCoverage = document.getElementById('cell-coverage-' + slot);
+        if (cellCoverage) {
+          if (p.coverage && p.coverage.minSqFt) {
+            cellCoverage.innerHTML = '<strong>' + p.coverage.minSqFt + ' – ' + p.coverage.maxSqFt + ' sq ft</strong><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);">Floor area coverage</span>';
+          } else if (p.variants && p.variants.length > 0 && p.variants[0].name) {
+            cellCoverage.innerHTML = 'Configurable options: ' + p.variants.map(function (v) { return escape(v.name); }).join(', ');
+          } else {
+            cellCoverage.innerHTML = 'Standard single unit';
+          }
+        }
+
+        // Sensor / Telemetry
+        var cellTelemetry = document.getElementById('cell-telemetry-' + slot);
+        if (cellTelemetry) {
+          if (p.category === 'Smart Monitoring') {
+            cellTelemetry.innerHTML = '<span style="color:var(--color-success);font-weight:var(--weight-semibold);">Direct Telemetry Source</span><br><span style="font-size:var(--text-xs);color:var(--color-text-muted);">BLE + Wi-Fi / LoRa enabled</span>';
+          } else if (p.category === 'Planting Packages') {
+            cellTelemetry.innerHTML = 'Compatible with all FloraMesh soil probes for automated watering advisories.';
+          } else {
+            cellTelemetry.innerHTML = 'Passive gardening hardware.';
+          }
+        }
+
+        // Action Button
+        var cellAction = document.getElementById('cell-action-' + slot);
+        if (cellAction) {
+          cellAction.innerHTML = '<button type="button" class="btn btn--primary btn--sm" data-compare-add="' + escapeA(p.slug) + '" style="width:100%;">Add to basket</button>';
+        }
+      }
+
+      function renderAll() {
+        for (var i = 0; i < 3; i++) {
+          renderSlot(i, selectedSlugs[i]);
+        }
+
+        // Bind Add to Basket buttons
+        document.querySelectorAll('[data-compare-add]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var slug = btn.getAttribute('data-compare-add');
+            if (window.FloraMeshCart) {
+              window.FloraMeshCart.addItem(slug, null, 1);
+            }
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        populateDropdowns();
+        renderAll();
+      });
+    })();
+  </script>
+</body>
+</html>

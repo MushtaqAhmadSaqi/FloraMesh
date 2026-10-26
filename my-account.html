@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="heritage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Account Portal | FloraMesh Pakistan</title>
+  <meta name="description" content="Manage your FloraMesh plant orders, local preferences, delivery addresses, and saved wishlists across Islamabad and Rawalpindi.">
+  <link rel="canonical" href="https://floramesh.pk/my-account.html">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Customer Account | FloraMesh Pakistan">
+  <meta property="og:description" content="Manage your plant orders, delivery addresses, and saved garden packages.">
+  <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+
+  <!-- Theme pre-paint script (Zero FOUT) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('floramesh_theme_v1');
+        if (!t) {
+          t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'midnight' : 'heritage';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Variable Fonts -->
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/fraunces-variable.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="site-header-mount"></div>
+
+  <!-- WooCommerce conversion: woocommerce/myaccount/my-account.php -->
+  <main id="main-content">
+    <div class="container section">
+      <div class="demo-safeguard-banner" role="status" style="margin-bottom:var(--space-6);">
+        <strong>Prototype Demonstration:</strong> Customer authentication and preferences persist locally in your browser storage. Placed mock orders appear in your Recent Orders tab.
+      </div>
+
+      <div class="section__eyebrow">Customer Portal</div>
+      <h1 class="section__title" style="margin-bottom:var(--space-6);">Customer Account</h1>
+
+      <div id="account-demo-result" class="alert alert--success" style="display:none;margin-bottom:var(--space-6);" role="status"></div>
+
+      <!-- Account Tabs -->
+      <div class="account-nav-tabs" role="tablist" aria-label="Account Sections" style="display:flex;gap:var(--space-2);border-bottom:1px solid var(--color-border);margin-bottom:var(--space-8);">
+        <button type="button" class="tab-btn is-active" role="tab" id="tab-btn-signin" aria-selected="true" aria-controls="panel-signin" data-account-tab="panel-signin">Sign In</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-register" aria-selected="false" aria-controls="panel-register" data-account-tab="panel-register">Create Account</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-orders" aria-selected="false" aria-controls="panel-orders" data-account-tab="panel-orders">Recent Orders</button>
+      </div>
+
+      <!-- Sign In Tab Panel -->
+      <div id="panel-signin" class="account-tab-panel" role="tabpanel" aria-labelledby="tab-btn-signin">
+        <div style="max-width:540px;">
+          <form class="demo-auth-form panel" novalidate>
+            <h2 class="h3" style="margin-bottom:var(--space-4);">Sign In to Your Account</h2>
+            <div class="form-field">
+              <label for="login-email">Email Address *</label>
+              <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username">
+              <span class="form-field__error">Please enter a valid email address.</span>
+            </div>
+            <div class="form-field">
+              <label for="login-pass">Password *</label>
+              <div style="position:relative;display:flex;align-items:center;">
+                <input type="password" id="login-pass" required placeholder="••••••••" autocomplete="current-password" style="width:100%;padding-right:44px;">
+                <button type="button" class="btn btn--ghost" data-toggle-password="login-pass" aria-label="Show password" aria-pressed="false" style="position:absolute;right:4px;padding:6px;min-width:auto;height:auto;color:var(--color-text-muted);">
+                  <svg class="icon icon--eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="form-field__error">Please enter your password.</span>
+            </div>
+            <button type="submit" class="btn btn--primary" style="margin-top:var(--space-2);width:100%;">Sign In</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Register Tab Panel -->
+      <div id="panel-register" class="account-tab-panel is-hidden" role="tabpanel" aria-labelledby="tab-btn-register">
+        <div style="max-width:540px;">
+          <form class="demo-auth-form panel" novalidate>
+            <h2 class="h3" style="margin-bottom:var(--space-4);">Create a Customer Account</h2>
+            <div class="form-field">
+              <label for="reg-name">Full Name *</label>
+              <input type="text" id="reg-name" required placeholder="e.g. Ayesha Khan" autocomplete="name">
+              <span class="form-field__error">Please enter your full name.</span>
+            </div>
+            <div class="form-field">
+              <label for="reg-email">Email Address *</label>
+              <input type="email" id="reg-email" required placeholder="you@example.com" autocomplete="email">
+              <span class="form-field__error">Please enter a valid email address.</span>
+            </div>
+            <div class="form-field">
+              <label for="reg-pass">Create Password *</label>
+              <div style="position:relative;display:flex;align-items:center;">
+                <input type="password" id="reg-pass" required placeholder="••••••••" autocomplete="new-password" style="width:100%;padding-right:44px;">
+                <button type="button" class="btn btn--ghost" data-toggle-password="reg-pass" aria-label="Show password" aria-pressed="false" style="position:absolute;right:4px;padding:6px;min-width:auto;height:auto;color:var(--color-text-muted);">
+                  <svg class="icon icon--eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="form-field__error">Please choose a password.</span>
+            </div>
+            <div class="form-field">
+              <label for="reg-interest">Primary Botanical Interest</label>
+              <select id="reg-interest">
+                <option value="balcony">Balcony &amp; Terrace Planting Packages</option>
+                <option value="sensors">IoT Soil Telemetry Sensors</option>
+                <option value="pottery">Artisan Taxila &amp; Multani Planters</option>
+                <option value="csr">Corporate Campus &amp; Tree Drives</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--primary" style="margin-top:var(--space-2);width:100%;">Create Account</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Orders Tab Panel -->
+      <div id="panel-orders" class="account-tab-panel is-hidden" role="tabpanel" aria-labelledby="tab-btn-orders">
+        <div style="max-width:720px;">
+          <h2 class="h3" style="margin-bottom:var(--space-4);">Order History (Local Browser)</h2>
+          <div id="account-orders-list"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer-mount"></div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="data/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/partials.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/product.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

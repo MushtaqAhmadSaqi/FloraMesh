@@ -1,0 +1,268 @@
+/* ==========================================================================
+   FloraMesh Design System Tokens (css/tokens.css)
+   Two WCAG 2.2 AA Verified Themes:
+   - "Heritage Cream" (Light, Default) — Taxila terracotta, Multani ceramics, daylight nursery
+   - "Midnight Grove" (Dark) — IoT telemetry, night garden, luxury-tech feel
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Self-Hosted Variable Fonts (Zero external CDN dependency, file:// ready)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('../assets/fonts/fraunces-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('../assets/fonts/plus-jakarta-sans-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* --------------------------------------------------------------------------
+   2. Theme 1: Heritage Cream (Light, Default)
+   -------------------------------------------------------------------------- */
+:root,
+html[data-theme="heritage"] {
+  /* Color Roles */
+  --color-bg: #FAF7F0;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F3EEE2;
+  --color-surface-elevated: #FFFFFF;
+  --color-text: #10241B;
+  --color-text-muted: #54655B;
+  --color-border: #E4DCC8;
+  --color-border-subtle: #EDE6D6;
+
+  /* Brand Accents */
+  --color-primary: #10241B;
+  --color-on-primary: #FAF7F0;
+  --color-primary-hover: #1F3E30;
+  --color-accent: #B4572F;
+  --color-on-accent: #FFFFFF;
+  --color-accent-hover: #9E4622;
+  --color-link: #0F766E;
+  --color-link-hover: #115E59;
+  --color-brass: #A8844A;
+
+  /* Semantic Status Roles */
+  --color-success: #15803D;
+  --color-success-bg: #DCFCE7;
+  --color-success-border: #86EFAC;
+  --color-warning: #B45309;
+  --color-warning-bg: #FEF3C7;
+  --color-warning-border: #FCD34D;
+  --color-danger: #B91C1C;
+  --color-danger-bg: #FEE2E2;
+  --color-danger-border: #FCA5A5;
+
+  /* Surfaces & Visual Depth */
+  --color-media-bg: #F3EEE2;
+  --color-header-bg: rgba(250, 247, 240, 0.94);
+  --color-backdrop: rgba(16, 36, 27, 0.55);
+  --color-announcement-bg: #10241B;
+  --color-announcement-text: #FAF7F0;
+
+  /* Soft Layered Shadows & Elevation */
+  --shadow-xs: 0 1px 2px rgba(16, 36, 27, 0.04);
+  --shadow-sm: 0 4px 12px rgba(16, 36, 27, 0.06);
+  --shadow-md: 0 10px 24px rgba(16, 36, 27, 0.08);
+  --shadow-lg: 0 20px 40px rgba(16, 36, 27, 0.12);
+  --elevation-hover: 0 16px 36px rgba(16, 36, 27, 0.12);
+  --glow-accent: none;
+
+  /* Ambient Mesh Gradients & Grain */
+  --gradient-hero: radial-gradient(at 0% 0%, rgba(243, 238, 226, 0.85) 0px, transparent 55%), radial-gradient(at 100% 0%, rgba(180, 87, 47, 0.07) 0px, transparent 45%), radial-gradient(at 50% 100%, rgba(15, 118, 110, 0.06) 0px, transparent 50%);
+  --gradient-cta: radial-gradient(circle at 50% 50%, rgba(180, 87, 47, 0.08) 0%, transparent 70%);
+  --grain-opacity: 0.035;
+
+  /* Focus & Focus-Visible */
+  --focus-ring: 0 0 0 3px rgba(15, 118, 110, 0.35);
+  --color-focus: #0F766E;
+}
+
+/* --------------------------------------------------------------------------
+   3. Theme 2: Midnight Grove (Dark)
+   -------------------------------------------------------------------------- */
+html[data-theme="midnight"] {
+  /* Color Roles */
+  --color-bg: #0C1814;
+  --color-surface: #132520;
+  --color-surface-alt: #1A322A;
+  --color-surface-elevated: #1F3C33;
+  --color-text: #EEE9DC;
+  --color-text-muted: #A3B5AA;
+  --color-border: #264136;
+  --color-border-subtle: #1C332A;
+
+  /* Brand Accents */
+  --color-primary: #2DD4BF;
+  --color-on-primary: #04201B;
+  --color-primary-hover: #5EEAD4;
+  --color-accent: #D9A66B;
+  --color-on-accent: #1C1204;
+  --color-accent-hover: #E4BA85;
+  --color-link: #5EEAD4;
+  --color-link-hover: #99F6E4;
+  --color-brass: #D9A66B;
+
+  /* Semantic Status Roles */
+  --color-success: #4ADE80;
+  --color-success-bg: rgba(74, 222, 128, 0.12);
+  --color-success-border: #22C55E;
+  --color-warning: #FBBF24;
+  --color-warning-bg: rgba(251, 191, 36, 0.12);
+  --color-warning-border: #F59E0B;
+  --color-danger: #F87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.12);
+  --color-danger-border: #EF4444;
+
+  /* Surfaces & Visual Depth */
+  --color-media-bg: #162B24;
+  --color-header-bg: rgba(12, 24, 20, 0.94);
+  --color-backdrop: rgba(4, 10, 8, 0.75);
+  --color-announcement-bg: #132520;
+  --color-announcement-text: #EEE9DC;
+
+  /* Subtle Borders, Glows & Hover Elevation */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.7);
+  --elevation-hover: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(45, 212, 191, 0.14);
+  --glow-accent: 0 0 16px rgba(45, 212, 191, 0.2);
+
+  /* Ambient Mesh Gradients & Grain */
+  --gradient-hero: radial-gradient(at 0% 0%, rgba(26, 50, 42, 0.85) 0px, transparent 55%), radial-gradient(at 100% 0%, rgba(45, 212, 191, 0.08) 0px, transparent 45%), radial-gradient(at 50% 100%, rgba(217, 166, 107, 0.06) 0px, transparent 50%);
+  --gradient-cta: radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.1) 0%, transparent 70%);
+  --grain-opacity: 0.055;
+
+  /* Focus & Focus-Visible */
+  --focus-ring: 0 0 0 3px rgba(45, 212, 191, 0.4);
+  --color-focus: #2DD4BF;
+}
+
+/* --------------------------------------------------------------------------
+   4. Universal Typography, Spacing, Radii, Motion & Layout Scales
+   -------------------------------------------------------------------------- */
+:root {
+  /* Typography Families with robust system fallbacks */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', var(--font-display);
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+  /* Fluid Display Typography Scale (Editorial Botanical) */
+  --display-hero: clamp(2.75rem, 6.2vw, 5.25rem);
+  --display-title: clamp(2rem, 4.2vw, 3.25rem);
+  --display-subtitle: clamp(1.35rem, 2.5vw, 2rem);
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: 3rem;       /* 48px */
+
+  /* Tracking & Letter Spacing */
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.08em;
+  --tracking-eyebrow: 0.14em;
+
+  /* Weights & Leading */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  /* Numeric Display */
+  --font-numeric: tabular-nums;
+
+  /* 4px / 8px Spacing Scale */
+  --space-0-5: 0.125rem; /* 2px */
+  --space-1: 0.25rem;    /* 4px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* Layout Containers */
+  --container-max: 1280px;
+  --container-narrow: 840px;
+
+  /* Z-Index Hierarchy */
+  --z-base: 1;
+  --z-sticky: 50;
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-backdrop: 250;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* Motion & Transitions */
+  --motion-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-micro: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-reveal: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --------------------------------------------------------------------------
+   5. Smooth Theme Transitions & Accessibility Motion Constraints
+   -------------------------------------------------------------------------- */
+html {
+  transition: background-color var(--motion-base), color var(--motion-base);
+}
+
+body,
+.site-header,
+.site-footer,
+.product-card,
+.card,
+.btn,
+.form-field input,
+.form-field select,
+.form-field textarea {
+  transition: background-color var(--motion-base), color var(--motion-base), border-color var(--motion-base), box-shadow var(--motion-base);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
