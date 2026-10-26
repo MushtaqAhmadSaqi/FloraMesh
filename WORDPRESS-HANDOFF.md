@@ -6,20 +6,23 @@ This document provides a complete architectural roadmap for converting the stati
 
 | Static Prototype File | Target WordPress / WooCommerce Template | Integration Purpose |
 | :--- | :--- | :--- |
-| `js/partials.js` (Header) | `header.php` | Outputs `<head>`, `wp_head()`, announcement bar, site logo (`the_custom_logo()`), primary `wp_nav_menu()`, and mini-cart trigger. |
+| `js/partials.js` (Header) | `header.php` | Outputs `<head>`, `wp_head()`, announcement bar, site logo (`the_custom_logo()`), primary `wp_nav_menu()`, search modal, and mini-cart trigger. |
 | `js/partials.js` (Footer) | `footer.php` | Outputs 4-column footer widgets, newsletter form, copyright, slide-out mini-cart container, and `wp_footer()`. |
-| `index.html` | `front-page.php` | Renders the 13-section home landing experience using custom fields (ACF) or block patterns plus `[products]` / `WC_Product_Query` loops. |
-| `shop.html` | `woocommerce/archive-product.php` | Main shop & category catalog page with sidebar filters and sorting. |
-| `product.html` | `woocommerce/single-product.php` | Single product/service page with gallery, exposed variant buttons, unit price badge, delivery estimate, and tabs. |
-| `cart.html` | `woocommerce/cart/cart.php` | Live WooCommerce cart table, gift-wrap fee checkbox hook, and `cart-totals.php`. |
-| `checkout.html` | `woocommerce/checkout/form-checkout.php` | Live WooCommerce billing/shipping fields, planting slot picker, and payment gateways (COD, JazzCash, EasyPaisa, Bank Transfer). |
-| `wishlist.html` | `page-wishlist.php` | Custom page template retaining `js/wishlist.js` (`localStorage` guest wishlist) or connecting to a WooCommerce Wishlist plugin. |
-| `about.html` | `page-about.php` or `page.php` | Brand story, mission/vision, and team layout. |
-| `contact.html` | `page-contact.php` | Contact layout embedding Contact Form 7 or WPForms shortcode. |
-| `faq.html` | `page-faq.php` | Accessible FAQ accordion page. |
-| `shipping-returns.html` | `page-shipping-returns.php` | Policy page managed via the WordPress block/classic editor. |
-| `my-account.html` | `woocommerce/myaccount/form-login.php` & `my-account.php` | Native WooCommerce customer authentication, order history, and Telemetry Dashboard link. |
-| `404.html` | `404.php` | Branded not-found template. |
+| `index.html` | `front-page.php` | Renders the 55/45 editorial hero, space selector, telemetry sparkline card, IoT bento grid, craft corridors, and Urdu tagline. |
+| `shop.html` | `woocommerce/archive-product.php` | Main shop & category catalog page with DialogManager mobile filter sheet, active chips, and dynamic Rs 78,000 price slider. |
+| `product.html` | `woocommerce/single-product.php` | Single product/service page with gallery, native `<details>` accordions, per-variant compareAt pricing, and type-aware availability badges. |
+| `cart.html` | `woocommerce/cart/cart.php` | Live WooCommerce cart table, digital/donation physical shipping exemption, debounced gift note, and free shipping progress bar. |
+| `checkout.html` | `woocommerce/checkout/form-checkout.php` | Live WooCommerce 3-step checkout, strict Pakistani mobile phone regex, planting slot picker, and itemized confirmation receipt card. |
+| `wishlist.html` | `page-wishlist.php` | Custom page template retaining `js/wishlist.js` with shareable URL parameters (`?list=...`) and move-to-basket variant picker. |
+| `compare.html` | `page-compare.php` | Interactive side-by-side spec comparison table comparing up to 3 products across climate tolerance, spaces, and telemetry. |
+| `about.html` | `page-about.php` | Brand story, 5 Potohar micro-seasons, Seedistry & Taxila craft partner spotlights, and Green Islamabad 60 civic metrics. |
+| `contact.html` | `page-contact.php` | Contact layout with topic selector, conditional WhatsApp CTA, and first-invalid field focus error handling. |
+| `faq.html` | `page-faq.php` | Accessible FAQ accordions with instant search query filtering and schema.org `FAQPage` JSON-LD schema. |
+| `shipping-returns.html` | `page-shipping-returns.php` | Scannable delivery zones matrix (Twin-City field van vs Courier), 48-hr damage claim guide, and 14-day plant check-in. |
+| `accessibility.html` | `page-accessibility.php` | WCAG 2.2 Level AA conformance statement and assistive technology features list. |
+| `sitemap.html` | `page-sitemap.php` | Comprehensive accessible HTML directory linking all pages, categories, and products. |
+| `my-account.html` | `woocommerce/myaccount/form-login.php` & `my-account.php` | Native WooCommerce customer account with password reveal toggle and local browser order history tab. |
+| `404.html` | `404.php` | Branded not-found template with command palette search trigger and site directory link. |
 
 ## 2. Product Data (`data/products.js`) to WooCommerce Field Mapping
 

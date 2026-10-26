@@ -226,11 +226,35 @@
     return { __isSafeHTML: true, value: String(str || '') };
   }
 
+  /**
+   * Lightweight Event Bus for surgical DOM updates (QA-41)
+   */
+  var _eventListeners = {};
+  var FloraMeshEvents = {
+    on: function (event, cb) {
+      if (!_eventListeners[event]) _eventListeners[event] = [];
+      _eventListeners[event].push(cb);
+    },
+    off: function (event, cb) {
+      if (!_eventListeners[event]) return;
+      _eventListeners[event] = _eventListeners[event].filter(function (fn) { return fn !== cb; });
+    },
+    emit: function (event, data) {
+      if (!_eventListeners[event]) return;
+      _eventListeners[event].forEach(function (fn) {
+        try { fn(data); } catch (e) { console.error('FloraMeshEvents handler error', e); }
+      });
+    }
+  };
+
+  window.FloraMeshEvents = FloraMeshEvents;
+
   window.FloraMeshUtils = {
     escapeHTML: escapeHTML,
     escapeAttr: escapeAttr,
     html: html,
     rawHTML: rawHTML,
+    events: FloraMeshEvents,
     debounce: debounce,
     clamp: clamp,
     formatPKR: formatPKR,

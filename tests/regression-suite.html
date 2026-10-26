@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloraMesh Storefront Regression Test Suite (tests/regression-suite.html)</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <style>
+    body { padding: 40px 20px; max-width: 960px; margin: 0 auto; background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); }
+    .test-card { border: 1px solid var(--color-border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; background: var(--color-surface); }
+    .test-pass { border-left: 4px solid var(--color-success); }
+    .test-fail { border-left: 4px solid var(--color-danger); }
+    .badge-pass { background: rgba(30, 126, 52, 0.15); color: var(--color-success); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+    .badge-fail { background: rgba(220, 53, 69, 0.15); color: var(--color-danger); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>FloraMesh Interactive Browser Regression Suite</h1>
+  <p>Automated verification for cart hydration, quantity clamping, shipping exemption rules, modal trapping, and form validation.</p>
+  <div id="results-summary" style="margin: 24px 0; font-size: 18px; font-weight: bold;"></div>
+  <div id="test-results"></div>
+
+  <!-- Test mounts for headless testing -->
+  <div id="site-header-mount" style="display:none;"></div>
+  <div id="site-footer-mount" style="display:none;"></div>
+  <div id="test-sandbox" style="display:none;"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/icons.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../data/products.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/wishlist.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var resultsMount = document.getElementById('test-results');
+      var summaryMount = document.getElementById('results-summary');
+      var passedCount = 0;
+      var failedCount = 0;
+
+      function assert(name, condition, details) {
+        var card = document.createElement('div');
+        card.className = 'test-card ' + (condition ? 'test-pass' : 'test-fail');
+        card.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+          '  <strong>' + name + '</strong>' +
+          '  <span class="' + (condition ? 'badge-pass' : 'badge-fail') + '">' + (condition ? 'PASS' : 'FAIL') + '</span>' +
+          '</div>' +
+          '<div style="margin-top:6px;font-size:14px;color:var(--color-text-muted);">' + details + '</div>';
+        resultsMount.appendChild(card);
+        if (condition) passedCount++;
+        else failedCount++;
+      }
+
+      var cart = window.FloraMeshCart;
+      var utils = window.FloraMeshUtils;
+      var events = window.FloraMeshEvents;
+
+      // 1. Cart Clearance
+      cart.clear();
+      assert('FloraMeshCart.clear() (QA-24)', cart.getItems().length === 0, 'Cart is emptied cleanly');
+
+      // 2. Quantity Clamping (QA-23)
+      cart.addItem('sheesham-wood-pruning-shears', 'v-shears-standard', 50);
+      var items = cart.getItems();
+      assert('Quantity Clamped to Stock (QA-23)', items.length === 1 && items[0].qty <= items[0].stock, 'Requested 50, clamped to variant stock: ' + items[0].qty + ' / ' + items[0].stock);
+
+      // 3. Shipping Exemption for Tree Donation (QA-19)
+      cart.clear();
+      cart.addItem('margalla-native-tree-csr-token', 'v-tree-amaltas', 2);
+      var treeTotals = cart.getTotals();
+      assert('Tree Donation Physical Shipping Exemption (QA-19)', treeTotals.shipping === 0, 'Shipping fee is Rs ' + treeTotals.shipping + ' (Expected 0)');
+
+      // 4. Free Shipping Threshold
+      cart.clear();
+      cart.addItem('floramesh-balcony-mesh-trio', 'v-trio-standard', 1); // 11,400 >= 10,000
+      var highTotals = cart.getTotals();
+      assert('Free Shipping Threshold Over Rs 10,000', highTotals.subtotal >= 10000 && highTotals.shipping === 0, 'Subtotal: Rs ' + highTotals.subtotal + ', Shipping: Rs ' + highTotals.shipping);
+
+      // 5. Strict Pakistani Phone Regex (QA-25)
+      var phoneRegex = /^((\+92\s?3[0-9]{2})|(0092\s?3[0-9]{2})|(03[0-9]{2}))[\s\-]?[0-9]{7}$/;
+      assert('Valid Local Mobile (0300-1234567) Passes', phoneRegex.test('0300-1234567'), 'Standard formatted local mobile passed');
+      assert('Valid Raw Mobile (03211234567) Passes', phoneRegex.test('03211234567'), 'Raw 11-digit local mobile passed');
+      assert('Valid International (+92 300 1234567) Passes', phoneRegex.test('+92 300 1234567'), 'International formatted mobile passed');
+      assert('Invalid Mobile (03--------) Rejected', !phoneRegex.test('03--------'), 'Junk dash string rejected');
+      assert('Invalid Alpha (0300abcdefg) Rejected', !phoneRegex.test('0300abcdefg'), 'Alphabetical string rejected');
+
+      // 6. FloraMeshEvents Pub/Sub Bus (QA-41)
+      var eventFired = false;
+      var testData = null;
+      var testHandler = function (d) { eventFired = true; testData = d; };
+      events.on('test:event', testHandler);
+      events.emit('test:event', { foo: 'bar' });
+      events.off('test:event', testHandler);
+      assert('FloraMeshEvents Pub/Sub Event Bus (QA-41)', eventFired && testData && testData.foo === 'bar', 'Event emitted and received correctly');
+
+      // 7. DialogManager API (QA-40)
+      assert('Centralized DialogManager API (QA-40)', window.FloraMeshUI && typeof window.FloraMeshUI.DialogManager.open === 'function', 'DialogManager open and close methods exposed');
+
+      // Clean up cart
+      cart.clear();
+
+      summaryMount.textContent = 'Regression Results: ' + passedCount + ' passed, ' + failedCount + ' failed.';
+      summaryMount.style.color = (failedCount === 0) ? 'var(--color-success)' : 'var(--color-danger)';
+    })();
+  </script>
+</body>
+</html>

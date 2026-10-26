@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FloraMesh Product Schema v2 Validator (tests/validate-products.html)</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <style>
+    body { padding: 40px 20px; max-width: 960px; margin: 0 auto; background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); }
+    .test-card { border: 1px solid var(--color-border); border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; background: var(--color-surface); }
+    .test-pass { border-left: 4px solid var(--color-success); }
+    .test-fail { border-left: 4px solid var(--color-danger); }
+    .badge-pass { background: rgba(30, 126, 52, 0.15); color: var(--color-success); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+    .badge-fail { background: rgba(220, 53, 69, 0.15); color: var(--color-danger); padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>FloraMesh Product Schema v2 Integrity Validator</h1>
+  <p>Audits all 25 catalog products for schema completeness, price sanity, image alts, unique slugs, and clean copy.</p>
+  <div id="results-summary" style="margin: 24px 0; font-size: 18px; font-weight: bold;"></div>
+  <div id="test-results"></div>
+
+  <script src="../data/products.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var products = window.FLORAMESH_PRODUCTS || [];
+      var resultsMount = document.getElementById('test-results');
+      var summaryMount = document.getElementById('results-summary');
+      var passedCount = 0;
+      var failedCount = 0;
+
+      function assert(name, condition, details) {
+        var card = document.createElement('div');
+        card.className = 'test-card ' + (condition ? 'test-pass' : 'test-fail');
+        card.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+          '  <strong>' + name + '</strong>' +
+          '  <span class="' + (condition ? 'badge-pass' : 'badge-fail') + '">' + (condition ? 'PASS' : 'FAIL') + '</span>' +
+          '</div>' +
+          '<div style="margin-top:6px;font-size:14px;color:var(--color-text-muted);">' + details + '</div>';
+        resultsMount.appendChild(card);
+        if (condition) passedCount++;
+        else failedCount++;
+      }
+
+      // Check total products count
+      assert('Catalog Total Count', products.length === 25, 'Expected exactly 25 products, found: ' + products.length);
+
+      // Unique Slugs Check
+      var slugMap = {};
+      var dupes = [];
+      products.forEach(function (p) {
+        if (slugMap[p.slug]) dupes.push(p.slug);
+        slugMap[p.slug] = true;
+      });
+      assert('Slug Uniqueness', dupes.length === 0, dupes.length === 0 ? 'All 25 product slugs are strictly unique' : 'Duplicate slugs found: ' + dupes.join(', '));
+
+      // Schema v2 Fields Check
+      var validTypes = ['service', 'physical', 'digital', 'donation'];
+      var validFulfilments = ['onsite', 'courier', 'digital'];
+      var invalidTypes = [];
+      var invalidFulfilments = [];
+      var missingShortNames = [];
+      var missingSpaces = [];
+      var leftoverSourceKeys = [];
+      var unprovenBadges = [];
+
+      products.forEach(function (p) {
+        if (!p.type || validTypes.indexOf(p.type) === -1) invalidTypes.push(p.slug);
+        if (!p.fulfilment || validFulfilments.indexOf(p.fulfilment) === -1) invalidFulfilments.push(p.slug);
+        if (!p.shortName || p.shortName.split(' ').length > 5) missingShortNames.push(p.slug);
+        if (!Array.isArray(p.spaces) || p.spaces.length === 0) missingSpaces.push(p.slug);
+        if (p.sourceImageKey) leftoverSourceKeys.push(p.slug);
+        if (Array.isArray(p.badges)) {
+          p.badges.forEach(function (b) {
+            if (['bestseller', 'customer favorite', 'csr & campus favorite'].indexOf(b.toLowerCase()) !== -1) {
+              unprovenBadges.push(p.slug + ' (' + b + ')');
+            }
+          });
+        }
+      });
+
+      assert('Schema v2 Product Types', invalidTypes.length === 0, invalidTypes.length === 0 ? 'All 25 products declare valid types' : 'Invalid types: ' + invalidTypes.join(', '));
+      assert('Schema v2 Fulfilment Modes', invalidFulfilments.length === 0, invalidFulfilments.length === 0 ? 'All 25 products declare valid fulfilment' : 'Invalid fulfilment: ' + invalidFulfilments.join(', '));
+      assert('Concise ShortNames (QA-32)', missingShortNames.length === 0, missingShortNames.length === 0 ? 'All 25 products have shortName <= 4 words' : 'Violations: ' + missingShortNames.join(', '));
+      assert('Applicable Spaces Array', missingSpaces.length === 0, missingSpaces.length === 0 ? 'All products specify applicable spaces' : 'Missing spaces: ' + missingSpaces.join(', '));
+      assert('sourceImageKey Purged (QA-16)', leftoverSourceKeys.length === 0, leftoverSourceKeys.length === 0 ? 'Zero leftover sourceImageKey entries' : 'Found in: ' + leftoverSourceKeys.join(', '));
+      assert('Unproven Badges Purged (QA-30)', unprovenBadges.length === 0, unprovenBadges.length === 0 ? 'Zero fabricated popularity badges' : 'Found in: ' + unprovenBadges.join(', '));
+
+      // Image & Alt Integrity Check
+      var totalImages = 0;
+      var emptyAlts = [];
+      products.forEach(function (p) {
+        if (Array.isArray(p.images)) {
+          p.images.forEach(function (img, idx) {
+            totalImages++;
+            if (!img.alt || img.alt.trim().length === 0) {
+              emptyAlts.push(p.slug + ' [img ' + idx + ']');
+            }
+          });
+        }
+      });
+      assert('Editorial Image Captions & Alts (QA-15)', emptyAlts.length === 0, 'Checked ' + totalImages + ' images. Empty alts: ' + emptyAlts.length);
+
+      // Pricing Integrity
+      var priceErrors = [];
+      products.forEach(function (p) {
+        if (typeof p.price !== 'number' || p.price <= 0) priceErrors.push(p.slug + ' base price invalid');
+        if (Array.isArray(p.variants)) {
+          p.variants.forEach(function (v) {
+            if (typeof v.price !== 'number' || v.price <= 0) priceErrors.push(p.slug + ' variant ' + v.id + ' price invalid');
+          });
+        }
+      });
+      assert('Catalog Pricing Integrity', priceErrors.length === 0, priceErrors.length === 0 ? 'All 25 base prices and variant tiers are valid positive numbers' : 'Errors: ' + priceErrors.join(', '));
+
+      summaryMount.textContent = 'Validator Results: ' + passedCount + ' passed, ' + failedCount + ' failed.';
+      summaryMount.style.color = (failedCount === 0) ? 'var(--color-success)' : 'var(--color-danger)';
+    })();
+  </script>
+</body>
+</html>

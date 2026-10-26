@@ -47,6 +47,9 @@
       localStorage.setItem(WISHLIST_KEY, JSON.stringify(slugs));
     } catch (e) {}
     updateWishlistUI();
+    if (window.FloraMeshEvents && window.FloraMeshEvents.emit) {
+      window.FloraMeshEvents.emit('wishlist:updated', { slugs: slugs });
+    }
   }
 
   function has(slug) {

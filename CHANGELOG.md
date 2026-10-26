@@ -4,7 +4,54 @@ All notable changes to the FloraMesh smart urban landscaping, IoT soil telemetry
 
 ---
 
-## [2.0.0] - 2026-10-26 (Comprehensive Storefront Upgrade)
+## [2.2.0] - 2026-10-26 (Round 2: Quiet-Luxury & Pakistani Botanical Editorial Upgrade)
+
+### Phase 0: Forensic Audit & Design Benchmarks
+- Conducted exhaustive forensic audit establishing 44 confirmed code, layout, and UX bugs in `docs/QA.md`.
+- Researched 7 premier global e-commerce design benchmarks (Aesop, Apple, Toast, Flamingo Estate, Teenage Engineering, Rapha, Loewe) in `docs/INSPIRATION.md`.
+- Authored `docs/CREDITS.md` and `CONTENT-TODO.md` for factual copy integrity.
+
+### Phase 1: Art Direction Board & Color System
+- Authored interactive art direction board (`tests/art-direction-board.html`) featuring typographic scale, color swatches, 34 vector SVGs, component states, and micro-animations.
+- Verified WCAG 2.2 AA contrast compliance across Heritage Cream and Midnight Grove themes in `docs/CONTRAST.md`.
+- Extended design tokens in `css/tokens.css` with surface tints, shadows, and smooth cubic bezier transitions.
+
+### Phase 2: Navigation, Header, Search & Footers
+- Built unified vector icon registry `js/icons.js` (34 clean SVGs).
+- Built centralized `FloraMeshUI.DialogManager` in `js/ui.js` managing focus traps, Escape keys, inert backdrops, and scroll locking.
+- Replaced header input with full-screen command palette search `<dialog id="search-dialog">` (`js/search.js`) with `/` shortcut, recent search chips, and keyboard navigation.
+- Built sticky shrinking & auto-hiding header with city location switcher (Islamabad / Rawalpindi) persisting to `localStorage['floramesh_city_v1']`.
+- Designed editorial 4-column footer featuring oversized Fraunces wordmark, payment methods trust strip, and Urdu brand tagline.
+
+### Phase 3: Catalog Schema v2 & Core Page Redesigns
+- Upgraded all 25 products to Catalog Schema v2 (`data/products.js`): `shortName` ($\le 4$ words), `type`, `fulfilment`, `spaces` array, `coverage`, per-variant `compareAtPrice`, `dominant` color, 75 editorial image captions. Purged all `sourceImageKey` entries, business plan text, unproven badges, and competitor criticism.
+- Shop catalog (`shop.html` & `js/filters.js`): Dynamic price slider up to Rs 78,000, 4:5 quiet-luxury cards with "From Rs X", decorative secondary image `alt=""`, and safe multi-variant quick-add drawer.
+- PDP (`product.html` & `js/product.js`): Native semantic `<details>`/`<summary>` accordions, live per-variant compare-at discount calculation, type-aware booking badges, and Apron-only size guide.
+- Cart (`cart.html` & `js/cart.js`): Live dynamic catalog hydration from `localStorage['floramesh_demo_cart_v1']`, digital/donation physical shipping exemption, gift wrap eligibility check, and quantity clamping to available variant stock.
+- Checkout (`checkout.html` & `js/main.js`): 3-step progress bar, Mon–Sat crew delivery slots, payment method selectors with bank transfer IBAN, strict Pakistani phone regex with linked `aria-describedby`, out-of-city onsite planting block, and itemized confirmation receipt card.
+- Homepage (`index.html`): 55/45 editorial split hero with space selector chips, telemetry sparkline preview card, 4-item trust strip, 5 category cards, featured tabs, IoT sensor bento grid, craft corridors marquee, budget gifting shelf, and closing Nastaliq Urdu tagline band.
+
+### Phase 4: Secondary & Supporting Pages
+- Wishlist (`wishlist.html` & `js/wishlist.js`): Shareable wishlist URL parameter generation (`?list=...`), curated shared list view with "Save to My Device" and "Add All to Basket", and variant tier picker dropdown.
+- Comparison Matrix (`compare.html`): Interactive 3-product side-by-side spec comparison table with slot dropdown pickers and climate resilience breakdown.
+- Customer Account (`my-account.html`): Renamed to Customer Account with honest prototype notice, password reveal toggle buttons, tabbed navigation, and local browser order history tab.
+- Contact (`contact.html`): Purged raw placeholder phone numbers (`+92 300 0000000`), added conditional WhatsApp trigger, and implemented first-invalid input focus on submit.
+- FAQ (`faq.html`): Grouped topic accordions with instant search filtering and schema.org `FAQPage` JSON-LD schema.
+- Shipping & Returns (`shipping-returns.html`): Scannable delivery zones table, 48-hr transit damage claim guide, and 14-day plant establishment check-in.
+- Supporting Pages: Created `accessibility.html` (WCAG 2.2 AA statement), `sitemap.html` (accessible HTML directory), and updated `privacy.html` / `terms.html` with dynamic `data-legal-last-updated` date synchronization.
+- Structural XSS Helper (`js/utils.js` & `tests/escape.html`): Implemented `FloraMeshUtils.html` tagged template helper with auto-escaping and authored dedicated automated XSS test suite.
+- Mobile Filter Dialog (`shop.html`): Connected mobile filter sheet directly to centralized `DialogManager`.
+
+### Phase 5: Final Polish, Regression Test Suites & Verification
+- Authored automated browser test runners: `tests/escape.html`, `tests/validate-products.html`, `tests/regression-suite.html`.
+- Implemented `FloraMeshEvents` pub/sub event bus in `js/utils.js` for fine-grained updates without destructive view wiping.
+- Added semantic utility classes in `css/base.css` to replace pervasive inline styles (QA-38).
+- Synchronized WooCommerce handoff guide (`WORDPRESS-HANDOFF.md`) with all 17 templates and Schema v2 mappings.
+- Verified 100% test pass rate across 122 automated test assertions.
+
+---
+
+## [2.0.0] - 2026-10-26 (Initial Storefront Upgrade)
 
 ### Phase 0: UX Audit & Project Planning
 - **Comprehensive Audit:** Analyzed all 12 existing HTML pages, CSS files, and vanilla JavaScript modules.

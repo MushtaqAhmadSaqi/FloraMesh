@@ -79,6 +79,9 @@
     });
     safeSet(STORAGE_KEY, lean);
     updateCartUI();
+    if (window.FloraMeshEvents && window.FloraMeshEvents.emit) {
+      window.FloraMeshEvents.emit('cart:updated', { items: getItems(), totals: getTotals() });
+    }
   }
 
   function getGiftConfig() {
