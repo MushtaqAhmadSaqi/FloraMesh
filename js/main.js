@@ -696,7 +696,13 @@
     document.body.addEventListener('click', function (e) {
       var addBtn = e.target.closest('[data-add-cart]');
       if (addBtn) {
-        window.FloraMeshCart.addItem(addBtn.getAttribute('data-add-cart'), null, 1);
+        var slug = addBtn.getAttribute('data-add-cart');
+        var hasVariants = addBtn.getAttribute('data-has-variants') === 'true';
+        if (hasVariants && typeof openQuickView === 'function') {
+          openQuickView(slug);
+        } else if (window.FloraMeshCart) {
+          window.FloraMeshCart.addItem(slug, null, 1);
+        }
         return;
       }
       var wishBtn = e.target.closest('[data-wishlist-slug]');

@@ -44,6 +44,7 @@ html[data-theme="heritage"] {
   /* Brand Accents */
   --color-primary: #10241B;
   --color-on-primary: #FAF7F0;
+  --color-primary-contrast: #FAF7F0;
   --color-primary-hover: #1F3E30;
   --color-accent: #B4572F;
   --color-on-accent: #FFFFFF;
@@ -105,6 +106,7 @@ html[data-theme="midnight"] {
   /* Brand Accents */
   --color-primary: #2DD4BF;
   --color-on-primary: #04201B;
+  --color-primary-contrast: #04201B;
   --color-primary-hover: #5EEAD4;
   --color-accent: #D9A66B;
   --color-on-accent: #1C1204;
