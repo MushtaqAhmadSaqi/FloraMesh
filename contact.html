@@ -14,7 +14,14 @@
   <meta property="og:description" content="Get in touch for on-site gardening consultations, IoT telemetry inquiries, or corporate partnerships.">
   <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact FloraMesh | Islamabad &amp; Rawalpindi">
+  <meta name="twitter:description" content="Get in touch for on-site gardening consultations, IoT telemetry inquiries, or corporate partnerships.">
+  <meta name="twitter:image" content="assets/images/brand/floramesh-logo.svg">
+
   <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Theme pre-paint script (Zero FOUT) -->
   <script>
@@ -110,7 +117,7 @@
 
             <div id="contact-whatsapp-block" style="display:none;">
               <strong style="color:var(--color-text);display:block;margin-bottom:var(--space-1);">WhatsApp Dispatch:</strong>
-              <a href="#" target="_blank" rel="noopener" style="color:var(--color-primary);font-weight:var(--weight-medium);" id="contact-whatsapp-link">Chat on WhatsApp</a>
+              <a href="#" target="_blank" rel="noopener noreferrer" style="color:var(--color-primary);font-weight:var(--weight-medium);" id="contact-whatsapp-link">Chat on WhatsApp</a>
               <span style="display:block;font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">(Active crew dispatch window)</span>
             </div>
 
@@ -123,6 +130,16 @@
               <strong style="color:var(--color-text);display:block;margin-bottom:var(--space-1);">Turnaround Timeline (QA-18):</strong>
               <span data-delivery-standard>48–72 hours across Islamabad &amp; Rawalpindi</span> for on-site crew visits; 3–5 business days for nationwide dry-goods courier dispatch.
             </div>
+          </div>
+        <!-- Plant Health Diagnostic Triage Card -->
+        <div class="panel" style="background:var(--color-surface-sunken);border:1px solid var(--color-border);margin-top:var(--space-6);grid-column:1 / -1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-3);">
+            <div>
+              <span class="badge badge--success" style="margin-bottom:var(--space-1);display:inline-block;">Field Botanist Assistance</span>
+              <h3 class="h4" style="margin:0;">Balcony Plant Health Triage &amp; Diagnosis</h3>
+              <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Experiencing yellowing leaves, pot moisture issues, or pest symptoms? Submit an inquiry for direct Seedistry &amp; mali advice.</p>
+            </div>
+            <button type="button" class="btn btn--outline" id="open-diagnostic-btn">Launch Plant Diagnostic</button>
           </div>
         </div>
       </div>
@@ -144,6 +161,19 @@
   <script src="js/gallery.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/delight.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var diagBtn = document.getElementById('open-diagnostic-btn');
+      if (diagBtn) {
+        diagBtn.addEventListener('click', function () {
+          if (window.FloraMeshDelight && window.FloraMeshDelight.openPlantDiagnosticModal) {
+            window.FloraMeshDelight.openPlantDiagnosticModal();
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

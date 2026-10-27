@@ -14,7 +14,14 @@
   <meta property="og:description" content="Manage your plant orders, delivery addresses, and saved garden packages.">
   <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Customer Account | FloraMesh Pakistan">
+  <meta name="twitter:description" content="Manage your plant orders, delivery addresses, and saved garden packages.">
+  <meta name="twitter:image" content="assets/images/brand/floramesh-logo.svg">
+
   <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Theme pre-paint script (Zero FOUT) -->
   <script>
@@ -61,6 +68,7 @@
         <button type="button" class="tab-btn is-active" role="tab" id="tab-btn-signin" aria-selected="true" aria-controls="panel-signin" data-account-tab="panel-signin">Sign In</button>
         <button type="button" class="tab-btn" role="tab" id="tab-btn-register" aria-selected="false" aria-controls="panel-register" data-account-tab="panel-register">Create Account</button>
         <button type="button" class="tab-btn" role="tab" id="tab-btn-orders" aria-selected="false" aria-controls="panel-orders" data-account-tab="panel-orders">Recent Orders</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-track" aria-selected="false" aria-controls="panel-track" data-account-tab="panel-track">Live Order Tracker</button>
       </div>
 
       <!-- Sign In Tab Panel -->
@@ -134,6 +142,14 @@
           <div id="account-orders-list"></div>
         </div>
       </div>
+
+      <!-- Live Order Tracker Tab Panel -->
+      <div id="panel-track" class="account-tab-panel is-hidden" role="tabpanel" aria-labelledby="tab-btn-track">
+        <div style="max-width:760px;">
+          <h2 class="h3" style="margin-bottom:var(--space-4);">Potohar Van Dispatch &amp; Live Tracking</h2>
+          <div id="order-tracker-mount"></div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -152,6 +168,7 @@
   <script src="js/gallery.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/delight.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

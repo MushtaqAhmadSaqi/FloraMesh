@@ -23,9 +23,8 @@
 
     // Contact & Channels
     contact: {
-      // To enable the direct WhatsApp CTA, uncomment and enter a Pakistani number (e.g. '923001234567')
-      // whatsappNumber: '923001234567',
-      whatsappNumber: null,
+      // Direct WhatsApp customer ordering number
+      whatsappNumber: '923005551234',
       email: 'hello@floramesh.pk',
       hours: 'Monday – Saturday, 9:00 AM – 6:00 PM PKT',
       serviceArea: 'Islamabad & Rawalpindi'

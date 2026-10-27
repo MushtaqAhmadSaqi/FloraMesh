@@ -35,6 +35,7 @@ html[data-theme="heritage"] {
   --color-bg: #FAF7F0;
   --color-surface: #FFFFFF;
   --color-surface-alt: #F3EEE2;
+  --color-surface-sunken: #F3EEE2;
   --color-surface-elevated: #FFFFFF;
   --color-text: #10241B;
   --color-text-muted: #54655B;
@@ -48,6 +49,7 @@ html[data-theme="heritage"] {
   --color-primary-hover: #1F3E30;
   --color-accent: #B4572F;
   --color-on-accent: #FFFFFF;
+  --color-accent-contrast: #FFFFFF;
   --color-accent-hover: #9E4622;
   --color-link: #0F766E;
   --color-link-hover: #115E59;
@@ -97,6 +99,7 @@ html[data-theme="midnight"] {
   --color-bg: #0C1814;
   --color-surface: #132520;
   --color-surface-alt: #1A322A;
+  --color-surface-sunken: #1A322A;
   --color-surface-elevated: #1F3C33;
   --color-text: #EEE9DC;
   --color-text-muted: #A3B5AA;
@@ -110,6 +113,7 @@ html[data-theme="midnight"] {
   --color-primary-hover: #5EEAD4;
   --color-accent: #D9A66B;
   --color-on-accent: #1C1204;
+  --color-accent-contrast: #1C1204;
   --color-accent-hover: #E4BA85;
   --color-link: #5EEAD4;
   --color-link-hover: #99F6E4;
@@ -157,6 +161,7 @@ html[data-theme="midnight"] {
 :root {
   /* Typography Families with robust system fallbacks */
   --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-serif: var(--font-display);
   --font-sans: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-urdu: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', var(--font-display);
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
@@ -215,6 +220,7 @@ html[data-theme="midnight"] {
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-base: var(--radius-md);
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-pill: 9999px;

@@ -110,11 +110,15 @@
     width: 100%;
   }
 
-  /* Mobile Sticky Add Bar on PDP */
+  /* Mobile Sticky Add Bar on PDP & Body Viewport Offsets */
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
   .mobile-sticky-bar {
     display: flex;
     position: fixed;
-    bottom: 0;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     background: var(--color-surface);
@@ -128,7 +132,7 @@
   }
 
   body.has-sticky-bar {
-    padding-bottom: 78px;
+    padding-bottom: calc(138px + env(safe-area-inset-bottom, 0px));
   }
 }
 

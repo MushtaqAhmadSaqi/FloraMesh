@@ -14,7 +14,14 @@
   <meta property="og:description" content="Compare pricing, Potohar climate tolerance, materials, and telemetry compatibility side by side.">
   <meta property="og:image" content="assets/images/brand/floramesh-logo.svg">
 
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Compare Botanical Packages &amp; Telemetry | FloraMesh Pakistan">
+  <meta name="twitter:description" content="Compare pricing, Potohar climate tolerance, materials, and telemetry compatibility side by side.">
+  <meta name="twitter:image" content="assets/images/brand/floramesh-logo.svg">
+
   <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Theme pre-paint script (Zero FOUT) -->
   <script>
@@ -56,6 +63,13 @@
       border-collapse: collapse;
       table-layout: fixed;
     }
+    .compare-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: var(--color-surface);
+      box-shadow: 0 1px 0 var(--color-border);
+    }
     .compare-table th,
     .compare-table td {
       padding: var(--space-4) var(--space-5);
@@ -75,10 +89,10 @@
       width: 220px;
       font-weight: var(--weight-semibold);
       color: var(--color-text);
-      background: var(--color-surface-sunken);
+      background: var(--color-surface-alt);
       position: sticky;
       left: 0;
-      z-index: 2;
+      z-index: 4;
     }
     .compare-col-header {
       text-align: left;
@@ -94,11 +108,11 @@
       width: 100%;
       height: 160px;
       object-fit: cover;
-      border-radius: var(--radius-base);
-      background: var(--color-surface-sunken);
+      border-radius: var(--radius-md);
+      background: var(--color-media-bg);
     }
     .compare-product-title {
-      font-family: var(--font-serif);
+      font-family: var(--font-display);
       font-size: var(--text-base);
       line-height: var(--leading-tight);
       margin: 0;
@@ -122,6 +136,13 @@
   <!-- WordPress conversion: page-compare.php -->
   <main id="main-content">
     <div class="container section">
+      <nav class="pdp__breadcrumb" aria-label="Breadcrumb" style="margin-bottom:var(--space-4);">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li aria-current="page"><strong>Product &amp; Spec Comparison</strong></li>
+        </ol>
+      </nav>
       <div class="section__eyebrow">Interactive Spec Sheet</div>
       <h1 class="section__title" style="margin-bottom:var(--space-2);">Product &amp; Package Comparison</h1>
       <p style="color:var(--color-text-muted);margin-bottom:var(--space-8);max-width:62ch;font-size:var(--text-base);">
@@ -367,13 +388,13 @@
         var cellClimate = document.getElementById('cell-climate-' + slot);
         if (cellClimate) {
           if (p.category === 'Smart Monitoring') {
-            cellClimate.innerHTML = 'IP65 waterproof probe, rated for 45°C direct sun exposure and heavy monsoon humidity.';
+            cellClimate.innerHTML = '<span class="badge badge--success" style="margin-bottom:var(--space-1);display:inline-flex;">10/10 All-Weather</span><br>IP65 waterproof probe, rated for 45°C direct sun exposure and heavy monsoon humidity. Built-in moisture telemetry sensor.';
           } else if (p.category === 'Planting Packages') {
-            cellClimate.innerHTML = 'Acclimated for 5-season Potohar fluctuations (frost tolerant, heat-resilient with deep mulch).';
+            cellClimate.innerHTML = '<span class="badge badge--success" style="margin-bottom:var(--space-1);display:inline-flex;">9.5/10 Potohar Resilient</span><br>Acclimated for 5-season Potohar fluctuations (frost tolerant, heat-resilient with deep mulch). Telemetry sensor recommended for moisture calibration.';
           } else if (p.category === 'Artisan Planters') {
-            cellClimate.innerHTML = 'Fired Taxila clay dissipates summer heat; natural porosity prevents monsoon root rot.';
+            cellClimate.innerHTML = '<span class="badge badge--success" style="margin-bottom:var(--space-1);display:inline-flex;">9.0/10 Thermal Porous</span><br>Fired Taxila clay dissipates summer heat; natural porosity prevents monsoon root rot. Porous clay pairable with probe sensors.';
           } else {
-            cellClimate.innerHTML = 'Optimized for high-yield indoor and outdoor garden cultivation in the northern plateau.';
+            cellClimate.innerHTML = '<span class="badge badge--success" style="margin-bottom:var(--space-1);display:inline-flex;">8.8/10 Plateau Hardy</span><br>Optimized for high-yield indoor and outdoor garden cultivation in the northern plateau.';
           }
         }
 

@@ -29,26 +29,32 @@
     if (!rawList) return [];
     return rawList
       .split(',')
-      .map(function (s) { return s.trim(); })
+      .map(function (s) { return s.trim().replace(/[^a-zA-Z0-9\-_]/g, ''); })
       .filter(function (s) { return s.length > 0; });
   }
 
   function getSavedSlugs() {
     try {
       var raw = localStorage.getItem(WISHLIST_KEY);
-      return raw ? JSON.parse(raw) : [];
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.filter(function (s) { return typeof s === 'string' && s.length > 0; }) : [];
     } catch (e) {
       return [];
     }
   }
 
   function saveSlugs(slugs) {
+    var validSlugs = (Array.isArray(slugs) ? slugs : [])
+      .map(function (s) { return String(s).replace(/[^a-zA-Z0-9\-_]/g, ''); })
+      .filter(function (s) { return s.length > 0; });
+
     try {
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(slugs));
+      localStorage.setItem(WISHLIST_KEY, JSON.stringify(validSlugs));
     } catch (e) {}
     updateWishlistUI();
     if (window.FloraMeshEvents && window.FloraMeshEvents.emit) {
-      window.FloraMeshEvents.emit('wishlist:updated', { slugs: slugs });
+      window.FloraMeshEvents.emit('wishlist:updated', { slugs: validSlugs });
     }
   }
 
@@ -176,11 +182,11 @@
 
   function updateWishlistUI() {
     var list = getSavedSlugs();
-    var badge = document.getElementById('header-wishlist-count');
-    if (badge) {
+    var badges = document.querySelectorAll('#header-wishlist-count, #mobile-bottom-wishlist-count');
+    badges.forEach(function (badge) {
       badge.textContent = list.length;
       badge.classList.toggle('is-hidden', list.length === 0);
-    }
+    });
 
     var utils = window.FloraMeshUtils || {};
     var getIcon = utils.getIcon || function () { return ''; };

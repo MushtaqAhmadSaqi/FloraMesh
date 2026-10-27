@@ -1,0 +1,32 @@
+{
+  "name": "FloraMesh | Smart Urban Landscaping & Connected Plant Care",
+  "short_name": "FloraMesh",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FDFCFA",
+  "theme_color": "#2C4A3E",
+  "description": "Smart urban landscaping, Potohar microclimate plant care, IoT soil telemetry, and artisan botanical craft storefront for Islamabad & Rawalpindi, Pakistan.",
+  "lang": "en-PK",
+  "dir": "ltr",
+  "categories": [
+    "shopping",
+    "lifestyle",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "assets/images/brand/favicon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 256x256",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/brand/floramesh-logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

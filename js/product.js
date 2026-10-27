@@ -19,8 +19,11 @@
   var shippingRules = cfg.shipping || { freeThreshold: 10000, flatRate: 450 };
 
   function recordRecentlyViewed(slug) {
+    if (!slug || typeof slug !== 'string') return;
     try {
-      var list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+      var raw = localStorage.getItem(RECENT_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      var list = Array.isArray(parsed) ? parsed.filter(function (s) { return typeof s === 'string' && s.length > 0; }) : [];
       list = [slug].concat(list.filter(function (s) { return s !== slug; })).slice(0, 6);
       localStorage.setItem(RECENT_KEY, JSON.stringify(list));
     } catch (e) {}
@@ -28,7 +31,9 @@
 
   function getRecentlyViewed(excludeSlug) {
     try {
-      var list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+      var raw = localStorage.getItem(RECENT_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      var list = Array.isArray(parsed) ? parsed.filter(function (s) { return typeof s === 'string' && s.length > 0; }) : [];
       return list.filter(function (s) { return s !== excludeSlug; });
     } catch (e) {
       return [];
@@ -40,7 +45,8 @@
     if (!mount) return;
 
     var params = new URLSearchParams(window.location.search);
-    var slug = params.get('slug') || 'apartment-balcony-green-oasis-package';
+    var rawSlug = params.get('slug') || 'apartment-balcony-green-oasis-package';
+    var slug = String(rawSlug).replace(/[^a-zA-Z0-9\-_]/g, '');
     var products = window.FLORAMESH_PRODUCTS || [];
     var product = products.find(function (p) { return p.slug === slug; }) || products[0];
     if (!product) return;
@@ -137,6 +143,8 @@
 
     var compareAt = selectedVariant.compareAtPrice || product.compareAtPrice;
     var hasDiscount = compareAt && compareAt > selectedVariant.price;
+    var savingsAmt = hasDiscount ? (compareAt - selectedVariant.price) : 0;
+    var savingsPct = hasDiscount ? Math.round((savingsAmt / compareAt) * 100) : 0;
 
     mount.innerHTML = [
       '<nav class="pdp__breadcrumb" aria-label="Breadcrumb">',
@@ -170,6 +178,7 @@
       '    <div class="pdp__price-wrap">',
       '      <span id="pdp-live-price" class="pdp__price" style="font-variant-numeric:tabular-nums;">' + formatPKR(selectedVariant.price) + '</span>',
       '      <span id="pdp-compare-price" class="pdp__price-old" style="display:' + (hasDiscount ? 'inline' : 'none') + ';text-decoration:line-through;color:var(--color-text-muted);font-size:var(--text-lg);margin-left:var(--space-2);font-variant-numeric:tabular-nums;">' + (hasDiscount ? formatPKR(compareAt) : '') + '</span>',
+      '      <span id="pdp-savings-badge" class="pdp__savings-badge" style="display:' + (hasDiscount ? 'inline-flex' : 'none') + ';">Save ' + formatPKR(savingsAmt) + ' (' + savingsPct + '% off)</span>',
       '      <span id="pdp-stock-pill" style="margin-left:var(--space-3);">' + getStockBadge(selectedVariant.stock) + '</span>',
       '    </div>',
       cleanUnitLabel ? '    <div class="pdp__unit-label" style="font-size:var(--text-xs);color:var(--color-link);margin-bottom:var(--space-3);">' + escape(cleanUnitLabel) + '</div>' : '',
@@ -195,6 +204,17 @@
       '      </button>',
       '      <button type="button" class="btn btn-outline" id="pdp-wishlist-btn" data-wishlist-slug="' + escapeA(product.slug) + '" aria-pressed="' + (saved ? 'true' : 'false') + '" aria-label="Save to wishlist">',
       saved ? getIcon('heartFilled') : getIcon('heart'),
+      '      </button>',
+      '    </div>',
+      '    <div style="margin-top:var(--space-2);display:flex;gap:var(--space-2);">',
+      '      <a href="#" id="pdp-whatsapp-btn" class="btn btn-outline" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-size:var(--text-xs);" target="_blank" rel="noopener noreferrer" aria-label="Order this product via WhatsApp">',
+      getIcon('whatsapp'),
+      '        <span>Direct WhatsApp Order</span>',
+      '      </a>',
+      '    </div>',
+      '    <div style="margin-top:var(--space-2);">',
+      '      <button type="button" class="btn btn-outline" id="pdp-diagnostic-btn" style="width:100%;font-size:var(--text-xs);padding:var(--space-2) var(--space-3);">',
+      '        Ask Botanist About This Plant',
       '      </button>',
       '    </div>',
       '    <!-- Dynamic Order Estimate Box -->',
@@ -278,7 +298,10 @@
       '    <div style="font-size:var(--text-xs);color:var(--color-text-muted);">' + escape(product.shortName || product.name) + '</div>',
       '    <strong id="pdp-sticky-price" style="font-size:var(--text-base);color:var(--color-text);font-variant-numeric:tabular-nums;">' + formatPKR(selectedVariant.price) + '</strong>',
       '  </div>',
-      '  <button type="button" class="btn btn-primary" id="pdp-sticky-add-btn" style="padding:var(--space-2) var(--space-4);font-size:var(--text-xs);">Add to Basket</button>',
+      '  <div style="display:flex;align-items:center;gap:var(--space-2);">',
+      '    <a href="#" id="pdp-sticky-whatsapp-btn" class="btn btn-outline" target="_blank" rel="noopener noreferrer" aria-label="Order via WhatsApp" style="padding:var(--space-2) var(--space-3);display:inline-flex;align-items:center;justify-content:center;">' + getIcon('whatsapp') + '</a>',
+      '    <button type="button" class="btn btn-primary" id="pdp-sticky-add-btn" style="padding:var(--space-2) var(--space-4);font-size:var(--text-xs);">Add to Basket</button>',
+      '  </div>',
       '</div>'
     ].join('\n');
 
@@ -302,6 +325,7 @@
       if (stickyPriceEl) stickyPriceEl.textContent = formatPKR(selectedVariant.price);
 
       var variantCompare = selectedVariant.compareAtPrice || product.compareAtPrice;
+      var savingsBadgeEl = document.getElementById('pdp-savings-badge');
       if (compareEl) {
         if (variantCompare && variantCompare > selectedVariant.price) {
           compareEl.textContent = formatPKR(variantCompare);
@@ -311,10 +335,36 @@
         }
       }
 
+      if (savingsBadgeEl) {
+        if (variantCompare && variantCompare > selectedVariant.price) {
+          var savAmt = variantCompare - selectedVariant.price;
+          var savPct = Math.round((savAmt / variantCompare) * 100);
+          savingsBadgeEl.textContent = 'Save ' + formatPKR(savAmt) + ' (' + savPct + '% off)';
+          savingsBadgeEl.style.display = 'inline-flex';
+        } else {
+          savingsBadgeEl.style.display = 'none';
+        }
+      }
+
       if (shipEstEl) {
         shipEstEl.innerHTML = (totals.shippingFee === 0) ? '<span style="color:var(--color-success);">Free</span>' : formatPKR(totals.shippingFee);
       }
       if (totalEstEl) totalEstEl.textContent = formatPKR(totals.total);
+
+      // Synchronize WhatsApp Direct Order URL
+      var waBtn = document.getElementById('pdp-whatsapp-btn');
+      var stickyWaBtn = document.getElementById('pdp-sticky-whatsapp-btn');
+      var qtyInput = document.getElementById('pdp-qty');
+      var currentQty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+      if (utils.buildWhatsAppOrderUrl) {
+        var waUrl = utils.buildWhatsAppOrderUrl({
+          product: product,
+          variant: selectedVariant,
+          qty: currentQty
+        });
+        if (waBtn) waBtn.href = waUrl;
+        if (stickyWaBtn) stickyWaBtn.href = waUrl;
+      }
     }
 
     // Variant selector clicks
@@ -355,6 +405,9 @@
       qtyInput.addEventListener('change', function () { setQty(qtyInput.value); });
     }
 
+    // Initialize initial price and WhatsApp CTA links
+    updateOrderDisplay();
+
     // Add to cart with interactive state machine
     var isAdding = false;
     function triggerAdd(triggerBtn) {
@@ -388,6 +441,15 @@
     var stickyAddBtn = document.getElementById('pdp-sticky-add-btn');
     if (addBtn) addBtn.addEventListener('click', function () { triggerAdd(addBtn); });
     if (stickyAddBtn) stickyAddBtn.addEventListener('click', function () { triggerAdd(stickyAddBtn); });
+
+    var pdpDiagBtn = document.getElementById('pdp-diagnostic-btn');
+    if (pdpDiagBtn) {
+      pdpDiagBtn.addEventListener('click', function () {
+        if (window.FloraMeshDelight && window.FloraMeshDelight.openPlantDiagnosticModal) {
+          window.FloraMeshDelight.openPlantDiagnosticModal(product.slug);
+        }
+      });
+    }
 
     // Populate related products
     var relGrid = document.getElementById('pdp-related-grid');

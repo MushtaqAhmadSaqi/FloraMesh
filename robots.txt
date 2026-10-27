@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /my-account.html
+Disallow: /*?*q=
+Disallow: /*?*list=
 
 Sitemap: https://floramesh.pk/sitemap.xml

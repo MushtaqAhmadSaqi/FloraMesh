@@ -181,6 +181,17 @@
       countEl.textContent = 'Showing ' + Math.min(filtered.length, state.limit) + ' of ' + filtered.length + ' products (Total: ' + all.length + ')';
     }
 
+    var breadcrumbEl = document.getElementById('shop-breadcrumb-current');
+    if (breadcrumbEl) {
+      if (state.category !== 'all' && CATEGORY_NAMES[state.category]) {
+        breadcrumbEl.textContent = CATEGORY_NAMES[state.category];
+      } else if (state.space !== 'all' && SPACE_NAMES[state.space]) {
+        breadcrumbEl.textContent = SPACE_NAMES[state.space];
+      } else {
+        breadcrumbEl.textContent = 'Shop All';
+      }
+    }
+
     if (activePills) {
       var chips = [];
       if (state.category !== 'all') {
@@ -371,14 +382,36 @@
     if (!gridEl) return;
 
     var params = new URLSearchParams(window.location.search);
-    if (params.get('category')) state.category = params.get('category');
-    if (params.get('space')) state.space = params.get('space');
-    if (params.get('type')) state.type = params.get('type');
+    if (params.get('category')) {
+      var c = String(params.get('category')).replace(/[^a-zA-Z0-9\-_]/g, '');
+      if (CATEGORY_NAMES[c] || c === 'all') state.category = c;
+    }
+    if (params.get('space')) {
+      var sp = String(params.get('space')).replace(/[^a-zA-Z0-9\-_]/g, '');
+      if (SPACE_NAMES[sp] || sp === 'all') state.space = sp;
+    }
+    if (params.get('type')) {
+      var tp = String(params.get('type')).replace(/[^a-zA-Z0-9\-_]/g, '');
+      if (['all', 'service', 'physical', 'digital', 'donation'].indexOf(tp) !== -1) state.type = tp;
+    }
     if (params.get('stock') === '1') state.inStockOnly = true;
     if (params.get('gift') === '1') state.giftReadyOnly = true;
-    if (params.get('q')) state.search = params.get('q');
-    if (params.get('max')) state.maxPrice = parseInt(params.get('max'), 10) || MAX_CATALOG_PRICE;
-    if (params.get('sort')) state.sort = params.get('sort');
+    if (params.get('q')) {
+      var rawQ = String(params.get('q')).replace(/<[^>]*>/g, '').replace(/[<>"'`;()]/g, '').trim();
+      state.search = rawQ.slice(0, 80);
+    }
+    if (params.get('max')) {
+      var parsedMax = parseInt(params.get('max'), 10);
+      if (!isNaN(parsedMax) && parsedMax > 0) {
+        state.maxPrice = Math.min(MAX_CATALOG_PRICE, Math.max(100, parsedMax));
+      }
+    }
+    if (params.get('sort')) {
+      var s = String(params.get('sort')).replace(/[^a-zA-Z0-9\-_]/g, '');
+      if (['price-asc', 'price-desc', 'name-asc', 'featured'].indexOf(s) !== -1) {
+        state.sort = s;
+      }
+    }
 
     var sInput = document.getElementById('shop-search-input');
     var cSelect = document.getElementById('shop-category-select');

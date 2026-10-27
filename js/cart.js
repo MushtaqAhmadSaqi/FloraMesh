@@ -16,7 +16,11 @@
   function safeGet(key, fallback) {
     try {
       var raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
+      if (!raw) return fallback;
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(fallback) && !Array.isArray(parsed)) return fallback;
+      if (typeof fallback === 'object' && fallback !== null && (typeof parsed !== 'object' || parsed === null)) return fallback;
+      return parsed;
     } catch (e) {
       return fallback;
     }
@@ -40,25 +44,35 @@
     var products = window.FLORAMESH_PRODUCTS || [];
     var utils = window.FloraMeshUtils || {};
 
+    if (!Array.isArray(rawItems)) rawItems = [];
     if (!products.length) return rawItems;
 
     var hydrated = [];
     rawItems.forEach(function (raw) {
-      var p = products.find(function (item) { return item.slug === raw.slug; });
+      if (!raw || typeof raw !== 'object' || typeof raw.slug !== 'string') return;
+      var cleanSlug = String(raw.slug).replace(/[^a-zA-Z0-9\-_]/g, '');
+      var p = products.find(function (item) { return item.slug === cleanSlug; });
       if (!p) return; // Drop items no longer in catalogue
       var variant = (p.variants || []).find(function (v) { return v.id === raw.variantId; }) ||
                     (p.variants && p.variants[0]) ||
                     { id: 'default', name: 'Standard', price: p.salePrice || p.price, stock: p.stock || 20 };
       var priceInfo = (utils.getEffectivePrice) ? utils.getEffectivePrice(p, variant) : { price: variant.price || p.salePrice || p.price };
+
+      // Strictly clamp quantity against variant stock
+      var rawQty = parseInt(raw.qty, 10);
+      if (isNaN(rawQty) || rawQty < 1) rawQty = 1;
+      var maxStock = (typeof variant.stock === 'number' && variant.stock > 0) ? Math.min(20, variant.stock) : 20;
+      var sanitizedQty = Math.max(1, Math.min(maxStock, rawQty));
+
       hydrated.push({
         slug: p.slug,
         name: p.shortName || p.name,
         fullName: p.name,
         variantId: variant.id,
         variantName: variant.name,
-        price: priceInfo.price,
-        image: (p.images && p.images[0]) ? p.images[0].src : (raw.image || ''),
-        qty: raw.qty,
+        price: priceInfo.price, // Catalog-enforced: cannot be tampered via localStorage
+        image: (p.images && p.images[0]) ? p.images[0].src : '',
+        qty: sanitizedQty,
         stock: variant.stock,
         type: p.type || 'physical',
         fulfilment: p.fulfilment || 'courier',
@@ -69,14 +83,16 @@
   }
 
   function saveItems(items) {
-    // Store lean representations { slug, variantId, qty }
-    var lean = items.map(function (item) {
+    // Store lean representations { slug, variantId, qty } with input sanitation
+    var safeItems = Array.isArray(items) ? items : [];
+    var lean = safeItems.map(function (item) {
       return {
-        slug: item.slug,
-        variantId: item.variantId,
-        qty: item.qty
+        slug: String(item.slug || '').replace(/[^a-zA-Z0-9\-_]/g, ''),
+        variantId: String(item.variantId || 'default').replace(/[^a-zA-Z0-9\-_]/g, ''),
+        qty: Math.max(1, Math.min(20, parseInt(item.qty, 10) || 1))
       };
-    });
+    }).filter(function (it) { return it.slug.length > 0; });
+
     safeSet(STORAGE_KEY, lean);
     updateCartUI();
     if (window.FloraMeshEvents && window.FloraMeshEvents.emit) {
@@ -85,11 +101,21 @@
   }
 
   function getGiftConfig() {
-    return safeGet(GIFT_KEY, { wrap: false, note: '' });
+    var def = { wrap: false, note: '' };
+    var cfg = safeGet(GIFT_KEY, def);
+    if (!cfg || typeof cfg !== 'object') return def;
+    return {
+      wrap: Boolean(cfg.wrap),
+      note: typeof cfg.note === 'string' ? cfg.note.slice(0, 300) : ''
+    };
   }
 
   function saveGiftConfig(gConfig, skipFullRerender) {
-    safeSet(GIFT_KEY, gConfig);
+    var safeG = {
+      wrap: Boolean(gConfig && gConfig.wrap),
+      note: String((gConfig && gConfig.note) || '').slice(0, 300)
+    };
+    safeSet(GIFT_KEY, safeG);
     updateCartUI(skipFullRerender);
   }
 
@@ -213,8 +239,8 @@
 
   function updateCartUI(skipFullRerender) {
     var totals = getTotals();
-    var badge = document.getElementById('header-cart-count');
-    if (badge) {
+    var badges = document.querySelectorAll('#header-cart-count, #mobile-bottom-cart-count');
+    badges.forEach(function (badge) {
       var prevCount = parseInt(badge.textContent, 10) || 0;
       badge.textContent = totals.count;
       badge.classList.toggle('is-hidden', totals.count === 0);
@@ -223,7 +249,7 @@
         void badge.offsetWidth; // trigger reflow
         badge.classList.add('badge-bounce');
       }
-    }
+    });
 
     // Free delivery progress bar inside cart drawer
     var progressEl = document.getElementById('cart-delivery-progress');
@@ -289,6 +315,11 @@
           '<div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-4);">' +
           '  <a href="cart.html" class="btn btn--outline">View basket</a>' +
           '  <a href="checkout.html" class="btn btn--primary">Checkout</a>' +
+          '</div>' +
+          '<div style="margin-top:var(--space-2);">' +
+          '  <a href="' + (utils.buildWhatsAppOrderUrl ? utils.buildWhatsAppOrderUrl({ type: 'cart', items: items, totals: totals }) : '#') + '" class="btn btn--outline btn--full" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-size:var(--text-xs);">' +
+          getIcon('whatsapp') + ' <span>Order via WhatsApp</span>' +
+          '  </a>' +
           '</div>';
       }
     }

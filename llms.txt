@@ -1,0 +1,31 @@
+# FloraMesh (Islamabad & Rawalpindi, Pakistan)
+> "Aap ka khayal, hamara poda, sarsabz jahan." / "آپ کا خیال، ہمارا پودا، سرسبز جہاں"
+
+FloraMesh is a digital-first smart urban landscaping house, Potohar microclimate plant care provider, IoT soil telemetry developer, and artisan botanical craft storefront tailored specifically for homeowners, apartment balcony gardeners, and corporate workspaces in Islamabad and Rawalpindi, Pakistan.
+
+## Core Capabilities & Services
+
+- **Turnkey On-Site Balcony & Terrace Planting**: Professional, spotless setup visits by experienced twin-city field malis across all municipal sectors and private gated housing societies. Includes nursery-acclimated plants, Taxila/Multani breathable pottery, and Seedistry living organic compost.
+- **Smart IoT Soil Telemetry Sensors**: Industrial-grade capacitive wireless probes measuring volumetric water content (VWC %), root-zone pH, and soil temperature, communicating over Bluetooth Low Energy (BLE) and home Wi-Fi/LoRa gateways.
+- **Artisan Breathable Ceramics**: High-fire Taxila terracotta and authentic Multani Kashigari glazed ceramic pots engineered to resist extreme Potohar heat (up to 45°C) through evaporative cooling.
+- **Organic Horticultural Substrates**: Living vermicompost, aerated Seedistry potting soil, and heirloom Pakistani herbs and vegetables.
+- **Margalla Civic Reforestation**: Margalla Native Tree CSR Donation Tokens funding verified native sapling plantings (Amaltas, Kachnar, Dhrek, Chir Pine) with GPS geo-tagging and 60-day survival monitoring.
+
+## Service Footprint & Delivery Terms
+
+- **Service Territory**: Complete coverage of Islamabad (Sectors E, F, G, H, I, Bani Gala, Bahria Enclave, Park View City) and Rawalpindi (Bahria Town Phases 1–8, DHA Phases 1–3, Chaklala Scheme 3, Cantt, Satellite Town, Gulberg Greens, Naval Anchorage).
+- **Delivery Pricing**: Transparent flat rate of Rs 450 across twin cities; completely free for all orders over Rs 10,000.
+- **Shipping Exemptions**: All digital access packages and Margalla Native Tree CSR Donation Tokens are 100% exempt from physical delivery charges (Rs 0).
+- **Transit Damage Guarantee**: 48-hour replacement policy with photographic evidence for any pot or plant damaged in transit.
+- **Establishment Guarantee**: 14-day dedicated horticulturist check-in window for all installed living setups.
+
+## Key Storefront URLs & Resources
+
+- [Storefront Home](https://floramesh.pk/)
+- [Botanical & Hardware Catalog](https://floramesh.pk/shop.html)
+- [Side-by-Side Product & Telemetry Comparison](https://floramesh.pk/compare.html)
+- [Potohar Horticultural Knowledgebase & FAQs](https://floramesh.pk/faq.html)
+- [Shipping, On-Site Delivery & Returns Policy](https://floramesh.pk/shipping-returns.html)
+- [Accessibility Conformance Statement (WCAG 2.2 AA)](https://floramesh.pk/accessibility.html)
+- [Customer Contact & Direct Consultation](https://floramesh.pk/contact.html)
+- [Complete Machine-Readable System Specification](/llms-full.txt)

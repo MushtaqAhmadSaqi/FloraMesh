@@ -78,6 +78,7 @@
     container.appendChild(el);
     startTimer();
   };
+  window.FloraMeshToast.show = window.FloraMeshToast;
 
   /**
    * Quick View Modal with Variant Picker
@@ -433,7 +434,10 @@
       '    <div class="cart-summary-row cart-summary-row--total"><span>Total</span><span style="font-variant-numeric:tabular-nums;">' + formatPKR(totals.total) + '</span></div>' +
       '    <div style="margin-top:var(--space-6);display:flex;flex-direction:column;gap:var(--space-3);">' +
       '      <a href="checkout.html" class="btn btn--primary btn--full">Proceed to checkout</a>' +
-      '      <a href="shop.html" class="btn btn--outline btn--full">Continue shopping</a>' +
+      '      <a href="' + escapeA(utils.buildWhatsAppOrderUrl ? utils.buildWhatsAppOrderUrl({ type: 'cart', items: items, totals: totals }) : '#') + '" id="cart-whatsapp-order-btn" class="btn btn--outline btn--full" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);">' +
+      getIcon('whatsapp') + ' <span>Order Basket via WhatsApp</span>' +
+      '      </a>' +
+      '      <a href="shop.html" class="btn btn--ghost btn--full">Continue shopping</a>' +
       '    </div>' +
       '    <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid var(--color-border-subtle);font-size:var(--text-xs);color:var(--color-text-muted);line-height:var(--leading-relaxed);">' +
       '      • Free site survey rescheduling up to 24h prior<br>' +
@@ -518,9 +522,15 @@
         '  <div style="font-size:var(--text-sm);color:var(--color-text-muted);">' +
         '    <strong>' + savedItems.length + ' item' + (savedItems.length === 1 ? '' : 's') + '</strong> saved on this device' +
         '  </div>' +
-        '  <div style="display:flex;gap:var(--space-2);">' +
+        '  <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">' +
         '    <button type="button" class="btn btn--outline btn--sm" id="wishlist-share-btn" aria-label="Copy shareable link">' +
-        getIcon('share') + ' <span style="margin-left:4px;">Share Wishlist</span>' +
+        getIcon('share') + ' <span style="margin-left:4px;">Copy Link</span>' +
+        '    </button>' +
+        '    <button type="button" class="btn btn--outline btn--sm" id="wishlist-whatsapp-share" aria-label="Share wishlist via WhatsApp">' +
+        getIcon('whatsapp') + ' <span style="margin-left:4px;">WhatsApp</span>' +
+        '    </button>' +
+        '    <button type="button" class="btn btn--outline btn--sm" id="wishlist-sms-share" aria-label="Share wishlist via SMS">' +
+        '      <span>SMS</span>' +
         '    </button>' +
         '    <button type="button" class="btn btn--primary btn--sm" id="wishlist-add-all">' +
         getIcon('bag') + ' <span style="margin-left:4px;">Add All to Basket</span>' +
@@ -637,7 +647,7 @@
     window.addEventListener('scroll', function () {
       var hdr = document.getElementById('site-header');
       if (hdr) hdr.classList.toggle('site-header--scrolled', window.scrollY > 20);
-    });
+    }, { passive: true });
 
     // Mobile nav sheet toggle with focus trap
     var menuBtn = document.getElementById('mobile-menu-btn');
@@ -810,6 +820,8 @@
 
       checkoutForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        if (checkoutForm.dataset.submitting === 'true') return;
+
         var valid = true;
         var firstInvalid = null;
 
@@ -850,6 +862,14 @@
           return;
         }
 
+        // Lock form against double-submission
+        checkoutForm.dataset.submitting = 'true';
+        var submitBtn = checkoutForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner" aria-hidden="true" style="width:14px;height:14px;display:inline-block;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite;margin-right:8px;vertical-align:middle;"></span> Processing Order...';
+        }
+
         // Process valid checkout with complete receipt view (QA-24)
         var itemsSnapshot = window.FloraMeshCart.getItems();
         var totalsSnapshot = window.FloraMeshCart.getTotals();
@@ -860,12 +880,16 @@
         var cityVal = citySelect ? citySelect.value : 'Islamabad';
         var addrVal = document.getElementById('chk-address') ? document.getElementById('chk-address').value.trim() : '';
         var slotVal = document.getElementById('chk-shipping-method') ? document.getElementById('chk-shipping-method').value : 'standard';
+        var notesVal = document.getElementById('chk-gift-note') ? document.getElementById('chk-gift-note').value.trim() : '';
         var payVal = document.querySelector('input[name="payment-method"]:checked') ? document.querySelector('input[name="payment-method"]:checked').value : 'Cash on Delivery';
+
+        var utils = window.FloraMeshUtils || {};
+        var escapeH = utils.escapeHTML || function (s) { return s; };
 
         var rowsHtml = itemsSnapshot.map(function (it) {
           return '<tr>' +
-            '<td><strong>' + (it.name || it.fullName) + '</strong><br><span style="font-size:11px;color:var(--color-text-muted);">' + it.variantName + '</span></td>' +
-            '<td style="text-align:center;">' + it.qty + '</td>' +
+            '<td><strong>' + escapeH(it.name || it.fullName) + '</strong><br><span style="font-size:11px;color:var(--color-text-muted);">' + escapeH(it.variantName) + '</span></td>' +
+            '<td style="text-align:center;">' + parseInt(it.qty, 10) + '</td>' +
             '<td style="text-align:right;">' + window.FloraMeshCart.formatPKR(it.price * it.qty) + '</td>' +
             '</tr>';
         }).join('');
@@ -875,11 +899,11 @@
           '  <div class="receipt-header">' +
           '    <div>' +
           '      <span class="badge badge--success" style="margin-bottom:var(--space-2);display:inline-block;">Order Confirmed • Scheduled</span>' +
-          '      <h2 style="font-size:var(--text-2xl);color:var(--color-text);margin:0;">Thank you, ' + nameVal + '!</h2>' +
+          '      <h2 style="font-size:var(--text-2xl);color:var(--color-text);margin:0;">Thank you, ' + escapeH(nameVal) + '!</h2>' +
           '      <p style="color:var(--color-text-muted);font-size:var(--text-sm);margin-top:4px;">We have logged your order and reserved your planting arrival window.</p>' +
           '    </div>' +
           '    <div style="text-align:right;">' +
-          '      <span class="receipt-ref">#' + orderRef + '</span>' +
+          '      <span class="receipt-ref">#' + escapeH(orderRef) + '</span>' +
           '      <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:4px;">Date: ' + new Date().toLocaleDateString('en-PK', { year: 'numeric', month: 'short', day: 'numeric' }) + '</div>' +
           '    </div>' +
           '  </div>' +
@@ -887,17 +911,18 @@
           '    <div>' +
           '      <div class="receipt-section-title">Delivery &amp; Service Destination</div>' +
           '      <div style="font-size:var(--text-sm);line-height:1.5;">' +
-          '        <strong>' + nameVal + '</strong><br>' +
-          '        ' + addrVal + '<br>' +
-          '        ' + cityVal + ', Pakistan<br>' +
-          '        <span>Tel: ' + phoneVal + '</span>' +
+          '        <strong>' + escapeH(nameVal) + '</strong><br>' +
+          '        ' + escapeH(addrVal) + '<br>' +
+          '        ' + escapeH(cityVal) + ', Pakistan<br>' +
+          '        <span>Tel: ' + escapeH(phoneVal) + '</span>' +
+          (notesVal ? '<div style="margin-top:6px;font-size:12px;color:var(--color-text-muted);"><strong>Gate / Delivery Instructions:</strong> ' + escapeH(notesVal) + '</div>' : '') +
           '      </div>' +
           '    </div>' +
           '    <div>' +
           '      <div class="receipt-section-title">Crew Slot &amp; Payment</div>' +
           '      <div style="font-size:var(--text-sm);line-height:1.5;">' +
           '        <strong>Method:</strong> ' + (slotVal === 'morning-crew' ? 'Morning Mali Crew (9:00 AM – 12:00 PM)' : 'Twin-City Field Van Dispatch') + '<br>' +
-          '        <strong>Payment:</strong> ' + payVal + '<br>' +
+          '        <strong>Payment:</strong> ' + escapeH(payVal) + '<br>' +
           '        <strong>Payment Status:</strong> Pending on Arrival / Verification' +
           '      </div>' +
           '    </div>' +
@@ -923,18 +948,22 @@
         mount.innerHTML = receiptHtml;
         mount.scrollIntoView({ behavior: 'smooth' });
 
-        // Save order to local order history
+        // Save order to local order history (SEC-01: fixed cityVal and slotVal identifiers)
         try {
           var ordersKey = (cfg.storageKeys && cfg.storageKeys.orders) ? cfg.storageKeys.orders : 'floramesh_orders_v1';
           var existingOrders = [];
           var raw = localStorage.getItem(ordersKey);
-          if (raw) existingOrders = JSON.parse(raw);
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) existingOrders = parsed;
+          }
           existingOrders.unshift({
             ref: orderRef,
             date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
             total: totalsSnapshot.total,
-            city: city,
-            slot: slot,
+            city: cityVal,
+            slot: slotVal,
+            gateInstructions: notesVal,
             status: 'Confirmed'
           });
           localStorage.setItem(ordersKey, JSON.stringify(existingOrders.slice(0, 10)));
@@ -970,11 +999,15 @@
         if (waLink && waNumber) {
           waLink.href = 'https://wa.me/' + waNumber;
           waLink.textContent = '+' + waNumber;
+          waLink.setAttribute('target', '_blank');
+          waLink.setAttribute('rel', 'noopener noreferrer');
         }
       }
 
       contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        if (contactForm.dataset.submitting === 'true') return;
+
         var valid = true;
         var firstInvalid = null;
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1001,11 +1034,19 @@
           return;
         }
 
+        contactForm.dataset.submitting = 'true';
+        var cSubmitBtn = contactForm.querySelector('button[type="submit"]');
+        if (cSubmitBtn) cSubmitBtn.disabled = true;
+
         var res = document.getElementById('contact-demo-result');
         if (valid && res) {
           res.style.display = 'block';
           res.innerHTML = '<strong style="color:var(--color-success);">Thank you. Your inquiry has been received.</strong><p style="margin-top:4px;color:var(--color-text-muted);">Our Twin-City horticultural team will review your site details and follow up directly.</p>';
           contactForm.reset();
+          setTimeout(function () {
+            contactForm.dataset.submitting = 'false';
+            if (cSubmitBtn) cSubmitBtn.disabled = false;
+          }, 1000);
         }
       });
     }
@@ -1094,7 +1135,10 @@
       var savedOrders = [];
       try {
         var rawOrders = localStorage.getItem(ordersKey);
-        if (rawOrders) savedOrders = JSON.parse(rawOrders);
+        if (rawOrders) {
+          var parsedOrders = JSON.parse(rawOrders);
+          if (Array.isArray(parsedOrders)) savedOrders = parsedOrders;
+        }
       } catch (e) {}
 
       var utils = window.FloraMeshUtils || {};
@@ -1121,5 +1165,59 @@
         }).join('');
       }
     }
+
+    // 1-Click IBAN & Mobile Wallet Copy Handler
+    document.addEventListener('click', function (e) {
+      var copyBtn = e.target.closest('.btn-copy-iban');
+      if (!copyBtn) return;
+      e.preventDefault();
+      var val = copyBtn.getAttribute('data-copy');
+      if (!val) return;
+
+      var onCopied = function () {
+        if (window.FloraMeshToast && window.FloraMeshToast.show) {
+          window.FloraMeshToast.show('Copied to clipboard: ' + val, 'success');
+        } else if (window.FloraMeshToast) {
+          window.FloraMeshToast('Copied to clipboard: ' + val);
+        }
+        var origText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        setTimeout(function () {
+          copyBtn.textContent = origText;
+        }, 2000);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).then(onCopied).catch(function () {
+          fallbackCopyText(val, onCopied);
+        });
+      } else {
+        fallbackCopyText(val, onCopied);
+      }
+    });
+
+    function fallbackCopyText(text, cb) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (cb) cb();
+      } catch (err) {
+        if (cb) cb();
+      }
+    }
   });
+
+  // Offline PWA Service Worker Registration
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.location.protocol.indexOf('http') === 0) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
 })();

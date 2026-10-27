@@ -95,7 +95,10 @@
     minus: '<svg class="icon icon--minus" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
     filter: '<svg class="icon icon--filter" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
     grid: '<svg class="icon icon--grid" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
-    list: '<svg class="icon icon--list" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>'
+    list: '<svg class="icon icon--list" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+    whatsapp: '<svg class="icon icon--whatsapp" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+    copy: '<svg class="icon icon--copy" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    home: '<svg class="icon icon--home" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>'
   };
 
   function getIcon(name, customClass) {
@@ -247,6 +250,85 @@
     }
   };
 
+  /**
+   * Defensive LocalStorage and Parameter Sanitization Helpers
+   */
+  function sanitizeParam(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/<[^>]*>/g, '')
+      .replace(/[<>"'`;()]/g, '')
+      .trim();
+  }
+
+  function safeGetStorage(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(fallback) && !Array.isArray(parsed)) return fallback;
+      if (typeof fallback === 'object' && fallback !== null && (typeof parsed !== 'object' || parsed === null)) return fallback;
+      return parsed;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function safeSetStorage(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /**
+   * Pre-formatted WhatsApp Direct Order Link Builder
+   */
+  function buildWhatsAppOrderUrl(opts) {
+    opts = opts || {};
+    var cfg = window.FLORAMESH_CONFIG || {};
+    var contact = cfg.contact || {};
+    var phone = String(contact.whatsappNumber || '923005551234').replace(/[^0-9]/g, '');
+    var city = opts.deliveryCity || 'Islamabad / Rawalpindi';
+    var text = '';
+
+    if (opts.type === 'cart' || (opts.items && Array.isArray(opts.items))) {
+      var items = opts.items || [];
+      var totals = opts.totals || { subtotal: 0, total: 0, shipping: 0 };
+      var lines = ['Salam FloraMesh! I would like to order my garden basket:'];
+      items.forEach(function (it, idx) {
+        var vName = it.variantName ? ' (' + it.variantName + ')' : '';
+        lines.push((idx + 1) + '. ' + (it.name || it.fullName) + vName + ' x' + it.qty + ' - ' + formatPKR(it.price * it.qty));
+      });
+      lines.push('');
+      lines.push('Subtotal: ' + formatPKR(totals.subtotal));
+      lines.push('Delivery: ' + (totals.shipping === 0 ? 'Free' : formatPKR(totals.shipping)));
+      if (totals.giftWrapFee) lines.push('Artisan Gift Wrap: ' + formatPKR(totals.giftWrapFee));
+      lines.push('Estimated Total: ' + formatPKR(totals.total));
+      lines.push('Delivery Destination: ' + city);
+      lines.push('Please confirm availability and dispatch schedule.');
+      text = lines.join('\n');
+    } else {
+      var pName = (opts.product && (opts.product.name || opts.product.shortName)) || 'Botanical Item';
+      var sku = (opts.product && opts.product.sku) || '';
+      var vName = (opts.variant && opts.variant.name) || 'Standard';
+      var qty = opts.qty || 1;
+      var price = (opts.variant && opts.variant.price) || (opts.product && opts.product.price) || 0;
+      var total = price * qty;
+      text = 'Salam FloraMesh! I would like to order:\n' +
+        '• Product: ' + pName + (sku ? ' (SKU: ' + sku + ')' : '') + '\n' +
+        '• Selected Tier: ' + vName + '\n' +
+        '• Quantity: ' + qty + '\n' +
+        '• Total Estimate: ' + formatPKR(total) + '\n' +
+        '• Delivery City: ' + city + '\n' +
+        'Please confirm availability and installation schedule.';
+    }
+
+    return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text);
+  }
+
   window.FloraMeshEvents = FloraMeshEvents;
 
   window.FloraMeshUtils = {
@@ -254,6 +336,10 @@
     escapeAttr: escapeAttr,
     html: html,
     rawHTML: rawHTML,
+    sanitizeParam: sanitizeParam,
+    safeGetStorage: safeGetStorage,
+    safeSetStorage: safeSetStorage,
+    buildWhatsAppOrderUrl: buildWhatsAppOrderUrl,
     events: FloraMeshEvents,
     debounce: debounce,
     clamp: clamp,

@@ -22,7 +22,9 @@
   function getRecentSearches() {
     try {
       var raw = localStorage.getItem(RECENT_KEY);
-      return raw ? JSON.parse(raw) : [];
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.filter(function (item) { return typeof item === 'string' && item.length > 0; }) : [];
     } catch (e) {
       return [];
     }
@@ -50,25 +52,127 @@
     renderRecentChips();
   }
 
+  var URDU_FOLK_MAP = {
+    'kachnar': ['amaltas', 'tree', 'bauhinia', 'csr'],
+    'کچنار': ['kachnar', 'amaltas', 'csr-token', 'tree'],
+    'amaltas': ['kachnar', 'tree', 'cassia', 'csr'],
+    'املتاس': ['amaltas', 'tree', 'csr-token'],
+    'neem': ['neem', 'organic', 'tree'],
+    'نیم': ['neem', 'tree'],
+    'sukhchain': ['sukhchain', 'pongamia', 'tree'],
+    'سکھ چین': ['sukhchain', 'tree'],
+    'chir': ['chir', 'pine', 'tree'],
+    'چیل': ['chir', 'pine'],
+    'motia': ['jasmine', 'balcony', 'fragrant'],
+    'موتیا': ['motia', 'jasmine', 'balcony'],
+    'chameli': ['jasmine', 'balcony'],
+    'چمیلی': ['chameli', 'jasmine'],
+    'podina': ['mint', 'herb', 'kitchen'],
+    'پودینہ': ['podina', 'mint', 'kitchen'],
+    'dhania': ['coriander', 'herb', 'kitchen'],
+    'دھنیا': ['dhania', 'coriander', 'kitchen'],
+    'taxila': ['pottery', 'terracotta', 'planter'],
+    'ٹیکسلا': ['taxila', 'pottery', 'terracotta'],
+    'multani': ['glazed', 'blue', 'ceramics', 'pottery'],
+    'ملتانی': ['multani', 'ceramics', 'pottery'],
+    'mitti': ['potting', 'soil', 'organic'],
+    'مٹی': ['soil', 'potting', 'organic'],
+    'gamla': ['pot', 'planter', 'terracotta'],
+    'گملہ': ['gamla', 'pot', 'planter'],
+    'khad': ['compost', 'fertilizer', 'organic'],
+    'کھاد': ['khad', 'compost', 'organic']
+  };
+
   function searchProducts(query) {
     if (!query) return [];
-    var tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+    var cleanQ = query.trim().toLowerCase();
+    var tokens = cleanQ.split(/\s+/).filter(Boolean);
     if (tokens.length === 0) return [];
 
     var products = window.FLORAMESH_PRODUCTS || [];
-    return products.filter(function (p) {
-      var haystack = [
-        p.name || '',
-        p.shortName || '',
-        p.category || '',
-        p.shortDescription || '',
-        (p.spaces || []).join(' '),
-        (p.tags || []).join(' ')
-      ].join(' ').toLowerCase();
 
-      return tokens.every(function (t) {
+    // Check if tokens map to Urdu folk terms
+    var expandedSynonyms = [];
+    tokens.forEach(function (t) {
+      if (URDU_FOLK_MAP[t]) {
+        expandedSynonyms = expandedSynonyms.concat(URDU_FOLK_MAP[t]);
+      }
+    });
+
+    var scored = [];
+
+    products.forEach(function (p) {
+      var sku = (p.sku || '').toLowerCase();
+      var name = (p.name || '').toLowerCase();
+      var shortName = (p.shortName || '').toLowerCase();
+      var category = (p.category || '').toLowerCase();
+      var spaces = (p.spaces || []).map(function (s) { return String(s).toLowerCase(); });
+      var tags = (p.tags || []).map(function (t) { return String(t).toLowerCase(); });
+      var desc = [p.shortDescription || '', p.description || '', p.materials || ''].join(' ').toLowerCase();
+
+      var haystack = [sku, name, shortName, category, spaces.join(' '), tags.join(' '), desc].join(' ');
+
+      // Check match: all tokens present OR expanded folk synonyms match
+      var matchesAllTokens = tokens.every(function (t) {
         return haystack.indexOf(t) !== -1;
       });
+
+      var matchesFolk = expandedSynonyms.length > 0 && expandedSynonyms.some(function (syn) {
+        return haystack.indexOf(syn) !== -1;
+      });
+
+      if (!matchesAllTokens && !matchesFolk) return;
+
+      var score = 0;
+
+      // 1. Exact SKU match (highest priority)
+      if (sku === cleanQ) {
+        score += 1000;
+      } else if (sku.indexOf(cleanQ) !== -1) {
+        score += 600;
+      } else if (tokens.some(function (t) { return sku.indexOf(t) !== -1; })) {
+        score += 400;
+      }
+
+      // 2. Exact Title or ShortName match
+      if (shortName === cleanQ || name === cleanQ) {
+        score += 500;
+      } else if (shortName.indexOf(cleanQ) !== -1 || name.indexOf(cleanQ) !== -1) {
+        score += 300;
+      } else if (tokens.every(function (t) { return shortName.indexOf(t) !== -1; })) {
+        score += 200;
+      }
+
+      // 3. Urdu Folk Name match
+      if (matchesFolk) {
+        score += 250;
+      }
+
+      // 4. Space tags prioritization
+      tokens.forEach(function (t) {
+        if (spaces.indexOf(t) !== -1) score += 180;
+      });
+
+      // 5. Category match
+      if (category.indexOf(cleanQ) !== -1) {
+        score += 120;
+      }
+
+      // 6. Featured product boost
+      if (p.featured) {
+        score += 50;
+      }
+
+      scored.push({ product: p, score: score });
+    });
+
+    // Sort descending by score
+    scored.sort(function (a, b) {
+      return b.score - a.score;
+    });
+
+    return scored.map(function (item) {
+      return item.product;
     });
   }
 
@@ -87,18 +191,19 @@
     var clearBtn = document.getElementById('search-clear-recents-btn');
     if (clearBtn) clearBtn.style.display = 'inline-flex';
 
+    var utils = window.FloraMeshUtils || {};
+    var renderHtml = utils.html || function () { return ''; };
+
     container.innerHTML = recents.map(function (item) {
-      var safe = (window.FloraMeshUtils && window.FloraMeshUtils.escapeHTML) ? window.FloraMeshUtils.escapeHTML(item) : item;
-      return '<button type="button" class="search-chip search-chip--recent" data-search-term="' + safe + '">' +
-             safe +
-             '</button>';
+      return utils.html ? utils.html`<button type="button" class="search-chip search-chip--recent" data-search-term="${item}">${item}</button>` :
+        ('<button type="button" class="search-chip search-chip--recent" data-search-term="' + (utils.escapeAttr ? utils.escapeAttr(item) : item) + '">' + (utils.escapeHTML ? utils.escapeHTML(item) : item) + '</button>');
     }).join('');
 
     container.querySelectorAll('.search-chip--recent').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var input = document.getElementById('search-overlay-input');
         if (input) {
-          input.value = btn.getAttribute('data-search-term');
+          input.value = btn.getAttribute('data-search-term') || '';
           performSearch(input.value);
           input.focus();
         }
@@ -110,17 +215,17 @@
     var container = document.getElementById('search-popular-chips');
     if (!container) return;
 
+    var utils = window.FloraMeshUtils || {};
     container.innerHTML = POPULAR_CHIPS.map(function (chip) {
-      return '<button type="button" class="search-chip search-chip--popular" data-search-term="' + chip.query + '">' +
-             chip.label +
-             '</button>';
+      return utils.html ? utils.html`<button type="button" class="search-chip search-chip--popular" data-search-term="${chip.query}">${chip.label}</button>` :
+        ('<button type="button" class="search-chip search-chip--popular" data-search-term="' + chip.query + '">' + chip.label + '</button>');
     }).join('');
 
     container.querySelectorAll('.search-chip--popular').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var input = document.getElementById('search-overlay-input');
         if (input) {
-          input.value = btn.getAttribute('data-search-term');
+          input.value = btn.getAttribute('data-search-term') || '';
           performSearch(input.value);
           input.focus();
         }
@@ -157,9 +262,15 @@
     if (!resultsContainer) return;
 
     if (matches.length === 0) {
-      resultsContainer.innerHTML = [
+      resultsContainer.innerHTML = utils.html ? utils.html`
+        <div class="search-no-results">
+          <p class="search-no-results__title">No items found matching "${query}"</p>
+          <p class="search-no-results__desc">Try checking your spelling or search for "balcony", "sensor", or "pottery".</p>
+          <a href="shop.html" class="btn btn-outline" style="margin-top:1rem;">Browse Entire Catalog</a>
+        </div>
+      ` : [
         '<div class="search-no-results">',
-        '  <p class="search-no-results__title">No items found matching "' + utils.escapeHTML(query) + '"</p>',
+        '  <p class="search-no-results__title">No items found matching "' + (utils.escapeHTML ? utils.escapeHTML(query) : query) + '"</p>',
         '  <p class="search-no-results__desc">Try checking your spelling or search for "balcony", "sensor", or "pottery".</p>',
         '  <a href="shop.html" class="btn btn-outline" style="margin-top:1rem;">Browse Entire Catalog</a>',
         '</div>'
@@ -168,36 +279,78 @@
     }
 
     var displayMatches = matches.slice(0, 8);
-    resultsContainer.innerHTML = displayMatches.map(function (p, idx) {
+    var renderedCards = displayMatches.map(function (p, idx) {
       var price = (p.variants && p.variants[0]) ? p.variants[0].price : (p.salePrice || p.price);
       var comparePrice = (p.variants && p.variants[0]) ? p.variants[0].compareAtPrice : p.compareAtPrice;
       var imgSrc = (p.images && p.images[0]) ? p.images[0].src : '';
       var title = p.shortName || p.name;
+      var hasDiscount = (comparePrice && comparePrice > price);
+
+      if (utils.html) {
+        var compareMarkup = hasDiscount ? utils.rawHTML(utils.html`<span class="search-result-card__compare">${utils.formatPKR(comparePrice)}</span>`) : '';
+        var imgMarkup = imgSrc ? utils.rawHTML(utils.html`<img src="${imgSrc}" alt="${p.name}" loading="lazy" width="60" height="75">`) : '';
+
+        return utils.html`
+          <a href="product.html?slug=${p.slug}" class="search-result-card" role="option" id="search-opt-${idx}" data-slug="${p.slug}">
+            <div class="search-result-card__media">
+              ${imgMarkup}
+            </div>
+            <div class="search-result-card__content">
+              <span class="search-result-card__taxo">${p.category || 'Collection'}</span>
+              <h4 class="search-result-card__title">${title}</h4>
+              <div class="search-result-card__price">
+                <span class="search-result-card__current">${utils.formatPKR(price)}</span>
+                ${compareMarkup}
+              </div>
+            </div>
+            <span class="search-result-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        `;
+      }
 
       return [
-        '<a href="product.html?slug=' + p.slug + '" class="search-result-card" role="option" id="search-opt-' + idx + '" data-slug="' + p.slug + '" onclick="FloraMeshSearch.recordSearch()">' ,
+        '<a href="product.html?slug=' + encodeURIComponent(p.slug) + '" class="search-result-card" role="option" id="search-opt-' + idx + '" data-slug="' + (utils.escapeAttr ? utils.escapeAttr(p.slug) : p.slug) + '">' ,
         '  <div class="search-result-card__media">',
-        imgSrc ? '    <img src="' + imgSrc + '" alt="' + utils.escapeAttr(p.name) + '" loading="lazy" width="60" height="75">' : '',
+        imgSrc ? '    <img src="' + (utils.escapeAttr ? utils.escapeAttr(imgSrc) : imgSrc) + '" alt="' + (utils.escapeAttr ? utils.escapeAttr(p.name) : p.name) + '" loading="lazy" width="60" height="75">' : '',
         '  </div>',
         '  <div class="search-result-card__content">',
-        '    <span class="search-result-card__taxo">' + utils.escapeHTML(p.category || 'Collection') + '</span>',
-        '    <h4 class="search-result-card__title">' + utils.escapeHTML(title) + '</h4>',
+        '    <span class="search-result-card__taxo">' + (utils.escapeHTML ? utils.escapeHTML(p.category || 'Collection') : p.category) + '</span>',
+        '    <h4 class="search-result-card__title">' + (utils.escapeHTML ? utils.escapeHTML(title) : title) + '</h4>',
         '    <div class="search-result-card__price">',
-        '      <span class="search-result-card__current">' + utils.formatPKR(price) + '</span>',
-        (comparePrice && comparePrice > price) ? '      <span class="search-result-card__compare">' + utils.formatPKR(comparePrice) + '</span>' : '',
+        '      <span class="search-result-card__current">' + (utils.formatPKR ? utils.formatPKR(price) : price) + '</span>',
+        hasDiscount ? '      <span class="search-result-card__compare">' + (utils.formatPKR ? utils.formatPKR(comparePrice) : comparePrice) + '</span>' : '',
         '    </div>',
         '  </div>',
         '  <span class="search-result-card__arrow" aria-hidden="true">&rarr;</span>',
         '</a>'
       ].join('');
-    }).join('') +
-    (matches.length > 8 ? [
-      '<div class="search-results-more">',
-      '  <a href="shop.html?q=' + encodeURIComponent(query) + '" class="search-view-all-link" onclick="FloraMeshSearch.recordSearch()">',
-      '    View all ' + matches.length + ' results in catalog &rarr;',
-      '  </a>',
-      '</div>'
-    ].join('') : '');
+    }).join('');
+
+    var moreMarkup = '';
+    if (matches.length > 8) {
+      moreMarkup = utils.html ? utils.html`
+        <div class="search-results-more">
+          <a href="shop.html?q=${encodeURIComponent(query)}" class="search-view-all-link">
+            View all ${matches.length} results in catalog &rarr;
+          </a>
+        </div>
+      ` : (
+        '<div class="search-results-more">' +
+        '  <a href="shop.html?q=' + encodeURIComponent(query) + '" class="search-view-all-link">' +
+        '    View all ' + matches.length + ' results in catalog &rarr;' +
+        '  </a>' +
+        '</div>'
+      );
+    }
+
+    resultsContainer.innerHTML = renderedCards + moreMarkup;
+
+    // Attach click listeners cleanly to search result links
+    resultsContainer.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        saveCurrentInput();
+      });
+    });
   }
 
   function handleKeyNav(e) {
@@ -320,6 +473,7 @@
     init: init,
     open: openSearch,
     close: closeSearch,
-    recordSearch: saveCurrentInput
+    recordSearch: saveCurrentInput,
+    searchProducts: searchProducts
   };
 })();

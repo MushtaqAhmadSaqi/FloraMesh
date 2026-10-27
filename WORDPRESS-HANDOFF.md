@@ -41,11 +41,14 @@ This document provides a complete architectural roadmap for converting the stati
 ## 3. Which Features Are Demo-Only vs. Retained After Conversion
 - **Retained Front-End Assets & Architecture:**
   - `css/tokens.css`, `css/base.css`, `css/components.css`, `css/pages.css`, `css/responsive.css` (enqueued via `wp_enqueue_style()` in `functions.php`).
-  - `assets/fonts/fraunces-variable.woff2` and `assets/fonts/plus-jakarta-sans-variable.woff2` (local self-hosted fonts; zero external CDN dependencies).
+  - `assets/fonts/fraunces-variable.woff2` and `assets/fonts/plus-jakarta-sans-variable.woff2` (local self-hosted variable fonts; zero external CDN dependencies).
   - `assets/images/brand/floramesh-logo.svg` and `assets/images/brand/floramesh-logo-dark.svg` (dynamic theme logo swapping).
-  - `js/config.js` and `js/utils.js` (DOM XSS sanitizers, focus traps, scroll locking, and unified 24x24 SVG icons).
+  - `js/config.js` and `js/utils.js` (DOM XSS sanitizers, focus traps, scroll locking, unified 24x24 SVG icons, and `buildWhatsAppOrderUrl` twin-city order generator).
+  - `js/delight.js` (Potohar 5-Season Planting Radar, Soil Telemetry Simulator, Pot Sizer & Soil Calculator, Horticultural Triage Modal, and Dispatch Tracker stepper).
+  - `manifest.webmanifest` & `sw.js` (PWA offline app shell caching and mobile installation).
+  - `llms.txt` & `llms-full.txt` (AI agent machine discovery documentation following the llms.txt specification).
   - WCAG 2.2 AA Theme Switcher (`Heritage Cream` & `Midnight Grove`) with pre-paint zero-FOUT `<script>` and `localStorage` persistence.
-  - Sticky header, full-height mobile menu sheet, mobile filter bottom sheet, image zoom modal (`js/gallery.js`), and guest-friendly `localStorage` wishlist (`js/wishlist.js`).
+  - Sticky header with `{ passive: true }` scroll listener, full-height mobile menu sheet, mobile bottom navigation bar (`.mobile-bottom-nav`), mobile filter bottom sheet, image zoom modal (`js/gallery.js`), and guest-friendly `localStorage` wishlist (`js/wishlist.js`).
 - **Replaced by WordPress / WooCommerce:**
   - `data/products.js` & `js/filters.js` → Replaced by WooCommerce database queries (`WC_Product_Query`) and native WooCommerce layered navigation/sorting.
   - `js/cart.js` → Replaced by WooCommerce session cart (`WC()->cart`) and AJAX mini-cart fragments (`woocommerce_add_to_cart_fragments`).

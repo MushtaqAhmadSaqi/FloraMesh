@@ -22,6 +22,7 @@
   <meta name="twitter:image" content="assets/images/banners/category-services.webp">
 
   <link rel="icon" type="image/svg+xml" href="assets/images/brand/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Theme pre-paint script (Zero FOUT) -->
   <script>
@@ -56,6 +57,12 @@
     <!-- Page Header Banner -->
     <section class="section section--alt" style="padding:var(--space-8) 0;border-bottom:1px solid var(--color-border);">
       <div class="container">
+        <nav class="pdp__breadcrumb" aria-label="Breadcrumb" style="margin-bottom:var(--space-3);">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li aria-current="page"><strong id="shop-breadcrumb-current">Shop All</strong></li>
+          </ol>
+        </nav>
         <div class="section__eyebrow">Planting Packages &amp; IoT Care</div>
         <h1 class="section__title">Shop</h1>
         <p class="section__intro">Turnkey planting, smart soil sensors, and artisan planters, made for Islamabad's climate.</p>
@@ -152,6 +159,9 @@
       </div>
     </div>
 
+    <!-- Botanical Delight: Pot Sizer & Soil Volume Calculator -->
+    <div class="container section" style="margin-top:var(--space-8);" id="soil-calculator-mount"></div>
+
     <div class="overlay-backdrop" id="shop-filter-backdrop" aria-hidden="true"></div>
   </main>
 
@@ -170,6 +180,7 @@
   <script src="js/gallery.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/delight.js"></script>
   <script src="js/main.js"></script>
 
   <!-- Mobile Filter Sheet DialogManager Integration (QA-42) -->

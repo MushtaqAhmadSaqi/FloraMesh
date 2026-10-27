@@ -218,7 +218,7 @@
       '  </div>',
       '  <div class="mobile-nav-sheet__footer">',
       ((window.FLORAMESH_CONFIG && window.FLORAMESH_CONFIG.contact && window.FLORAMESH_CONFIG.contact.whatsappNumber)
-        ? '    <div class="mobile-contact-pill">' + getIcon('whatsapp') + '      <a href="https://wa.me/' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '" target="_blank" rel="noopener">WhatsApp: +' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '</a>    </div>'
+        ? '    <div class="mobile-contact-pill">' + getIcon('whatsapp') + '      <a href="https://wa.me/' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '" target="_blank" rel="noopener noreferrer">WhatsApp: +' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '</a>    </div>'
         : '    <div class="mobile-contact-pill">' + getIcon('mail') + '      <a href="mailto:hello@floramesh.pk">hello@floramesh.pk</a>    </div>'),
       '    <div class="mobile-currency-note">All prices in PKR (Rs) • Regional Tax Included</div>',
       '  </div>',
@@ -258,7 +258,36 @@
       '      </div>',
       '    </div>',
       '  </div>',
-      '</dialog>'
+      '</dialog>',
+      '<!-- Mobile Bottom Quick Navigation Bar (Touch Ergonomics >= 44px) -->',
+      '<nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Quick Navigation">',
+      '  <a href="index.html" class="mobile-bottom-nav__item ' + (active === 'home' ? 'is-active' : '') + '" aria-label="Home">',
+      getIcon('home'),
+      '    <span>Home</span>',
+      '  </a>',
+      '  <a href="shop.html" class="mobile-bottom-nav__item ' + (active === 'shop' || active === 'services' || active === 'iot-sensors' ? 'is-active' : '') + '" aria-label="Shop catalog">',
+      getIcon('grid'),
+      '    <span>Shop</span>',
+      '  </a>',
+      '  <button type="button" class="mobile-bottom-nav__item" data-open-search aria-label="Search catalog">',
+      getIcon('search'),
+      '    <span>Search</span>',
+      '  </button>',
+      '  <a href="wishlist.html" class="mobile-bottom-nav__item ' + (active === 'wishlist' ? 'is-active' : '') + '" aria-label="Saved wishlist items">',
+      '    <div class="mobile-bottom-nav__icon-wrap">',
+      getIcon('heart'),
+      '      <span class="mobile-bottom-nav__badge is-hidden" id="mobile-bottom-wishlist-count" aria-live="polite">0</span>',
+      '    </div>',
+      '    <span>Wishlist</span>',
+      '  </a>',
+      '  <button type="button" class="mobile-bottom-nav__item" id="mobile-bottom-cart-btn" aria-label="Open basket drawer">',
+      '    <div class="mobile-bottom-nav__icon-wrap">',
+      getIcon('bag'),
+      '      <span class="mobile-bottom-nav__badge is-hidden" id="mobile-bottom-cart-count" aria-live="polite">0</span>',
+      '    </div>',
+      '    <span>Basket</span>',
+      '  </button>',
+      '</nav>'
     ].join('\n');
 
     // Announcement dismissal
@@ -366,9 +395,27 @@
       lastScrollY = currentScrollY;
     }, { passive: true });
 
+    // Mobile bottom bar cart drawer trigger
+    var mobileCartBtn = document.getElementById('mobile-bottom-cart-btn');
+    if (mobileCartBtn) {
+      mobileCartBtn.addEventListener('click', function () {
+        if (window.FloraMeshCart && window.FloraMeshCart.openDrawer) {
+          window.FloraMeshCart.openDrawer(mobileCartBtn);
+        }
+      });
+    }
+
     // Initialize search overlay
     if (window.FloraMeshSearch && window.FloraMeshSearch.init) {
       window.FloraMeshSearch.init();
+    }
+
+    // Sync badges
+    if (window.FloraMeshCart && window.FloraMeshCart.updateCartUI) {
+      window.FloraMeshCart.updateCartUI(true);
+    }
+    if (window.FloraMeshWishlist && window.FloraMeshWishlist.updateWishlistUI) {
+      window.FloraMeshWishlist.updateWishlistUI();
     }
   }
 
@@ -413,7 +460,7 @@
       '        </p>',
       '        <div class="site-footer__contact-item" style="margin-top:var(--space-3);">',
       ((window.FLORAMESH_CONFIG && window.FLORAMESH_CONFIG.contact && window.FLORAMESH_CONFIG.contact.whatsappNumber)
-        ? '          <a href="https://wa.me/' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '" target="_blank" rel="noopener" class="u-text-terracotta"><strong>Chat on WhatsApp:</strong> +' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '</a>'
+        ? '          <a href="https://wa.me/' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '" target="_blank" rel="noopener noreferrer" class="u-text-terracotta"><strong>Chat on WhatsApp:</strong> +' + window.FLORAMESH_CONFIG.contact.whatsappNumber + '</a>'
         : '          <a href="mailto:hello@floramesh.pk" class="u-text-terracotta"><strong>Email:</strong> hello@floramesh.pk</a>'),
       '          <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Studio: Sector F-7/3, Islamabad &bull; Nursery: Chaklala III, Rawalpindi</div>',
       '        </div>',

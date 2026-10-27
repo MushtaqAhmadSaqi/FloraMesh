@@ -1093,11 +1093,46 @@
   transform: scale(1.03);
 }
 
+.card-badge,
 .product-card__badge {
   position: absolute;
   top: var(--space-3);
   left: var(--space-3);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 8px rgba(16, 36, 27, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 2;
+  pointer-events: none;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  max-width: calc(100% - 64px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Semi-transparent surface in supporting browsers */
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
+  .card-badge,
+  .product-card__badge {
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  html[data-theme="midnight"] .card-badge,
+  html[data-theme="midnight"] .product-card__badge {
+    background: rgba(19, 37, 32, 0.90);
+    border-color: rgba(38, 65, 54, 0.85);
+    color: var(--color-text);
+  }
 }
 
 .product-card__wishlist-btn {
@@ -2477,6 +2512,458 @@
   height: 1px;
   background: var(--color-border);
   flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Botanical Skeleton Shimmer Loaders (Phase 2 Tactile UI)
+   -------------------------------------------------------------------------- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-alt) 25%,
+    var(--color-surface) 37%,
+    var(--color-surface-alt) 63%
+  );
+  background-size: 400% 100%;
+  animation: botanicalShimmer 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes botanicalShimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.skeleton--text {
+  height: 14px;
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-xs);
+}
+
+.skeleton--title {
+  height: 22px;
+  width: 75%;
+  margin-bottom: var(--space-3);
+  border-radius: var(--radius-xs);
+}
+
+.skeleton--media {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.skeleton--pill {
+  height: 24px;
+  width: 90px;
+  border-radius: var(--radius-pill);
+  display: inline-block;
+}
+
+.skeleton--card {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none !important;
+    background: var(--color-surface-alt) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Persistent Mobile Bottom Navigation (Phase 2 Touch Ergonomics)
+   -------------------------------------------------------------------------- */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    z-index: var(--z-sticky);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .mobile-bottom-nav__item {
+    flex: 1;
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1) 0;
+    transition: color var(--motion-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bottom-nav__item:hover,
+  .mobile-bottom-nav__item.is-active {
+    color: var(--color-accent);
+    font-weight: var(--weight-bold);
+  }
+
+  .mobile-bottom-nav__icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-bottom-nav__badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-on-accent, #ffffff);
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    line-height: 16px;
+    text-align: center;
+  }
+
+  .mobile-bottom-nav__badge.is-hidden {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   PDP Variant Savings Pill & 1-Click IBAN Copy
+   -------------------------------------------------------------------------- */
+.pdp__savings-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-accent);
+  color: var(--color-on-accent, #ffffff);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+  margin-left: var(--space-2);
+  vertical-align: middle;
+}
+
+.btn-copy-iban {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-link);
+  cursor: pointer;
+  transition: all var(--motion-fast);
+}
+
+.btn-copy-iban:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-link);
+}
+
+.btn-copy-iban:active {
+  transform: scale(0.97);
+}
+
+/* --------------------------------------------------------------------------
+   Phase 4: Botanical & Smart IoT Delight Features
+   -------------------------------------------------------------------------- */
+
+/* 1. Potohar Seasonal Planting Radar */
+.planting-radar {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--motion-normal);
+}
+
+.planting-radar:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.planting-radar__tabs {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.planting-radar__tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.planting-radar__tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.planting-radar__tabs::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.radar-tab-btn {
+  flex: 1 0 130px;
+  min-width: 120px;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--motion-fast);
+}
+
+.radar-tab-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.radar-tab-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.radar-tab-btn.is-active {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(44, 74, 62, 0.08);
+}
+
+.radar-tab-urdu {
+  font-family: var(--font-urdu, 'Noto Nastaliq Urdu', serif);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--color-primary);
+  direction: rtl;
+}
+
+.radar-tab-name {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+}
+
+.radar-tab-months {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.radar-tab-badge {
+  display: inline-block;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  margin-top: 2px;
+}
+
+/* 2. Capacitive Soil Probe Simulator */
+.telemetry-simulator {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.telemetry-simulator input[type="range"] {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+  outline: none;
+  cursor: pointer;
+}
+
+.telemetry-simulator input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 2px solid #ffffff;
+}
+
+/* 3. Pot Sizer & Soil Volume Calculator */
+.soil-calculator {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.soil-calculator .chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--motion-fast);
+}
+
+.soil-calculator .chip:hover,
+.soil-calculator .chip.is-active {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+/* 4. Plant Health Diagnostic Inquiry Modal */
+.overlay-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  display: none;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 30, 24, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.modal-card {
+  box-shadow: var(--shadow-xl);
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 5. Local Order Tracker & Milestone Stepper */
+.order-tracker-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.tracker-steps {
+  position: relative;
+}
+
+.tracker-steps::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 16%;
+  right: 16%;
+  height: 2px;
+  background: var(--color-border);
+  z-index: 0;
+}
+
+.tracker-step {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(217, 131, 36, 0.4);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 8px rgba(217, 131, 36, 0);
+  }
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .modal-card {
+    animation: none !important;
+  }
+  .tracker-step.is-active div {
+    animation: none !important;
+  }
+  .planting-radar,
+  .radar-tab-btn {
+    transition: none !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .radar-tab-btn {
+    flex: 0 0 110px;
+    padding: var(--space-2) var(--space-3);
+  }
+  .tracker-steps {
+    gap: var(--space-2);
+  }
+  .tracker-steps::before {
+    left: 20%;
+    right: 20%;
+  }
 }
 
 
