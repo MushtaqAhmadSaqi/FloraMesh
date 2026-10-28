@@ -1,7 +1,7 @@
 /**
  * FloraMesh Product & Service Catalog Data (data/products.js)
  * Complete Schema v2: shortName, type, fulfilment, spaces, coverage, per-variant compareAtPrice, dominant color.
- * Preserves all 25 slugs, variant IDs, and local asset paths.
+ * 26 Products curated for authentic urban landscaping, IoT connected care, and botanical e-commerce.
  * Currency: Pakistani Rupees (PKR / Rs).
  */
 window.FLORAMESH_PRODUCTS = [
@@ -525,7 +525,7 @@ window.FLORAMESH_PRODUCTS = [
     "relatedProductSlugs": [
       "floramesh-balcony-mesh-trio",
       "floramesh-telemetry-dashboard-annual",
-      "diy-soil-diagnostic-starter-lab"
+      "connected-smart-plant-starter-kit"
     ],
     "images": [
       {
@@ -885,6 +885,91 @@ window.FLORAMESH_PRODUCTS = [
         "src": "assets/images/products/floramesh-telemetry-dashboard-annual-scale.webp",
         "type": "scale",
         "alt": "FloraMesh Telemetry Dashboard Pro — 12-Month Care Subscription architectural context inside an Islamabad home",
+        "width": 600,
+        "height": 750
+      }
+    ]
+  },
+  {
+    "id": "FM-IOT-006",
+    "slug": "connected-smart-plant-starter-kit",
+    "sku": "FM-IOT-006",
+    "name": "FloraMesh Connected Smart Plant Starter Kit — Live Houseplant & IoT Telemetry Probe",
+    "shortName": "Connected Smart Plant Kit",
+    "type": "physical",
+    "fulfilment": "courier",
+    "spaces": [
+      "indoor",
+      "balcony",
+      "office"
+    ],
+    "category": "Smart Monitoring",
+    "categorySlug": "smart-monitoring",
+    "tags": [
+      "smart plant",
+      "starter kit",
+      "soil sensor",
+      "snake plant",
+      "terracotta"
+    ],
+    "price": 6800,
+    "salePrice": 5900,
+    "compareAtPrice": 6800,
+    "unitPriceLabel": "Rs 5,900 complete live plant + IoT sensor kit",
+    "shortDescription": "Complete connected plant package pairing a hardy live Snake Plant in a Taxila terracotta pot with a wireless FloraMesh soil sensor and 3 months of Dashboard Pro.",
+    "description": "The easiest, fail-proof way to start smart plant parenting. The FloraMesh Connected Smart Plant Starter Kit brings together biology and telemetry in one beautiful unboxing experience. Inside you will find a hardy, air-purifying Snake Plant (Sansevieria zeylanica) rooted in a hand-thrown Taxila terracotta planter, paired with a FloraMesh Smart Soil Sensor single node and 3 complimentary months of Dashboard Pro telemetry. Simply press the probe into the root ball, scan the QR code with your phone, and receive live soil moisture, sunlight, and ambient temperature alerts so you never have to guess when to water again.",
+    "materials": "Live nursery-hardened Sansevieria zeylanica plant, hand-thrown Taxila clay pot with saucer, FloraMesh BLE wireless telemetry probe with 316L stainless electrodes, Seedistry organic potting media, keepsake unboxing box.",
+    "dimensions": "Overall height: 45–55 cm (18–22 in); Pot diameter: 18 cm (7 in) × height: 19 cm (7.5 in); Total kit weight: ~3.8 kg.",
+    "care": "Thrives in any light condition from dim bedrooms to sunny desks. The FloraMesh telemetry app sends WhatsApp/phone notifications when moisture drops below 25%.",
+    "makingStory": "Created to eliminate the heartbreak of accidental plant overwatering. Engineered in Islamabad and paired with indigenous Taxila ceramic craftsmanship, this kit bridges natural botany with modern IoT telemetry.",
+    "variants": [
+      {
+        "id": "v-smart-snake",
+        "name": "Starter Kit with Snake Plant & Terracotta Pot",
+        "price": 5900,
+        "compareAtPrice": 6800,
+        "stock": 15,
+        "available": true
+      },
+      {
+        "id": "v-smart-monstera",
+        "name": "Signature Kit with Split-Leaf Monstera & Glazed Pot",
+        "price": 7800,
+        "compareAtPrice": 8900,
+        "stock": 8,
+        "available": true
+      }
+    ],
+    "stock": 23,
+    "giftable": true,
+    "featured": true,
+    "badge": "Plant + IoT Sensor",
+    "dominant": "#E2ECE6",
+    "isWearable": false,
+    "relatedProductSlugs": [
+      "floramesh-smart-soil-sensor-single",
+      "floramesh-balcony-mesh-trio",
+      "floramesh-smart-drip-controller"
+    ],
+    "images": [
+      {
+        "src": "assets/images/products/connected-smart-plant-starter-kit-main.webp",
+        "type": "main",
+        "alt": "FloraMesh Connected Smart Plant Starter Kit unboxed with live plant, sensor probe, and phone",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/connected-smart-plant-starter-kit-detail.webp",
+        "type": "detail",
+        "alt": "FloraMesh soil telemetry probe inserted in pot showing live LED and phone graph",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/connected-smart-plant-starter-kit-scale.webp",
+        "type": "scale",
+        "alt": "Connected Smart Plant Starter Kit displayed on modern living room table",
         "width": 600,
         "height": 750
       }
@@ -1306,7 +1391,7 @@ window.FLORAMESH_PRODUCTS = [
     "relatedProductSlugs": [
       "taxila-terracotta-breathable-pot-set",
       "kitchen-herb-vegetable-raised-bed-service",
-      "diy-soil-diagnostic-starter-lab"
+      "organic-neem-oil-bio-shield-spray"
     ],
     "images": [
       {
@@ -1327,6 +1412,93 @@ window.FLORAMESH_PRODUCTS = [
         "src": "assets/images/products/seedistry-organic-potting-mix-scale.webp",
         "type": "scale",
         "alt": "Seedistry × FloraMesh Organic Neem-Enriched Potting Mix (10 kg) architectural context inside an Islamabad home",
+        "width": 600,
+        "height": 750
+      }
+    ]
+  },
+  {
+    "id": "FM-SUP-006",
+    "slug": "organic-neem-oil-bio-shield-spray",
+    "sku": "FM-SUP-006",
+    "name": "FloraMesh Organic Cold-Pressed Neem Oil & Bio-Shield Foliar Spray (500 ml)",
+    "shortName": "Organic Neem Bio-Shield",
+    "type": "physical",
+    "fulfilment": "courier",
+    "spaces": [
+      "balcony",
+      "rooftop",
+      "indoor",
+      "office",
+      "kitchen"
+    ],
+    "category": "Plant Care Supplies",
+    "categorySlug": "plant-care-supplies",
+    "tags": [
+      "neem oil",
+      "organic pest control",
+      "leaf shine",
+      "plant care",
+      "bio shield"
+    ],
+    "price": 1850,
+    "salePrice": 1650,
+    "compareAtPrice": 1850,
+    "unitPriceLabel": "Rs 1,650 per 500 ml bottle (ready-to-spray)",
+    "shortDescription": "Ready-to-use organic neem oil foliar spray formulated to protect indoor and balcony plants from pests while restoring vibrant natural leaf shine.",
+    "description": "Protect your houseplants and balcony garden naturally without toxic synthetic pesticides. FloraMesh Organic Neem Bio-Shield combines pure Chakwal cold-pressed neem seed oil with organic potassium vegetable soap emulsifier and steam-distilled eucalyptus oil in an amber UV-filtering spray bottle with an adjustable solid brass nozzle. Formulated ready-to-spray, it creates a breathable bio-protective coating that repels mealybugs, aphids, spider mites, and whiteflies while naturally conditioning leaf cuticles against dry Potohar dust. Safe for edible balcony herbs, child-safe, and 100% biodegradable.",
+    "materials": "100% cold-pressed Azadirachta indica (neem) seed oil, organic potassium cocoate emulsifier, wild eucalyptus globulus oil, distilled water, amber UV-protective bottle with brass-core misting trigger.",
+    "dimensions": "Volume: 500 ml (16.9 fl oz); Bottle height: 23 cm (9 in) × diameter: 7.5 cm (3 in); Total weight: 580 g.",
+    "care": "Shake well before use. Spray lightly across top and underside of leaves every 7–10 days in the evening or early morning (avoid direct hot afternoon sun). Store in a cool, dry place.",
+    "makingStory": "Neem trees have shielded South Asian agriculture for centuries. We source our organic seed oil from Chakwal growers and emulsify it in small twin-city batches to eliminate harsh petroleum carriers common in commercial bug sprays.",
+    "variants": [
+      {
+        "id": "v-neem-500ml",
+        "name": "500 ml Spray Bottle with Brass Trigger",
+        "price": 1650,
+        "compareAtPrice": 1850,
+        "stock": 25,
+        "available": true
+      },
+      {
+        "id": "v-neem-1000ml",
+        "name": "1 Litre Eco-Refill Jug + 500 ml Trigger Bottle",
+        "price": 2750,
+        "compareAtPrice": 3200,
+        "stock": 15,
+        "available": true
+      }
+    ],
+    "stock": 40,
+    "giftable": true,
+    "featured": false,
+    "badge": "100% Organic",
+    "dominant": "#E5ECE0",
+    "isWearable": false,
+    "relatedProductSlugs": [
+      "seedistry-organic-potting-mix",
+      "solid-brass-plant-mister",
+      "sheesham-wood-pruning-shears"
+    ],
+    "images": [
+      {
+        "src": "assets/images/products/organic-neem-oil-bio-shield-spray-main.webp",
+        "type": "main",
+        "alt": "FloraMesh Organic Cold-Pressed Neem Oil Bio-Shield Foliar Spray featured bottle view",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/organic-neem-oil-bio-shield-spray-detail.webp",
+        "type": "detail",
+        "alt": "FloraMesh Neem Oil label and brass nozzle close-up detail",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/organic-neem-oil-bio-shield-spray-scale.webp",
+        "type": "scale",
+        "alt": "FloraMesh Neem Oil spray bottle on artisan potting bench beside houseplants",
         "width": 600,
         "height": 750
       }
@@ -1391,7 +1563,7 @@ window.FLORAMESH_PRODUCTS = [
     "isWearable": false,
     "relatedProductSlugs": [
       "seedistry-heirloom-herb-seed-box",
-      "diy-soil-diagnostic-starter-lab",
+      "organic-neem-oil-bio-shield-spray",
       "floramesh-telemetry-dashboard-annual"
     ],
     "images": [
@@ -1605,91 +1777,6 @@ window.FLORAMESH_PRODUCTS = [
     ]
   },
   {
-    "id": "FM-LRN-004",
-    "slug": "diy-soil-diagnostic-starter-lab",
-    "sku": "FM-LRN-004",
-    "name": "DIY Soil pH, Nitrogen & Drainage Diagnostic Starter Lab",
-    "shortName": "Soil Diagnostic Lab",
-    "type": "physical",
-    "fulfilment": "courier",
-    "spaces": [
-      "balcony",
-      "rooftop"
-    ],
-    "coverage": null,
-    "category": "Learning Hub",
-    "categorySlug": "learning-hub",
-    "tags": [
-      "soil test kit",
-      "ph testing",
-      "npk lab",
-      "learning hub",
-      "student kit"
-    ],
-    "price": 2200,
-    "salePrice": 1950,
-    "compareAtPrice": 2200,
-    "unitPriceLabel": "Rs 97.50 per soil test (20 colorimetric tests included)",
-    "shortDescription": "Hands-on 20-test colorimetric soil laboratory kit for checking pH, nitrogen, phosphorus, and potash levels before planting.",
-    "description": "Before investing in new balcony or lawn plants, discover what is happening beneath the surface. The FloraMesh DIY Soil Diagnostic Starter Lab provides twenty easy-to-read colorimetric capsule tests for soil pH, Nitrogen (N), Phosphorus (P), and Potash (K), along with four graduated glass mixing vials, a stainless soil sampling scoop, and a Potohar Soil Remediation Chart. In less than fifteen minutes, you can identify whether yellowing leaves are caused by alkaline tap-water lockup or nitrogen deficiency, and learn exact organic amendments—such as composted leaf mold or neem cake—to restore balance.",
-    "materials": "4× reusable borosilicate glass test vials, 20× reagent tablets (pH, N, P, K), stainless sampling spoon, laminated color comparator and Urdu/English instruction booklet.",
-    "dimensions": "Compact lab box: 21 cm × 14 cm × 5.5 cm (8.3 in × 5.5 in × 2.2 in).",
-    "care": "Rinse glass vials with distilled or bottled water after each test; keep reagent strips sealed away from direct sunlight.",
-    "makingStory": "Inspired by our Green Islamabad 60 launch campaign's free soil-test workshops, this kit empowers homeowners, hobbyists, and university students to practice scientific horticulture at home.",
-    "variants": [
-      {
-        "id": "v-lab-20test",
-        "name": "20-Test Starter Lab Kit",
-        "price": 1950,
-        "compareAtPrice": null,
-        "stock": 25,
-        "available": true
-      },
-      {
-        "id": "v-lab-refill",
-        "name": "40-Test Reagent Refill Pack + Vial Set",
-        "price": 3200,
-        "compareAtPrice": null,
-        "stock": 12,
-        "available": true
-      }
-    ],
-    "stock": 37,
-    "giftable": true,
-    "featured": false,
-    "badge": "20 Diagnostic Tests",
-    "dominant": "#DCE3DD",
-    "isWearable": false,
-    "relatedProductSlugs": [
-      "floramesh-smart-soil-sensor-single",
-      "seedistry-organic-potting-mix",
-      "islamabad-planting-calendar-journal"
-    ],
-    "images": [
-      {
-        "src": "assets/images/products/diy-soil-diagnostic-starter-lab-main.webp",
-        "type": "main",
-        "alt": "DIY Soil pH, Nitrogen & Drainage Diagnostic Starter Lab featured studio view showing handcrafted details",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/diy-soil-diagnostic-starter-lab-detail.webp",
-        "type": "detail",
-        "alt": "DIY Soil pH, Nitrogen & Drainage Diagnostic Starter Lab tactile close-up highlighting natural materials",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/diy-soil-diagnostic-starter-lab-scale.webp",
-        "type": "scale",
-        "alt": "DIY Soil pH, Nitrogen & Drainage Diagnostic Starter Lab architectural context inside an Islamabad home",
-        "width": 600,
-        "height": 750
-      }
-    ]
-  },
-  {
     "id": "FM-LRN-005",
     "slug": "sheesham-propagation-station",
     "sku": "FM-LRN-005",
@@ -1838,7 +1925,7 @@ window.FLORAMESH_PRODUCTS = [
     "dominant": "#CCDCD0",
     "isWearable": false,
     "relatedProductSlugs": [
-      "campus-10-tree-green-drive-pack",
+      "fragrant-motia-bougainvillea-balcony-duo",
       "sarsabz-jahan-botanical-gift-hamper",
       "corporate-eco-desk-gift-trio"
     ],
@@ -1861,90 +1948,6 @@ window.FLORAMESH_PRODUCTS = [
         "src": "assets/images/products/margalla-native-tree-csr-token-scale.webp",
         "type": "scale",
         "alt": "Margalla Foothills Native Tree-Plantation Verifiable CSR Token architectural context inside an Islamabad home",
-        "width": 600,
-        "height": 750
-      }
-    ]
-  },
-  {
-    "id": "FM-CSR-002",
-    "slug": "campus-10-tree-green-drive-pack",
-    "sku": "FM-CSR-002",
-    "name": "Campus & Housing-Society 10-Tree Green Plantation Drive Pack",
-    "shortName": "Campus 10-Tree Drive",
-    "type": "donation",
-    "fulfilment": "digital",
-    "spaces": [
-      "community"
-    ],
-    "coverage": null,
-    "category": "Community and CSR",
-    "categorySlug": "community-csr",
-    "tags": [
-      "csr partnership",
-      "10 tree pack",
-      "housing society",
-      "campus drive",
-      "community"
-    ],
-    "price": 13500,
-    "salePrice": 12500,
-    "compareAtPrice": 13500,
-    "unitPriceLabel": "Rs 1,250 per planted & guarded native tree (10-tree cluster)",
-    "shortDescription": "Sponsor a 10-tree native plantation cluster for universities, schools, or housing societies, complete with volunteer tools and a commemorative plaque.",
-    "description": "Designed for university student societies, corporate CSR teams, and housing-society resident committees in Islamabad and Rawalpindi, this 10-Tree Green Plantation Drive Pack turns collective environmental goodwill into a structured, high-survival planting event. FloraMesh prepares ten auger-dug planting pits enriched with Seedistry organic compost, delivers ten 5-foot native shade and flowering saplings, provides biodegradable tree guards, and dispatches a Field Crew Lead to guide student or staff volunteers on planting day. Includes ten engraved wooden participant tokens and a weatherproof donor/society recognition plaque.",
-    "materials": "10× native saplings (Amaltas, Kachnar, Neem, Sukhchain), 50 kg organic compost, 10× bamboo/mesh tree guards, 10× volunteer tokens, 1× engraved plaque.",
-    "dimensions": "Covers a 30–50 meter greenbelt or campus avenue; saplings delivered at 120–160 cm (4–5.2 ft) height.",
-    "care": "Includes three post-drive inspection visits by FloraMesh's Community Volunteer Coordinator at Days 15, 30, and 60.",
-    "makingStory": "Created to help FloraMesh onboard 200+ registered green volunteers and partner with twin-city campuses and housing societies, ensuring planted trees survive well beyond photo day.",
-    "variants": [
-      {
-        "id": "v-drive-10",
-        "name": "10-Tree Campus / Society Cluster + Volunteer Supervision",
-        "price": 12500,
-        "compareAtPrice": 13500,
-        "stock": 15,
-        "available": true
-      },
-      {
-        "id": "v-drive-25",
-        "name": "25-Tree Corporate CSR Grove + Telemetry Soil Node",
-        "price": 29500,
-        "compareAtPrice": 32000,
-        "stock": 8,
-        "available": true
-      }
-    ],
-    "stock": 23,
-    "giftable": true,
-    "featured": false,
-    "badge": "Verified Institutional CSR",
-    "dominant": "#C8D9CB",
-    "isWearable": false,
-    "relatedProductSlugs": [
-      "margalla-native-tree-csr-token",
-      "corporate-office-greenery-maintenance-plan",
-      "corporate-eco-desk-gift-trio"
-    ],
-    "images": [
-      {
-        "src": "assets/images/products/campus-10-tree-green-drive-pack-main.webp",
-        "type": "main",
-        "alt": "Campus & Housing-Society 10-Tree Green Plantation Drive Pack featured studio view showing handcrafted details",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/campus-10-tree-green-drive-pack-detail.webp",
-        "type": "detail",
-        "alt": "Campus & Housing-Society 10-Tree Green Plantation Drive Pack tactile close-up highlighting natural materials",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/campus-10-tree-green-drive-pack-scale.webp",
-        "type": "scale",
-        "alt": "Campus & Housing-Society 10-Tree Green Plantation Drive Pack architectural context inside an Islamabad home",
         "width": 600,
         "height": 750
       }
@@ -1977,8 +1980,8 @@ window.FLORAMESH_PRODUCTS = [
     "compareAtPrice": 7800,
     "unitPriceLabel": "Rs 1,380 per artisan item in 5-piece hamper",
     "shortDescription": "Handwoven date-palm gift basket pairing a potted Peace Lily in Multani Blue Pottery, solid brass mister, planting journal, candle, and CSR tree token.",
-    "description": "Named after FloraMesh's closing brand promise—'Aap ka khayal, hamara poda, sarsabz jahan'—this signature gift hamper is a thoughtful, living alternative to disposable flower bouquets that wilt in three days. Presented in a handwoven date-palm and kana-reed basket tied with unbleached cotton ribbon, the hamper contains: (1) a lush indoor Peace Lily or Jade plant potted in a hand-painted Multani Blue Pottery planter, (2) our 300 ml Solid Brass Botanical Plant Mister, (3) a hand-poured Citronella & Lemongrass clay-jar candle, (4) a pocket seasonal care guide, and (5) an engraved Margalla Native Tree CSR Token planted in the recipient's name.",
-    "materials": "Handwoven reed basket, live indoor plant in Multani glazed pot, solid brass mister, soy-wax clay candle, wooden CSR tree token, handwritten gift note card.",
+    "description": "Named after FloraMesh's closing brand promise—'Aap ka khayal, hamara poda, sarsabz jahan'—this signature gift hamper is a thoughtful, living alternative to disposable flower bouquets that wilt in three days. Presented in a handwoven date-palm and kana-reed basket tied with unbleached cotton ribbon, the hamper contains: (1) a lush indoor Peace Lily or Jade plant potted in a hand-painted Multani Blue Pottery planter, (2) our 300 ml Solid Brass Botanical Plant Mister, (3) a 100 ml bottle of Organic Neem Bio-Shield Spray, (4) a pocket seasonal care guide, and (5) an engraved Margalla Native Tree CSR Token planted in the recipient's name.",
+    "materials": "Handwoven reed basket, live indoor plant in Multani glazed pot, solid brass mister, organic neem bio-shield spray bottle, wooden CSR tree token, handwritten gift note card.",
     "dimensions": "Hamper basket: 34 cm × 26 cm × 28 cm assembled height (13.4 in × 10.2 in × 11 in).",
     "care": "Place the potted plant in bright indirect indoor light and water weekly; gift packing slip never displays item prices.",
     "makingStory": "Assembled to order in our Islamabad studio on the morning of delivery so the live plant arrives fresh, hydrated, and ready to brighten a new home, wedding, Eid celebration, or corporate milestone.",
@@ -2009,7 +2012,7 @@ window.FLORAMESH_PRODUCTS = [
     "relatedProductSlugs": [
       "multani-blue-pottery-planter-duo",
       "solid-brass-plant-mister",
-      "citronella-terracotta-balcony-candle"
+      "acclimated-monstera-deliciosa-planter"
     ],
     "images": [
       {
@@ -2030,91 +2033,6 @@ window.FLORAMESH_PRODUCTS = [
         "src": "assets/images/products/sarsabz-jahan-botanical-gift-hamper-scale.webp",
         "type": "scale",
         "alt": "Artisan Botanical Gift Hamper — 'Sarsabz Jahan' Signature Edition architectural context inside an Islamabad home",
-        "width": 600,
-        "height": 750
-      }
-    ]
-  },
-  {
-    "id": "FM-CSR-004",
-    "slug": "citronella-terracotta-balcony-candle",
-    "sku": "FM-CSR-004",
-    "name": "Hand-Poured Lemongrass & Citronella Balcony Candle in Clay Vessel",
-    "shortName": "Citronella Balcony Candle",
-    "type": "physical",
-    "fulfilment": "courier",
-    "spaces": [
-      "balcony",
-      "rooftop"
-    ],
-    "coverage": null,
-    "category": "Community and CSR",
-    "categorySlug": "community-csr",
-    "tags": [
-      "soy candle",
-      "citronella",
-      "terracotta jar",
-      "balcony evening",
-      "reusable pot"
-    ],
-    "price": 2100,
-    "salePrice": 1850,
-    "compareAtPrice": 2100,
-    "unitPriceLabel": "Rs 41 per burn hour (45-hour natural soy wax burn time)",
-    "shortDescription": "Natural soy-and-beeswax outdoor candle scented with pure lemongrass and citronella oils in a reusable hand-thrown terracotta planter jar.",
-    "description": "Enjoy peaceful dusk tea on your balcony or terrace without synthetic chemical sprays. Hand-poured in small batches using a slow-burning blend of soy wax and local beeswax, this double-wick candle is infused with steam-distilled lemongrass, citronella, and cedarwood essential oils that naturally deter evening mosquitoes while casting a warm amber glow across your foliage. Once the 45-hour candle has finished burning, simply pop out the bottom clay plug to reveal a pre-scored drainage hole and reuse the handcrafted terracotta vessel as a charming succulent pot using the included seed packet.",
-    "materials": "100% natural soy & beeswax blend, pure lemongrass & citronella essential oils, braided unbleached cotton wicks, reusable Taxila terracotta jar + seed packet.",
-    "dimensions": "Diameter: 11 cm × Height: 10 cm (4.3 in × 3.9 in); Net wax weight: 280 g (9.9 oz); Burn time: ~45 hours.",
-    "care": "Trim cotton wicks to 5 mm before each lighting; allow wax pool to reach the jar edges on the first burn to prevent tunneling.",
-    "makingStory": "Designed for zero-waste circularity, the vessel is thrown by Taxila clay artisans with a knock-out drainage disc in the base so every finished candle jar begins a second life as a planter.",
-    "variants": [
-      {
-        "id": "v-candle-single",
-        "name": "Single Clay Jar Candle (280 g / 45 Hours)",
-        "price": 1850,
-        "compareAtPrice": 2100,
-        "stock": 28,
-        "available": true
-      },
-      {
-        "id": "v-candle-duo",
-        "name": "Balcony Evening Duo (2× 280 g Jars)",
-        "price": 3400,
-        "compareAtPrice": null,
-        "stock": 15,
-        "available": true
-      }
-    ],
-    "stock": 43,
-    "giftable": true,
-    "featured": false,
-    "badge": "Organic Soy & Neem",
-    "dominant": "#E2DCD1",
-    "isWearable": false,
-    "relatedProductSlugs": [
-      "sarsabz-jahan-botanical-gift-hamper",
-      "taxila-terracotta-breathable-pot-set",
-      "apartment-balcony-green-oasis-package"
-    ],
-    "images": [
-      {
-        "src": "assets/images/products/citronella-terracotta-balcony-candle-main.webp",
-        "type": "main",
-        "alt": "Hand-Poured Lemongrass & Citronella Balcony Candle in Clay Vessel featured studio view showing handcrafted details",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/citronella-terracotta-balcony-candle-detail.webp",
-        "type": "detail",
-        "alt": "Hand-Poured Lemongrass & Citronella Balcony Candle in Clay Vessel tactile close-up highlighting natural materials",
-        "width": 600,
-        "height": 750
-      },
-      {
-        "src": "assets/images/products/citronella-terracotta-balcony-candle-scale.webp",
-        "type": "scale",
-        "alt": "Hand-Poured Lemongrass & Citronella Balcony Candle in Clay Vessel architectural context inside an Islamabad home",
         "width": 600,
         "height": 750
       }
@@ -2199,6 +2117,174 @@ window.FLORAMESH_PRODUCTS = [
         "src": "assets/images/products/corporate-eco-desk-gift-trio-scale.webp",
         "type": "scale",
         "alt": "Corporate Eco-Desk Succulent & Verifiable CSR Token Gift Trio architectural context inside an Islamabad home",
+        "width": 600,
+        "height": 750
+      }
+    ]
+  },
+  {
+    "id": "FM-PLT-001",
+    "slug": "acclimated-monstera-deliciosa-planter",
+    "sku": "FM-PLT-001",
+    "name": "Acclimated Indoor Monstera Deliciosa in Handcrafted Ceramic Planter",
+    "shortName": "Acclimated Monstera Planter",
+    "type": "physical",
+    "fulfilment": "courier",
+    "spaces": [
+      "indoor",
+      "office"
+    ],
+    "category": "Community and CSR",
+    "categorySlug": "community-csr",
+    "tags": [
+      "indoor plant",
+      "monstera",
+      "air purifying",
+      "terracotta",
+      "islamabad home"
+    ],
+    "price": 3800,
+    "salePrice": 3400,
+    "compareAtPrice": 3800,
+    "unitPriceLabel": "Rs 3,400 per potted plant (8-inch pot tier)",
+    "shortDescription": "Mature indoor Swiss Cheese plant acclimated to Islamabad indoor lighting, pre-potted in a breathable Taxila terracotta planter with organic potting mix.",
+    "description": "Bring lush architectural greenery into your home without nursery shock. The Acclimated Indoor Monstera Deliciosa is grown and hardened in our Islamabad shade-houses to thrive in standard residential low-to-medium indirect light. Each specimen features prominent natural leaf perforations (fenestrations) and arrives pre-planted in a porous, kiln-fired Taxila terracotta planter with matching drainage saucer and Seedistry organic coco-peat substrate. Designed for effortless indoor living, it purifies indoor air while transforming living rooms, reading corners, or home offices into calm botanical sanctuaries.",
+    "materials": "Live nursery-acclimated Monstera Deliciosa, hand-thrown Taxila red terracotta pot with matching drip saucer, organic Seedistry coco-peat and worm-casting media, coconut-fiber moss pole support.",
+    "dimensions": "Overall height: 65–85 cm (26–33 in); Pot diameter: 22 cm (8.7 in) × Height: 24 cm (9.5 in); Weight: ~4.8 kg.",
+    "care": "Place in medium to bright indirect light. Water when top 4 cm of potting mix is dry (every 5–7 days in summer, 10–12 days in winter). Wipe broad leaves with damp cloth monthly.",
+    "makingStory": "Sourced from acclimatized twin-city greenhouses and paired with local Taxila potteries, our indoor plants skip the root shock associated with plastic nursery poly-bags. Each pot is hand-finished with unglazed porous walls that breathe naturally, protecting root balls from waterlogging.",
+    "variants": [
+      {
+        "id": "v-monstera-compact",
+        "name": "Classic 8-Inch Terracotta Planter (3–4 Split Leaves)",
+        "price": 3400,
+        "compareAtPrice": 3800,
+        "stock": 12,
+        "available": true
+      },
+      {
+        "id": "v-monstera-luxe",
+        "name": "Mature 10-Inch Glazed Planter + Moss Pole (6+ Split Leaves)",
+        "price": 4900,
+        "compareAtPrice": 5500,
+        "stock": 6,
+        "available": true
+      }
+    ],
+    "stock": 18,
+    "giftable": true,
+    "featured": true,
+    "badge": "Nursery Acclimated",
+    "dominant": "#E4EDE2",
+    "isWearable": false,
+    "relatedProductSlugs": [
+      "multani-blue-pottery-planter-duo",
+      "organic-neem-oil-bio-shield-spray",
+      "floramesh-smart-soil-sensor-single"
+    ],
+    "images": [
+      {
+        "src": "assets/images/products/acclimated-monstera-deliciosa-planter-main.webp",
+        "type": "main",
+        "alt": "Acclimated Indoor Monstera Deliciosa in Handcrafted Ceramic Planter studio view",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/acclimated-monstera-deliciosa-planter-detail.webp",
+        "type": "detail",
+        "alt": "Acclimated Indoor Monstera Deliciosa close-up showing fenestrated leaf and terracotta texture",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/acclimated-monstera-deliciosa-planter-scale.webp",
+        "type": "scale",
+        "alt": "Acclimated Indoor Monstera Deliciosa architectural context inside an Islamabad living room",
+        "width": 600,
+        "height": 750
+      }
+    ]
+  },
+  {
+    "id": "FM-PLT-002",
+    "slug": "fragrant-motia-bougainvillea-balcony-duo",
+    "sku": "FM-PLT-002",
+    "name": "Acclimated Balcony Fragrant Motia (Arabian Jasmine) & Bougainvillea Duo in Terracotta",
+    "shortName": "Balcony Motia & Bougainvillea",
+    "type": "physical",
+    "fulfilment": "courier",
+    "spaces": [
+      "balcony",
+      "rooftop"
+    ],
+    "category": "Community and CSR",
+    "categorySlug": "community-csr",
+    "tags": [
+      "motia",
+      "jasmine",
+      "bougainvillea",
+      "balcony flowers",
+      "terracotta pots"
+    ],
+    "price": 3600,
+    "salePrice": 3200,
+    "compareAtPrice": 3600,
+    "unitPriceLabel": "Rs 1,600 per acclimated flowering pot",
+    "shortDescription": "Pair of climate-hardy blooming plants: fragrant white Motia Jasmine and sun-loving magenta Bougainvillea, pre-potted in twin hand-thrown Taxila terracotta pots.",
+    "description": "Designed specifically for open balconies and sunny terraces across Islamabad and Rawalpindi, this botanical duo brings classic Pakistani garden fragrance and vibrant color together. Features a vigorous, budding Motia (Jasminum sambac) bush that releases rich evening perfume, paired with a heat-resilient, drought-tolerant magenta Bougainvillea that blooms prolifically under intense 40°C+ Potohar summers. Both plants arrive mature, well-branched, and potted in breathable 10-inch Taxila clay planters with rich organic neem-cake soil, ready to flourish immediately on your railing or terrace.",
+    "materials": "Live nursery-grown Jasminum sambac (Motia) and Bougainvillea spectabilis, 2× hand-thrown Taxila terracotta pots with matching saucers, enriched leaf-mold potting media.",
+    "dimensions": "2 pots, each diameter: 25 cm (10 in) × height: 26 cm (10.2 in); Plant height: 50–70 cm (20–28 in); Combined weight: ~9.5 kg.",
+    "care": "Full sun to partial sun (minimum 4–5 hours direct sunlight daily). Water deeply when soil feels dry to touch; prune tips after flowering flushes to encourage dense new blooms.",
+    "makingStory": "Grown in open-air nursery beds along the Kurang river and potted by Taxila clay craftsmen, these specimens are conditioned to withstand dry pre-monsoon heat and sudden seasonal storms without leaf drop.",
+    "variants": [
+      {
+        "id": "v-duo-standard",
+        "name": "Balcony Pair (2× 10-Inch Terracotta Pots)",
+        "price": 3200,
+        "compareAtPrice": 3600,
+        "stock": 14,
+        "available": true
+      },
+      {
+        "id": "v-duo-signature",
+        "name": "Architectural Pair (2× 12-Inch Pots with Trellis Stakes)",
+        "price": 4600,
+        "compareAtPrice": 5200,
+        "stock": 7,
+        "available": true
+      }
+    ],
+    "stock": 21,
+    "giftable": true,
+    "featured": true,
+    "badge": "Potohar Sun Hardy",
+    "dominant": "#EADEE2",
+    "isWearable": false,
+    "relatedProductSlugs": [
+      "apartment-balcony-green-oasis-package",
+      "taxila-terracotta-breathable-pot-set",
+      "solid-brass-plant-mister"
+    ],
+    "images": [
+      {
+        "src": "assets/images/products/fragrant-motia-bougainvillea-balcony-duo-main.webp",
+        "type": "main",
+        "alt": "Acclimated Balcony Fragrant Motia and Bougainvillea Duo featured view on sunlit balcony",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/fragrant-motia-bougainvillea-balcony-duo-detail.webp",
+        "type": "detail",
+        "alt": "Motia Jasmine star flowers and Bougainvillea blossoms close-up detail",
+        "width": 600,
+        "height": 750
+      },
+      {
+        "src": "assets/images/products/fragrant-motia-bougainvillea-balcony-duo-scale.webp",
+        "type": "scale",
+        "alt": "Balcony Motia and Bougainvillea Duo overlooking the Margalla Hills Islamabad",
         "width": 600,
         "height": 750
       }

@@ -38,7 +38,7 @@ The following specific performance claims exist in catalog descriptions. They ha
 
 ## 3. Commercial Photography Shoot List (Resolved & Deployed)
 
-All 25 catalog products have been updated with 100% distinct, bespoke photography reflecting their specific horticultural, material, and hardware properties. Zero duplicate images or shared placeholder hashes remain across the catalog.
+All 26 catalog products have been updated with 100% distinct, bespoke photography reflecting their specific horticultural, material, and hardware properties. Zero duplicate images or shared placeholder hashes remain across the catalog.
 
 | Product SKU | Product Title | Photography Deployed | Staging & Botanical Properties Represented | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -52,21 +52,22 @@ All 25 catalog products have been updated with 100% distinct, bespoke photograph
 | `FM-IOT-003` | Pro Terrace 6-Node Solar Hub | 3 Bespoke Shots (Main, Detail, Scale) | Weatherproof solar-topped LoRa/Wi-Fi hub mounted on brick wall with 6 ruggedized stainless soil probes. | **Completed & Deployed** |
 | `FM-IOT-004` | Smart Drip Controller Kit | 3 Bespoke Shots (Main, Detail, Scale) | Smart brass-threaded water timer valve connected to garden tap, micro-drip tubing, and brass emitter stakes. | **Completed & Deployed** |
 | `FM-IOT-005` | Telemetry Dashboard Pro Pass | 3 Bespoke Shots (Main, Detail, Scale) | Modern tablet and phone running live plant moisture & temperature telemetry app beside seed-paper card. | **Completed & Deployed** |
+| `FM-IOT-006` | Connected Smart Plant Starter Kit | 3 Bespoke Shots (Main, Detail, Scale) | Hardy Snake Plant in Taxila terracotta pot with inserted teal FloraMesh IoT probe, unboxing box, and telemetry phone. | **Completed & Deployed** |
 | `FM-SUP-001` | Multani Blue Pottery Duo | 3 Bespoke Shots (Main, Detail, Scale) | Authentic hand-painted Multani kashi blue pottery planters with cobalt/turquoise floral arabesques & saucers. | **Completed & Deployed** |
 | `FM-SUP-002` | Hand-Thrown Taxila Terracotta | 3 Bespoke Shots (Main, Detail, Scale) | Three graduated red clay cylindrical planters (6", 8", 10") with matching saucers on artisan potting bench. | **Completed & Deployed** |
 | `FM-SUP-003` | Solid Brass Botanical Mister | 3 Bespoke Shots (Main, Detail, Scale) | Heirloom spun solid brass thumb-pump mister spraying ultra-fine cloud mist onto tropical fern leaves. | **Completed & Deployed** |
 | `FM-SUP-004` | Sheesham Pruning Shears | 3 Bespoke Shots (Main, Detail, Model) | High-carbon SK5 steel bypass blades with oiled Pakistani Sheesham hardwood scales & waxed-canvas holster. | **Completed & Deployed** |
 | `FM-SUP-005` | Seedistry Organic Potting Mix | 3 Bespoke Shots (Main, Detail, Scale) | 10 kg eco-friendly potting mix sack with dark, fluffy coco-peat, vermicompost, perlite, and wooden scoop. | **Completed & Deployed** |
+| `FM-SUP-006` | Organic Neem Bio-Shield Spray | 3 Bespoke Shots (Main, Detail, Scale) | Amber UV-filtering 500 ml spray bottle with solid brass trigger mister on potting bench beside fresh neem leaves. | **Completed & Deployed** |
 | `FM-LRN-001` | Potohar Planting Calendar | 3 Bespoke Shots (Main, Detail, Scale) | Raw oatmeal linen hardcover handbook with embossed botanical motifs, cream pages, and ribbon bookmark. | **Completed & Deployed** |
 | `FM-LRN-002` | Heirloom Seed Vault | 3 Bespoke Shots (Main, Detail, Scale) | Keepsake kraft box with 12 open-pollinated seed packets, biodegradable coco-coir starter pots, and labels. | **Completed & Deployed** |
 | `FM-LRN-003` | Complete Gardener Apron Kit | 3 Bespoke Shots (Main, Detail, Model) | Heavyweight olive waxed-canvas cross-back apron with Sheesham hand trowel, transplanter, and gloves. | **Completed & Deployed** |
-| `FM-LRN-004` | DIY Soil Diagnostic Lab | 3 Bespoke Shots (Main, Detail, Scale) | Hands-on soil chemistry kit with 4 borosilicate test tubes, colorimetric comparator card, and reagents. | **Completed & Deployed** |
 | `FM-LRN-005` | Hydro-Propagation Station | 3 Bespoke Shots (Main, Detail, Scale) | Hand-carved Sheesham hardwood desktop stand with 3 glass bulb flasks and rooting green plant cuttings. | **Completed & Deployed** |
 | `FM-CSR-001` | Margalla Native Tree Token | 3 Bespoke Shots (Main, Detail, Scale) | Laser-engraved natural wooden keepsake token with QR code beside freshly planted native tree sapling. | **Completed & Deployed** |
-| `FM-CSR-002` | Campus 10-Tree Plantation | 3 Bespoke Shots (Main, Detail, Scale) | Row of newly planted native saplings with protective bamboo guards on green campus lawn with plaque. | **Completed & Deployed** |
-| `FM-CSR-003` | Sarsabz Jahan Gift Hamper | 3 Bespoke Shots (Main, Detail, Scale) | Handwoven date-palm hamper basket with potted plant in Multani pottery, brass mister, candle, and journal. | **Completed & Deployed** |
-| `FM-CSR-004` | Citronella Clay Jar Candle | 3 Bespoke Shots (Main, Detail, Scale) | Natural soy-and-beeswax candle in hand-thrown terracotta bowl with burning wicks beside lemongrass stalks. | **Completed & Deployed** |
+| `FM-CSR-003` | Sarsabz Jahan Gift Hamper | 3 Bespoke Shots (Main, Detail, Scale) | Handwoven date-palm hamper basket with potted plant in Multani pottery, brass mister, neem spray, and journal. | **Completed & Deployed** |
 | `FM-CSR-005` | Corporate Eco-Desk Succulent | 3 Bespoke Shots (Main, Detail, Scale) | Trio of live miniature Haworthia/Jade succulents in ceramic pots on bamboo trays with wooden CSR tokens. | **Completed & Deployed** |
+| `FM-PLT-001` | Acclimated Monstera Planter | 3 Bespoke Shots (Main, Detail, Scale) | Mature Swiss Cheese plant in hand-thrown Taxila terracotta pot with matching saucer in sunlit living room. | **Completed & Deployed** |
+| `FM-PLT-002` | Balcony Motia & Bougainvillea | 3 Bespoke Shots (Main, Detail, Scale) | Sunlit twin-pot pair of fragrant white Motia Jasmine and magenta Bougainvillea overlooking Margalla Hills. | **Completed & Deployed** |
 
 ---
 

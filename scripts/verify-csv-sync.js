@@ -57,7 +57,7 @@ csvSkus.forEach(sku => {
 });
 
 if (mismatches === 0) {
-  console.log('PASS: 100% SKU match between data/products.js and products.csv (25 of 25 SKUs matched)');
+  console.log(`PASS: 100% SKU match between data/products.js and products.csv (${products.length} of ${products.length} SKUs matched)`);
 } else {
   console.log(`FAIL: ${mismatches} SKU mismatches found`);
   process.exit(1);
