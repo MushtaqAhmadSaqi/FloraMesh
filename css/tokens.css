@@ -233,10 +233,10 @@ html[data-theme="midnight"] {
   --z-base: 1;
   --z-sticky: 50;
   --z-header: 100;
-  --z-drawer: 200;
-  --z-backdrop: 250;
-  --z-modal: 300;
-  --z-toast: 400;
+  --z-backdrop: 200;
+  --z-drawer: 300;
+  --z-modal: 400;
+  --z-toast: 500;
 
   /* Motion & Transitions */
   --motion-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);

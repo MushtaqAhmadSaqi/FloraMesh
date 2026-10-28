@@ -526,7 +526,7 @@
       '</aside>',
       '<!-- Quick View & Lightbox Modal Mount -->',
       '<div class="modal-wrapper" id="quick-view-modal" aria-hidden="true">',
-      '  <div class="overlay-backdrop is-open" id="modal-backdrop"></div>',
+      '  <div class="overlay-backdrop" id="modal-backdrop"></div>',
       '  <div class="modal-panel" id="quick-view-panel" role="dialog" aria-modal="true" aria-labelledby="quick-view-title">',
       '    <div class="modal-panel__header">',
       '      <span class="section__eyebrow" id="quick-view-eyebrow">Quick View</span>',

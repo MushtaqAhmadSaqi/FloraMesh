@@ -102,34 +102,49 @@
 
     if (eyebrow) eyebrow.textContent = p.category;
 
+    var inStock = selectedVariant.stock > 0 && selectedVariant.available !== false;
+    var stockLabel = inStock ? (p.type === 'service' ? 'Slots Available' : selectedVariant.stock + ' in stock') : 'Sold Out';
+    var stockClass = inStock ? 'color:var(--color-success);background:var(--color-success-bg);' : 'color:var(--color-danger);background:var(--color-danger-bg);';
+
     var variantOptionsHtml = (p.variants && p.variants.length > 1) ? [
       '<div style="margin-bottom:var(--space-4);">' +
-      '  <label for="qv-variant-select" style="font-size:var(--text-xs);font-weight:var(--weight-bold);display:block;margin-bottom:var(--space-1);">Select option</label>' +
-      '  <select id="qv-variant-select" class="form-field select" style="width:100%;padding:var(--space-2);border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);">' +
+      '  <label for="qv-variant-select" style="font-size:var(--text-xs);font-weight:var(--weight-bold);display:block;margin-bottom:var(--space-1);color:var(--color-text);">Select Option / Tier</label>' +
+      '  <div style="position:relative;">' +
+      '    <select id="qv-variant-select" style="width:100%;padding:var(--space-2) var(--space-8) var(--space-2) var(--space-3);border-radius:var(--radius-md);border:1.5px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font-size:var(--text-sm);font-weight:var(--weight-medium);appearance:none;-webkit-appearance:none;cursor:pointer;display:block;" >' +
       p.variants.map(function (v) {
         var isSoldOut = v.available === false || v.stock === 0;
         return '<option value="' + escapeA(v.id) + '" ' + (isSoldOut ? 'disabled' : '') + '>' +
           escape(v.name) + ' — ' + formatPKR(v.price) + (isSoldOut ? ' (Sold out)' : '') +
           '</option>';
       }).join('') +
-      '  </select>' +
+      '    </select>' +
+      '    <span style="position:absolute;right:var(--space-3);top:50%;transform:translateY(-50%);pointer-events:none;color:var(--color-text-muted);display:flex;align-items:center;">' + (utils.getIcon ? utils.getIcon('chevronDown') : '&#9662;') + '</span>' +
+      '  </div>' +
       '</div>'
     ].join('\n') : '';
 
     var cleanUnit = (p.unitPriceLabel || '').replace(/\s*\[.*?\]\s*/g, '').trim();
 
     content.innerHTML =
-      '<div style="display:grid;grid-template-columns:1fr 1.2fr;gap:var(--space-6);align-items:start;">' +
-      '  <img src="' + escapeA(p.images[0].src) + '" alt="' + escapeA(p.images[0].alt) + '" style="border-radius:var(--radius-lg);width:100%;aspect-ratio:4/5;object-fit:cover;background:' + (p.dominant || 'var(--color-media-bg)') + ';">' +
-      '  <div>' +
-      '    <h2 id="quick-view-title" style="font-size:var(--text-xl);margin-bottom:var(--space-2);">' + escape(p.shortName || p.name) + '</h2>' +
-      '    <div id="qv-price-display" style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--color-text);margin-bottom:var(--space-2);font-variant-numeric:tabular-nums;">' + formatPKR(priceInfo.price) + '</div>' +
-      (cleanUnit ? '    <div style="font-size:var(--text-xs);color:var(--color-link);margin-bottom:var(--space-3);">' + escape(cleanUnit) + '</div>' : '') +
-      '    <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4);line-height:1.5;">' + escape(p.shortDescription) + '</p>' +
+      '<div class="qv-product-layout" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--space-6);align-items:start;">' +
+      '  <div style="position:relative;border-radius:var(--radius-lg);overflow:hidden;background:' + (p.dominant || 'var(--color-media-bg)') + ';border:1px solid var(--color-border-subtle);">' +
+      (p.badge ? '    <span class="card-badge" style="position:absolute;top:var(--space-3);left:var(--space-3);z-index:2;">' + escape(p.badge) + '</span>' : '') +
+      '    <img src="' + escapeA(p.images[0].src) + '" alt="' + escapeA(p.images[0].alt) + '" style="width:100%;aspect-ratio:4/5;object-fit:cover;display:block;">' +
+      '  </div>' +
+      '  <div style="display:flex;flex-direction:column;">' +
+      '    <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);margin-bottom:var(--space-2);">' +
+      '      <span style="font-size:var(--text-xs);font-weight:var(--weight-semibold);text-transform:uppercase;letter-spacing:var(--tracking-wide);color:var(--color-link);">' + escape(p.category) + '</span>' +
+      '      <span id="qv-stock-pill" style="font-size:var(--text-xs);font-weight:var(--weight-semibold);padding:2px 8px;border-radius:var(--radius-pill);' + stockClass + '">' + escape(stockLabel) + '</span>' +
+      '    </div>' +
+      '    <h2 id="quick-view-title" style="font-family:var(--font-heading);font-size:var(--text-2xl);font-weight:var(--weight-bold);margin-bottom:var(--space-2);color:var(--color-text);line-height:1.2;">' + escape(p.shortName || p.name) + '</h2>' +
+      '    <div id="qv-price-display" style="font-size:var(--text-xl);font-weight:var(--weight-bold);color:var(--color-text);margin-bottom:var(--space-1);font-variant-numeric:tabular-nums;">' + formatPKR(priceInfo.price) + '</div>' +
+      (cleanUnit ? '    <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-bottom:var(--space-3);">' + escape(cleanUnit) + '</div>' : '') +
+      '    <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4);line-height:1.6;">' + escape(p.shortDescription) + '</p>' +
       variantOptionsHtml +
-      '    <div style="display:flex;gap:var(--space-3);">' +
-      '      <button type="button" class="btn btn--primary" id="qv-add-btn" style="flex:1;">Add to basket</button>' +
-      '      <a href="product.html?slug=' + escapeA(p.slug) + '" class="btn btn--outline">Full details</a>' +
+      '    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-2);flex-wrap:wrap;">' +
+      '      <button type="button" class="btn btn--primary" id="qv-add-btn" style="flex:1.2;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-weight:var(--weight-semibold);box-shadow:0 4px 12px rgba(16, 36, 27, 0.15);">' +
+      (utils.getIcon ? utils.getIcon('cart') : '') + ' Add to basket</button>' +
+      '      <a href="product.html?slug=' + escapeA(p.slug) + '" class="btn btn--outline" style="flex:1;min-height:46px;display:inline-flex;align-items:center;justify-content:center;">Full Details &rarr;</a>' +
       '    </div>' +
       '  </div>' +
       '</div>';
@@ -142,6 +157,13 @@
           selectedVariant = found;
           var priceEl = document.getElementById('qv-price-display');
           if (priceEl) priceEl.textContent = formatPKR(selectedVariant.price);
+          var stockPill = document.getElementById('qv-stock-pill');
+          if (stockPill) {
+            var vInStock = selectedVariant.stock > 0 && selectedVariant.available !== false;
+            stockPill.textContent = vInStock ? (p.type === 'service' ? 'Slots Available' : selectedVariant.stock + ' in stock') : 'Sold Out';
+            stockPill.style.color = vInStock ? 'var(--color-success)' : 'var(--color-danger)';
+            stockPill.style.background = vInStock ? 'var(--color-success-bg)' : 'var(--color-danger-bg)';
+          }
         }
       });
     }
