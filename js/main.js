@@ -173,6 +173,7 @@
     if (closeBtn) closeBtn.onclick = closeModal;
     if (backdrop) backdrop.onclick = closeModal;
   }
+  window.openQuickView = openQuickView;
 
   /**
    * Home Page Interactive Widgets: Space Selector, Featured Tabs, Budget Gifts, Recently Viewed

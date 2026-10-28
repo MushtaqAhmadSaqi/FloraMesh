@@ -571,35 +571,89 @@
 .qty-stepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  height: 48px;
   overflow: hidden;
+  transition: border-color var(--motion-fast);
+}
+
+.qty-stepper:focus-within {
+  border-color: var(--color-primary);
 }
 
 .qty-stepper__btn {
   width: 44px;
-  height: 44px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text);
-  transition: background var(--motion-fast);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background var(--motion-fast), color var(--motion-fast);
 }
 
 .qty-stepper__btn:hover {
   background: var(--color-surface-alt);
+  color: var(--color-primary);
 }
 
 .qty-stepper__input {
-  width: 52px;
-  height: 44px;
+  width: 48px;
+  height: 100%;
   text-align: center;
   border: none;
   border-inline: 1px solid var(--color-border);
   background: transparent;
   color: var(--color-text);
   font-weight: var(--weight-bold);
+  font-size: var(--text-base);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.qty-stepper__input::-webkit-outer-spin-button,
+.qty-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#pdp-add-to-cart-btn {
+  height: 48px;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 12px rgba(16, 36, 27, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast);
+}
+
+#pdp-add-to-cart-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(16, 36, 27, 0.22);
+}
+
+#pdp-add-to-cart-btn:active {
+  transform: translateY(1px);
+}
+
+#pdp-wishlist-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
 }
 
 .pdp__estimate-box {
