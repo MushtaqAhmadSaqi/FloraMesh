@@ -5,7 +5,7 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   Default Desktop Offsets & Visibility
+   1. Default Desktop Offsets & Base Visibility
    -------------------------------------------------------------------------- */
 .mobile-menu-toggle {
   display: none;
@@ -28,7 +28,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Desktop & Tablet Landscape (1024px and below)
+   2. Desktop & Tablet Landscape (1024px and below)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .hero__grid,
@@ -66,21 +66,15 @@
     gap: var(--space-8);
   }
 
-  .filter-panel {
-    position: static;
-  }
-
-  .pdp__gallery {
-    position: static;
-  }
-
+  .filter-panel,
+  .pdp__gallery,
   .order-summary-box {
     position: static;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Medium Tablets & Unified Navigation (960px and below)
+   3. Medium Tablets & Unified Navigation (960px and below)
    -------------------------------------------------------------------------- */
 @media (max-width: 960px) {
   .site-nav {
@@ -91,17 +85,46 @@
     display: inline-flex !important;
   }
 
+  .header-search-label,
+  .search-kbd,
   .search-trigger kbd {
-    display: none;
+    display: none !important;
+  }
+
+  .header-search-trigger {
+    min-width: 44px;
+    padding: var(--space-2);
   }
 }
 
 /* --------------------------------------------------------------------------
-   Tablet Portrait & Large Mobile (768px and below)
+   4. Tablet Portrait & Large Mobile (768px and below)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .mobile-menu-toggle {
     display: inline-flex;
+  }
+
+  /* Header Optimization: Deduplicate actions available in mobile bottom nav & drawer */
+  .header-search-trigger,
+  .header-wishlist-btn,
+  .header-account-btn {
+    display: none !important;
+  }
+
+  .site-header__inner {
+    height: 64px;
+    gap: var(--space-2);
+  }
+
+  .site-header__logo img {
+    height: 34px;
+    max-width: 130px;
+    width: auto;
+  }
+
+  .site-header__actions {
+    gap: var(--space-2);
   }
 
   /* Mobile Filter Bottom Sheet & Backdrop */
@@ -126,17 +149,18 @@
 
   .shop-sidebar {
     position: fixed;
+    inset: auto 0 0;
     bottom: 0;
-    left: 0;
-    right: 0;
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     box-shadow: var(--shadow-lg);
     z-index: var(--z-modal);
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: var(--space-6);
+    width: 100%;
+    height: min(78dvh, 620px);
+    max-height: calc(100dvh - var(--space-4));
+    overflow: hidden;
+    padding: 0;
     transform: translateY(100%);
     transition: transform var(--motion-base);
     display: block;
@@ -148,11 +172,60 @@
 
   .shop-sidebar__header {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--color-border-subtle);
+    min-height: 72px;
+    margin: 0;
+    padding: var(--space-5) var(--space-5) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .shop-sidebar__header h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+
+  .shop-sidebar__handle {
+    position: absolute;
+    top: var(--space-2);
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--color-border);
+    transform: translateX(-50%);
+  }
+
+  .shop-sidebar__content {
+    height: calc(100% - 144px);
+    overflow-y: auto;
+    padding: var(--space-5);
+    overscroll-behavior: contain;
+  }
+
+  .shop-sidebar__content .filter-group:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .shop-sidebar__footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: var(--space-4) var(--space-5) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -8px 20px rgba(16, 36, 27, 0.06);
+  }
+
+  .shop-sidebar__footer .btn {
+    min-height: 44px;
   }
 
   .grid-2,
@@ -216,8 +289,8 @@
 
   /* Garden Dispatch Banner Full Responsive Stacking */
   .footer-dispatch-card {
-    padding: var(--space-6) var(--space-5);
-    gap: var(--space-5);
+    padding: var(--space-6) var(--space-4);
+    gap: var(--space-4);
   }
 
   .footer-dispatch-form {
@@ -241,7 +314,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Mobile Landscape & Compact Handhelds (640px and below)
+   5. Mobile Landscape & Compact Handhelds (640px and below)
    -------------------------------------------------------------------------- */
 @media (max-width: 640px) {
   .container {
@@ -253,6 +326,14 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    border-radius: var(--radius-lg);
+  }
+
+  .hero__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
   }
 
   .telemetry-preview {
@@ -404,16 +485,33 @@
 }
 
 /* --------------------------------------------------------------------------
-   Small Mobile Devices (360px – 480px)
+   6. Small Mobile Devices (360px – 480px)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-  .site-header__actions {
-    gap: var(--space-2);
+  .site-header__inner {
+    height: 56px;
   }
 
-  .header-action--search,
-  .header-action--wishlist {
-    display: none;
+  .site-header__logo img {
+    height: 28px;
+    max-width: 110px;
+  }
+
+  .header-action-btn {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 6px;
+  }
+
+  .hero__cta-group {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .hero__cta-group .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 
   .pdp__buybox {
@@ -453,5 +551,29 @@
   .telemetry-preview__stats {
     grid-template-columns: 1fr;
     gap: var(--space-2);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Extra Small Devices (360px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+  .container {
+    padding-inline: var(--space-3);
+  }
+
+  .site-header__logo img {
+    max-width: 95px;
+    height: 24px;
+  }
+
+  .header-action-btn {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 4px;
+  }
+
+  .hero__title {
+    font-size: 1.5rem;
   }
 }

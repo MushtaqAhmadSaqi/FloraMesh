@@ -72,18 +72,20 @@
     <div class="container shop-layout">
       <!-- Desktop & Mobile Filter Sidebar Backdrop & Panel -->
       <div class="overlay-backdrop" id="shop-sidebar-backdrop" aria-hidden="true"></div>
-      <aside class="filter-panel shop-sidebar" id="shop-sidebar" aria-label="Product Filters">
+      <aside class="filter-panel shop-sidebar" id="shop-sidebar" aria-labelledby="shop-filters-title">
         <div class="shop-sidebar__header">
-          <strong style="font-size:var(--text-lg);color:var(--color-text);">Filters</strong>
+          <span class="shop-sidebar__handle" aria-hidden="true"></span>
+          <h2 id="shop-filters-title">Filters</h2>
           <button type="button" class="header-action-btn" id="close-filters-sheet-btn" aria-label="Close filters">
             <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-        <div class="filter-group">
+        <div class="shop-sidebar__content">
+          <div class="filter-group">
           <label for="shop-search-input">Search products</label>
           <input type="search" id="shop-search-input" placeholder="e.g. sensor, blue pottery, balcony..." autocomplete="off">
-        </div>
-        <div class="filter-group">
+          </div>
+          <div class="filter-group">
           <label for="shop-space-select">Space / Environment</label>
           <select id="shop-space-select">
             <option value="all">All Spaces</option>
@@ -93,8 +95,8 @@
             <option value="office">Corporate Office</option>
             <option value="kitchen">Kitchen Garden</option>
           </select>
-        </div>
-        <div class="filter-group">
+          </div>
+          <div class="filter-group">
           <label for="shop-category-select">Category</label>
           <select id="shop-category-select">
             <option value="all">All categories</option>
@@ -104,15 +106,15 @@
             <option value="learning-hub">Learning Hub &amp; DIY Kits</option>
             <option value="community-csr">Community, CSR &amp; Eco Gifting</option>
           </select>
-        </div>
-        <div class="filter-group">
+          </div>
+          <div class="filter-group">
           <label for="shop-price-range" style="display:flex;justify-content:space-between;">
             <span>Max Price (PKR)</span>
             <span id="shop-price-label" style="color:var(--color-link);font-weight:var(--weight-bold);font-variant-numeric:tabular-nums;">Up to Rs 78,000</span>
           </label>
           <input type="range" id="shop-price-range" min="1000" max="78000" step="500" value="78000">
-        </div>
-        <div class="filter-group">
+          </div>
+          <div class="filter-group">
           <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;font-size:var(--text-sm);font-weight:normal;margin-bottom:var(--space-2);">
             <input type="checkbox" id="shop-stock-checkbox" style="accent-color:var(--color-primary);width:16px;height:16px;">
             <span>In-stock items only</span>
@@ -121,8 +123,11 @@
             <input type="checkbox" id="shop-gift-checkbox" style="accent-color:var(--color-primary);width:16px;height:16px;">
             <span>Gift-ready hampers only</span>
           </label>
+          </div>
         </div>
-        <button type="button" class="btn btn--outline btn--sm btn--full" id="shop-clear-filters-btn">Clear all filters</button>
+        <div class="shop-sidebar__footer">
+          <button type="button" class="btn btn--outline btn--sm btn--full" id="shop-clear-filters-btn">Clear all filters</button>
+        </div>
       </aside>
 
       <!-- Main Catalog Content -->
@@ -163,7 +168,6 @@
     <!-- Botanical Delight: Pot Sizer & Soil Volume Calculator -->
     <div class="container section" style="margin-top:var(--space-8);" id="soil-calculator-mount"></div>
 
-    <div class="overlay-backdrop" id="shop-filter-backdrop" aria-hidden="true"></div>
   </main>
 
   <div id="site-footer-mount"></div>
@@ -184,35 +188,5 @@
   <script src="js/delight.js"></script>
   <script src="js/main.js"></script>
 
-  <!-- Mobile Filter Sheet DialogManager Integration (QA-42) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var openBtn = document.getElementById('open-filters-sheet-btn');
-      var closeBtn = document.getElementById('close-filters-sheet-btn');
-      var sheet = document.getElementById('shop-sidebar');
-      var backdrop = document.getElementById('shop-filter-backdrop');
-
-      if (openBtn && sheet && window.FloraMeshUI && window.FloraMeshUI.DialogManager) {
-        openBtn.addEventListener('click', function () {
-          window.FloraMeshUI.DialogManager.open({
-            id: 'shop-filters-sheet',
-            panel: sheet,
-            backdrop: backdrop,
-            trigger: openBtn,
-            onClose: function () {
-              sheet.classList.remove('is-open');
-            }
-          });
-          sheet.classList.add('is-open');
-        });
-
-        if (closeBtn) {
-          closeBtn.addEventListener('click', function () {
-            window.FloraMeshUI.DialogManager.close('shop-filters-sheet');
-          });
-        }
-      }
-    });
-  </script>
 </body>
 </html>
