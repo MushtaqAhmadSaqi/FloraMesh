@@ -116,27 +116,39 @@
   function trapFocus(container) {
     if (!container) return function () {};
     var focusableSelectors = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    var focusables = container.querySelectorAll(focusableSelectors);
+    var focusables = Array.prototype.slice.call(container.querySelectorAll(focusableSelectors)).filter(function (el) {
+      return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0;
+    });
+    if (focusables.length === 0) return function () {};
     var first = focusables[0];
     var last = focusables[focusables.length - 1];
 
     function handleKeyDown(e) {
       if (e.key !== 'Tab') return;
+      var curFocusables = Array.prototype.slice.call(container.querySelectorAll(focusableSelectors)).filter(function (el) {
+        return el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0;
+      });
+      if (curFocusables.length === 0) return;
+      var curFirst = curFocusables[0];
+      var curLast = curFocusables[curFocusables.length - 1];
+
       if (e.shiftKey) {
-        if (document.activeElement === first) {
+        if (document.activeElement === curFirst) {
           e.preventDefault();
-          if (last) last.focus();
+          if (curLast) curLast.focus();
         }
       } else {
-        if (document.activeElement === last) {
+        if (document.activeElement === curLast) {
           e.preventDefault();
-          if (first) first.focus();
+          if (curFirst) curFirst.focus();
         }
       }
     }
 
     container.addEventListener('keydown', handleKeyDown);
-    if (first) first.focus();
+    if (first && typeof first.focus === 'function') {
+      try { first.focus(); } catch (err) {}
+    }
 
     return function cleanup() {
       container.removeEventListener('keydown', handleKeyDown);

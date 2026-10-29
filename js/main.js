@@ -672,58 +672,34 @@
       if (hdr) hdr.classList.toggle('site-header--scrolled', window.scrollY > 20);
     }, { passive: true });
 
-    // Mobile nav sheet toggle with focus trap
+    // Mobile nav sheet & drawer delegation (managed via FloraMeshUI.DialogManager & FloraMeshPartials)
     var menuBtn = document.getElementById('mobile-menu-btn');
     var closeNavBtn = document.getElementById('close-mobile-nav-btn');
-    var nav = document.getElementById('primary-navigation');
-    var navCleanup = null;
-
-    function toggleMobileNav(show) {
-      if (!nav) return;
-      var isOpen = (typeof show === 'boolean') ? show : !nav.classList.contains('is-open');
-      nav.classList.toggle('is-open', isOpen);
-      if (menuBtn) menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      if (window.FloraMeshUtils && window.FloraMeshUtils.lockBodyScroll) {
-        window.FloraMeshUtils.lockBodyScroll(isOpen);
-      }
-      if (isOpen && window.FloraMeshUtils && window.FloraMeshUtils.trapFocus) {
-        navCleanup = window.FloraMeshUtils.trapFocus(nav);
-      } else if (navCleanup) {
-        navCleanup();
-        navCleanup = null;
-      }
-    }
-
-    if (menuBtn) menuBtn.addEventListener('click', function () { toggleMobileNav(); });
-    if (closeNavBtn) closeNavBtn.addEventListener('click', function () { toggleMobileNav(false); });
-
-    // Cart drawer open/close
     var openCartBtn = document.getElementById('open-cart-drawer-btn');
     var closeCartBtn = document.getElementById('close-cart-drawer-btn');
-    var cartDrawer = document.getElementById('cart-drawer');
     var cartBackdrop = document.getElementById('cart-drawer-backdrop');
-    var drawerCleanup = null;
 
-    function toggleCartDrawer(show) {
-      if (!cartDrawer || !cartBackdrop) return;
-      cartDrawer.classList.toggle('is-open', show);
-      cartBackdrop.classList.toggle('is-open', show);
-      cartDrawer.setAttribute('aria-hidden', show ? 'false' : 'true');
-
-      if (window.FloraMeshUtils && window.FloraMeshUtils.lockBodyScroll) {
-        window.FloraMeshUtils.lockBodyScroll(show);
+    // Fallback drawer controls if DialogManager not loaded
+    if (!window.FloraMeshUI || !window.FloraMeshUI.DialogManager) {
+      if (menuBtn) {
+        menuBtn.addEventListener('click', function () {
+          var s = document.getElementById('mobile-nav-sheet');
+          if (s) s.classList.toggle('is-open');
+        });
       }
-      if (show && window.FloraMeshUtils && window.FloraMeshUtils.trapFocus) {
-        drawerCleanup = window.FloraMeshUtils.trapFocus(cartDrawer);
-      } else if (drawerCleanup) {
-        drawerCleanup();
-        drawerCleanup = null;
+      if (closeNavBtn) {
+        closeNavBtn.addEventListener('click', function () {
+          var s = document.getElementById('mobile-nav-sheet');
+          if (s) s.classList.remove('is-open');
+        });
+      }
+      if (openCartBtn && window.FloraMeshCart && window.FloraMeshCart.openDrawer) {
+        openCartBtn.addEventListener('click', function () { window.FloraMeshCart.openDrawer(); });
+      }
+      if (closeCartBtn && window.FloraMeshCart && window.FloraMeshCart.closeDrawer) {
+        closeCartBtn.addEventListener('click', function () { window.FloraMeshCart.closeDrawer(); });
       }
     }
-
-    if (openCartBtn) openCartBtn.addEventListener('click', function () { toggleCartDrawer(true); });
-    if (closeCartBtn) closeCartBtn.addEventListener('click', function () { toggleCartDrawer(false); });
-    if (cartBackdrop) cartBackdrop.addEventListener('click', function () { toggleCartDrawer(false); });
 
     // Delegated global clicks
     document.body.addEventListener('click', function (e) {
@@ -779,8 +755,15 @@
     // Escape closes modals, drawers, and mobile nav
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        toggleCartDrawer(false);
-        toggleMobileNav(false);
+        if (window.FloraMeshUI && window.FloraMeshUI.DialogManager) {
+          window.FloraMeshUI.DialogManager.closeAll();
+        } else {
+          if (window.FloraMeshCart && window.FloraMeshCart.closeDrawer) {
+            window.FloraMeshCart.closeDrawer();
+          }
+          var sheet = document.getElementById('mobile-nav-sheet');
+          if (sheet) sheet.classList.remove('is-open');
+        }
         var qv = document.getElementById('quick-view-modal');
         if (qv && qv.classList.contains('is-open')) {
           qv.classList.remove('is-open');

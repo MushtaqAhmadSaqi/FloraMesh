@@ -450,7 +450,7 @@
       '      </form>',
       '    </div>',
       '    <!-- 3-Column Simplified Editorial Directory -->',
-      '    <div class="site-footer__grid" style="grid-template-columns: 1.4fr 1fr 1fr;">',
+      '    <div class="site-footer__grid">',
       '      <!-- Column 1: Brand & Contact -->',
       '      <div class="site-footer__col-brand">',
       '        <h4 class="site-footer__heading">FloraMesh</h4>',

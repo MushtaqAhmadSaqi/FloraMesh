@@ -1,9 +1,12 @@
 /* ==========================================================================
    FloraMesh Responsive Breakpoints (css/responsive.css)
-   Breakpoints: 360px, 768px, 960px, 1024px, 1280px, 1536px
-   Touch targets >= 44px, mobile sheets, and viewport optimizations
+   Breakpoints: 360px, 480px, 640px, 768px, 960px, 1024px, 1280px, 1536px
+   Touch targets >= 44px, mobile sheets, safe-area offsets, and viewport polish
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   Default Desktop Offsets & Visibility
+   -------------------------------------------------------------------------- */
 .mobile-menu-toggle {
   display: none;
 }
@@ -13,6 +16,14 @@
 }
 
 .mobile-filter-trigger {
+  display: none;
+}
+
+.shop-sidebar__header {
+  display: none;
+}
+
+#shop-sidebar-backdrop {
   display: none;
 }
 
@@ -27,6 +38,18 @@
   .checkout-grid,
   .campaign-card {
     grid-template-columns: 1fr;
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bento-card--large {
+    grid-column: span 2;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .grid-4,
@@ -57,6 +80,23 @@
 }
 
 /* --------------------------------------------------------------------------
+   Medium Tablets & Unified Navigation (960px and below)
+   -------------------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .site-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+  }
+
+  .search-trigger kbd {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Tablet Portrait & Large Mobile (768px and below)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
@@ -64,9 +104,24 @@
     display: inline-flex;
   }
 
-  /* Mobile Filter Bottom Sheet */
+  /* Mobile Filter Bottom Sheet & Backdrop */
   .mobile-filter-trigger {
     display: inline-flex;
+  }
+
+  #shop-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--color-backdrop);
+    z-index: calc(var(--z-modal) - 1);
+    opacity: 0;
+    transition: opacity var(--motion-fast);
+  }
+
+  #shop-sidebar-backdrop.is-open {
+    display: block;
+    opacity: 1;
   }
 
   .shop-sidebar {
@@ -91,15 +146,26 @@
     transform: translateY(0);
   }
 
+  .shop-sidebar__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
   .grid-2,
   .grid-3,
+  .bento-grid,
   .form-grid,
-  .trust-strip__grid {
+  .trust-strip__grid,
+  .hero__trust-strip {
     grid-template-columns: 1fr;
   }
 
-  .hero__trust-strip {
-    grid-template-columns: 1fr;
+  .bento-card--large {
+    grid-column: span 1;
   }
 
   .product-grid--list .product-card {
@@ -134,38 +200,220 @@
   body.has-sticky-bar {
     padding-bottom: calc(138px + env(safe-area-inset-bottom, 0px));
   }
+
+  /* Lift Toasts above Mobile Bottom Navigation & PDP Sticky Bar */
+  .toast-container {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    right: var(--space-4);
+    left: var(--space-4);
+    width: auto;
+    max-width: 100%;
+  }
+
+  body.has-sticky-bar .toast-container {
+    bottom: calc(148px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Garden Dispatch Banner Full Responsive Stacking */
+  .footer-dispatch-card {
+    padding: var(--space-6) var(--space-5);
+    gap: var(--space-5);
+  }
+
+  .footer-dispatch-form {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footer-dispatch-input-wrap {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .footer-dispatch-input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footer-dispatch-btn {
+    width: 100%;
+  }
 }
 
 /* --------------------------------------------------------------------------
-   Small Mobile Devices (360px – 400px)
+   Mobile Landscape & Compact Handhelds (640px and below)
    -------------------------------------------------------------------------- */
-@media (max-width: 400px) {
+@media (max-width: 640px) {
   .container {
     padding-inline: var(--space-4);
   }
 
-  .hero__title {
-    font-size: 1.75rem;
-  }
-
-  .grid-4,
-  .grid-5 {
-    grid-template-columns: 1fr;
-  }
-
-  .hero__telemetry-card {
+  /* Hero Media & Telemetry Card Stacking */
+  .hero__media {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    position: relative;
   }
 
+  .telemetry-preview {
+    position: static;
+    margin-top: var(--space-4);
+  }
+
+  /* Cart Page Responsive Item Row Stacking */
+  .cart-item {
+    flex-wrap: wrap;
+    position: relative;
+    gap: var(--space-3);
+  }
+
+  .cart-item__img {
+    width: 68px;
+    height: 85px;
+  }
+
+  .cart-item__content {
+    flex: 1 1 calc(100% - 85px);
+    min-width: 0;
+  }
+
+  .cart-item__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--color-border-subtle);
+    gap: var(--space-2);
+  }
+
+  .cart-item__total {
+    min-width: 0 !important;
+  }
+
+  /* PDP Buy Box Flow */
+  .pdp__buybox {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .pdp__buybox .qty-stepper {
+    flex: 0 0 auto;
+  }
+
+  #pdp-add-to-cart-btn {
+    flex: 1 1 calc(100% - 130px - var(--space-3));
+  }
+
+  /* Full Screen Command Search Dialog */
+  .search-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+  }
+
+  .search-dialog__box {
+    max-height: 100vh;
+    height: 100%;
+  }
+
+  /* Modal Bottom Sheets on Mobile */
+  .modal-wrapper {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-panel {
+    max-height: 92vh;
+    padding: var(--space-4);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-bottom: none;
+  }
+
+  .overlay-modal {
+    padding: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .overlay-modal .modal-card {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 90vh !important;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
+    padding: var(--space-4) !important;
+  }
+
+  /* Comparison Matrix & Tables Smooth Touch Scrolling */
+  .compare-table {
+    min-width: 600px;
+  }
+
+  .compare-table .row-header {
+    width: 130px;
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .compare-container,
+  .panel[style*="overflow-x:auto"],
+  .receipt-table-wrapper {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  /* Account Navigation Tabs Horizontal Scroll */
+  .account-nav-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    white-space: nowrap;
+    padding-bottom: var(--space-2);
+  }
+
+  .account-nav-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .account-nav-tabs .tab-btn {
+    flex-shrink: 0;
+  }
+
+  /* Site Footer Single Column */
   .site-footer__grid {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .site-footer__bottom {
     flex-direction: column;
     text-align: center;
+    gap: var(--space-3);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small Mobile Devices (360px – 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .site-header__actions {
     gap: var(--space-2);
+  }
+
+  .header-action--search,
+  .header-action--wishlist {
+    display: none;
   }
 
   .pdp__buybox {
@@ -173,7 +421,37 @@
     align-items: stretch;
   }
 
-  .qty-stepper {
-    justify-content: center;
+  .pdp__buybox .qty-stepper {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pdp__buybox .qty-stepper__input {
+    flex: 1;
+    text-align: center;
+  }
+
+  #pdp-add-to-cart-btn,
+  #pdp-wishlist-btn {
+    width: 100%;
+  }
+
+  .grid-4,
+  .grid-5 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__title {
+    font-size: 1.75rem;
+    line-height: var(--leading-tight);
+  }
+
+  .section__title {
+    font-size: var(--text-2xl);
+  }
+
+  .telemetry-preview__stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
   }
 }

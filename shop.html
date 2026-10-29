@@ -70,9 +70,10 @@
     </section>
 
     <div class="container shop-layout">
-      <!-- Desktop & Mobile Filter Sidebar -->
+      <!-- Desktop & Mobile Filter Sidebar Backdrop & Panel -->
+      <div class="overlay-backdrop" id="shop-sidebar-backdrop" aria-hidden="true"></div>
       <aside class="filter-panel shop-sidebar" id="shop-sidebar" aria-label="Product Filters">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);" class="mobile-menu-toggle">
+        <div class="shop-sidebar__header">
           <strong style="font-size:var(--text-lg);color:var(--color-text);">Filters</strong>
           <button type="button" class="header-action-btn" id="close-filters-sheet-btn" aria-label="Close filters">
             <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

@@ -545,6 +545,20 @@
         } else {
           var sidebar = document.getElementById('shop-sidebar');
           if (sidebar) sidebar.classList.remove('is-open');
+          var bd = document.getElementById('shop-sidebar-backdrop');
+          if (bd) bd.classList.remove('is-open');
+        }
+      };
+    }
+    var sidebarBackdrop = document.getElementById('shop-sidebar-backdrop');
+    if (sidebarBackdrop) {
+      sidebarBackdrop.onclick = function () {
+        if (window.FloraMeshUI && window.FloraMeshUI.DialogManager) {
+          window.FloraMeshUI.DialogManager.close('shop-sidebar');
+        } else {
+          var sidebar = document.getElementById('shop-sidebar');
+          if (sidebar) sidebar.classList.remove('is-open');
+          sidebarBackdrop.classList.remove('is-open');
         }
       };
     }
